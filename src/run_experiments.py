@@ -2150,7 +2150,10 @@ def fmt_int_opt(value) -> str:
 
 
 def fmt_pp(left, right, nd: int = 2) -> str:
-    return f"{pp(left, right):.{nd}f}"
+    text = f"{pp(left, right):.{nd}f}"
+    if text.startswith("-") and float(text) == 0.0:
+        return f"{0:.{nd}f}"
+    return text
 
 
 def clf_table(models, with_oob: bool = False) -> str:
