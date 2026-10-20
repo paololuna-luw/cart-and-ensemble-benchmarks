@@ -1,0 +1,4829 @@
+{
+  "meta": {
+    "seed": 42,
+    "test_size": 0.2,
+    "n_folds": 5,
+    "python": "3.12.10",
+    "versions": {
+      "scikit-learn": "1.9.0",
+      "xgboost": "3.4.1",
+      "pandas": "3.0.5",
+      "numpy": "2.5.1",
+      "matplotlib": "3.11.1",
+      "seaborn": "0.13.2",
+      "nbformat": "5.11.1",
+      "nbconvert": "7.17.2",
+      "nbclient": "0.11.0",
+      "ipykernel": "7.4.0",
+      "jupyter": "1.1.1",
+      "scipy": "1.18.0"
+    },
+    "cpu_count": 12,
+    "started_at": "2026-10-20 15:59:47",
+    "runtime_seconds": 236.85621759999776
+  },
+  "datasets": {
+    "breast_cancer": {
+      "name": "breast_cancer",
+      "source": "sklearn.datasets.load_breast_cancer",
+      "n_rows": 569,
+      "n_features": 30,
+      "n_missing": 0,
+      "positive_class": "benigna (etiqueta 1). Precision, recall y F1 usan esta clase positiva, que es la convencion de scikit-learn.",
+      "class_counts": {
+        "malignant": 212,
+        "benign": 357
+      },
+      "feature_summary": [
+        {
+          "feature": "mean radius",
+          "mean": 14.127291739894552,
+          "std": 3.5240488262120775,
+          "min": 6.981,
+          "max": 28.11
+        },
+        {
+          "feature": "mean texture",
+          "mean": 19.289648506151142,
+          "std": 4.301035768166949,
+          "min": 9.71,
+          "max": 39.28
+        },
+        {
+          "feature": "mean perimeter",
+          "mean": 91.96903339191564,
+          "std": 24.298981038754906,
+          "min": 43.79,
+          "max": 188.5
+        },
+        {
+          "feature": "mean area",
+          "mean": 654.8891036906855,
+          "std": 351.914129181653,
+          "min": 143.5,
+          "max": 2501.0
+        },
+        {
+          "feature": "mean smoothness",
+          "mean": 0.0963602811950791,
+          "std": 0.01406412813767362,
+          "min": 0.05263,
+          "max": 0.1634
+        },
+        {
+          "feature": "mean compactness",
+          "mean": 0.10434098418277679,
+          "std": 0.052812757932512194,
+          "min": 0.01938,
+          "max": 0.3454
+        },
+        {
+          "feature": "mean concavity",
+          "mean": 0.0887993158172232,
+          "std": 0.07971980870789348,
+          "min": 0.0,
+          "max": 0.4268
+        },
+        {
+          "feature": "mean concave points",
+          "mean": 0.04891914586994728,
+          "std": 0.038802844859153605,
+          "min": 0.0,
+          "max": 0.2012
+        },
+        {
+          "feature": "mean symmetry",
+          "mean": 0.18116186291739894,
+          "std": 0.027414281336035715,
+          "min": 0.106,
+          "max": 0.304
+        },
+        {
+          "feature": "mean fractal dimension",
+          "mean": 0.06279760984182776,
+          "std": 0.007060362795084459,
+          "min": 0.04996,
+          "max": 0.09744
+        },
+        {
+          "feature": "radius error",
+          "mean": 0.40517205623901575,
+          "std": 0.2773127329861039,
+          "min": 0.1115,
+          "max": 2.873
+        },
+        {
+          "feature": "texture error",
+          "mean": 1.2168534270650264,
+          "std": 0.5516483926172023,
+          "min": 0.3602,
+          "max": 4.885
+        },
+        {
+          "feature": "perimeter error",
+          "mean": 2.8660592267135327,
+          "std": 2.0218545540421076,
+          "min": 0.757,
+          "max": 21.98
+        },
+        {
+          "feature": "area error",
+          "mean": 40.337079086116,
+          "std": 45.49100551613181,
+          "min": 6.802,
+          "max": 542.2
+        },
+        {
+          "feature": "smoothness error",
+          "mean": 0.007040978910369069,
+          "std": 0.0030025179438390656,
+          "min": 0.001713,
+          "max": 0.03113
+        },
+        {
+          "feature": "compactness error",
+          "mean": 0.025478138840070295,
+          "std": 0.017908179325677388,
+          "min": 0.002252,
+          "max": 0.1354
+        },
+        {
+          "feature": "concavity error",
+          "mean": 0.03189371634446397,
+          "std": 0.03018606032298841,
+          "min": 0.0,
+          "max": 0.396
+        },
+        {
+          "feature": "concave points error",
+          "mean": 0.011796137082601054,
+          "std": 0.006170285174046869,
+          "min": 0.0,
+          "max": 0.05279
+        },
+        {
+          "feature": "symmetry error",
+          "mean": 0.02054229876977153,
+          "std": 0.008266371528798399,
+          "min": 0.007882,
+          "max": 0.07895
+        },
+        {
+          "feature": "fractal dimension error",
+          "mean": 0.0037949038664323374,
+          "std": 0.002646070967089195,
+          "min": 0.0008948,
+          "max": 0.02984
+        },
+        {
+          "feature": "worst radius",
+          "mean": 16.269189806678387,
+          "std": 4.833241580469323,
+          "min": 7.93,
+          "max": 36.04
+        },
+        {
+          "feature": "worst texture",
+          "mean": 25.677223198594024,
+          "std": 6.146257623038319,
+          "min": 12.02,
+          "max": 49.54
+        },
+        {
+          "feature": "worst perimeter",
+          "mean": 107.26121265377857,
+          "std": 33.602542269036356,
+          "min": 50.41,
+          "max": 251.2
+        },
+        {
+          "feature": "worst area",
+          "mean": 880.5831282952548,
+          "std": 569.356992669949,
+          "min": 185.2,
+          "max": 4254.0
+        },
+        {
+          "feature": "worst smoothness",
+          "mean": 0.13236859402460457,
+          "std": 0.022832429404835465,
+          "min": 0.07117,
+          "max": 0.2226
+        },
+        {
+          "feature": "worst compactness",
+          "mean": 0.25426504393673116,
+          "std": 0.157336488913742,
+          "min": 0.02729,
+          "max": 1.058
+        },
+        {
+          "feature": "worst concavity",
+          "mean": 0.27218848330404216,
+          "std": 0.2086242806081323,
+          "min": 0.0,
+          "max": 1.252
+        },
+        {
+          "feature": "worst concave points",
+          "mean": 0.11460622319859401,
+          "std": 0.06573234119594207,
+          "min": 0.0,
+          "max": 0.291
+        },
+        {
+          "feature": "worst symmetry",
+          "mean": 0.2900755711775044,
+          "std": 0.061867467537518685,
+          "min": 0.1565,
+          "max": 0.6638
+        },
+        {
+          "feature": "worst fractal dimension",
+          "mean": 0.0839458172231986,
+          "std": 0.018061267348893986,
+          "min": 0.05504,
+          "max": 0.2075
+        }
+      ],
+      "feature_names": [
+        "mean radius",
+        "mean texture",
+        "mean perimeter",
+        "mean area",
+        "mean smoothness",
+        "mean compactness",
+        "mean concavity",
+        "mean concave points",
+        "mean symmetry",
+        "mean fractal dimension",
+        "radius error",
+        "texture error",
+        "perimeter error",
+        "area error",
+        "smoothness error",
+        "compactness error",
+        "concavity error",
+        "concave points error",
+        "symmetry error",
+        "fractal dimension error",
+        "worst radius",
+        "worst texture",
+        "worst perimeter",
+        "worst area",
+        "worst smoothness",
+        "worst compactness",
+        "worst concavity",
+        "worst concave points",
+        "worst symmetry",
+        "worst fractal dimension"
+      ],
+      "n_train": 455,
+      "n_test": 114,
+      "train_class_counts": {
+        "malignant": 170,
+        "benign": 285
+      },
+      "test_class_counts": {
+        "malignant": 42,
+        "benign": 72
+      }
+    },
+    "auto_mpg": {
+      "source": "seaborn.load_dataset('mpg')",
+      "n_raw": 398,
+      "n_missing_horsepower": 6,
+      "n_clean": 392,
+      "dropped_rows": 6,
+      "dropped_columns": [
+        "car_name"
+      ],
+      "origin_reference_for_one_hot": "europe",
+      "target_summary": {
+        "feature": "mpg",
+        "mean": 23.445918367346938,
+        "std": 7.8050074865717995,
+        "min": 9.0,
+        "max": 46.6
+      },
+      "feature_summary": [
+        {
+          "feature": "cylinders",
+          "mean": 5.471938775510204,
+          "std": 1.7057832474527845,
+          "min": 3.0,
+          "max": 8.0
+        },
+        {
+          "feature": "displacement",
+          "mean": 194.41198979591837,
+          "std": 104.64400390890466,
+          "min": 68.0,
+          "max": 455.0
+        },
+        {
+          "feature": "horsepower",
+          "mean": 104.46938775510205,
+          "std": 38.49115993282849,
+          "min": 46.0,
+          "max": 230.0
+        },
+        {
+          "feature": "weight",
+          "mean": 2977.5841836734694,
+          "std": 849.4025600429492,
+          "min": 1613.0,
+          "max": 5140.0
+        },
+        {
+          "feature": "acceleration",
+          "mean": 15.541326530612244,
+          "std": 2.758864119188082,
+          "min": 8.0,
+          "max": 24.8
+        },
+        {
+          "feature": "model_year",
+          "mean": 75.9795918367347,
+          "std": 3.6837365435778295,
+          "min": 70.0,
+          "max": 82.0
+        }
+      ],
+      "correlations_with_mpg": [
+        {
+          "feature": "weight",
+          "correlation": -0.832244214831575
+        },
+        {
+          "feature": "displacement",
+          "correlation": -0.8051269467104577
+        },
+        {
+          "feature": "horsepower",
+          "correlation": -0.7784267838977762
+        },
+        {
+          "feature": "cylinders",
+          "correlation": -0.7776175081260227
+        },
+        {
+          "feature": "model_year",
+          "correlation": 0.5805409660907862
+        },
+        {
+          "feature": "acceleration",
+          "correlation": 0.423328536902787
+        }
+      ],
+      "corr_weight_displacement": 0.9329944040890112,
+      "origin_counts": {
+        "usa": 245,
+        "japan": 79,
+        "europe": 68
+      },
+      "mpg_mean": 23.445918367346938,
+      "mpg_std": 7.8050074865717995,
+      "mpg_min": 9.0,
+      "mpg_max": 46.6,
+      "n_train": 313,
+      "n_test": 79,
+      "mpg_train_mean": 23.599361022364217,
+      "mpg_test_mean": 22.837974683544303,
+      "mpg_train_std": 7.956254569198131,
+      "mpg_test_std": 7.189920005929033
+    }
+  },
+  "item1": {
+    "question": "1. Entrene modelos de árboles de decisión con criterios de impureza diferentes (índice gini y entropía) usando el dataset 'breast_cancer' de scikit-learn, compare su eficiencia con respecto a un modelo lineal como el Regresor Logístico. ¿Cuál es mejor?",
+    "models": [
+      {
+        "name": "Gini",
+        "role": "individual",
+        "params": {
+          "criterion": "gini",
+          "random_state": 42
+        },
+        "params_text": "criterion=gini, random_state=42",
+        "metrics": {
+          "accuracy_train": 1.0,
+          "accuracy_test": 0.9122807017543859,
+          "precision_test": 0.9558823529411765,
+          "recall_test": 0.9027777777777778,
+          "f1_train": 1.0,
+          "f1_test": 0.9285714285714286,
+          "balanced_accuracy_test": 0.9156746031746033,
+          "recall_malignant_test": 0.9285714285714286,
+          "roc_auc_train": 1.0,
+          "roc_auc_test": 0.9156746031746031,
+          "cv_accuracy_mean": 0.9164835164835164,
+          "cv_accuracy_std": 0.017855029460738393,
+          "cv_accuracy_folds": [
+            0.9340659340659341,
+            0.9340659340659341,
+            0.9010989010989011,
+            0.8901098901098901,
+            0.9230769230769231
+          ],
+          "cv_f1_mean": 0.9319011948418033,
+          "cv_f1_std": 0.014434630245039952,
+          "cv_f1_folds": [
+            0.9464285714285714,
+            0.9464285714285714,
+            0.9174311926605505,
+            0.9122807017543859,
+            0.9369369369369369
+          ],
+          "cv_balanced_accuracy_mean": 0.9179050567595459,
+          "cv_balanced_accuracy_std": 0.020093650453253748,
+          "cv_roc_auc_mean": 0.9179050567595459,
+          "cv_roc_auc_std": 0.02009365045325374,
+          "cv_roc_auc_folds": [
+            0.935500515995872,
+            0.935500515995872,
+            0.9091847265221878,
+            0.882610939112487,
+            0.9267285861713106
+          ],
+          "depth": 7,
+          "n_leaves": 19,
+          "fit_time_ms": 11.508800002047792,
+          "confusion_matrix_test": [
+            [
+              39,
+              3
+            ],
+            [
+              7,
+              65
+            ]
+          ],
+          "oob_score": null
+        }
+      },
+      {
+        "name": "Gini podado",
+        "role": "individual",
+        "params": {
+          "criterion": "gini",
+          "ccp_alpha": 0.0203859463,
+          "random_state": 42
+        },
+        "params_text": "criterion=gini, ccp_alpha=0.0203859, random_state=42",
+        "metrics": {
+          "accuracy_train": 0.9472527472527472,
+          "accuracy_test": 0.9035087719298246,
+          "precision_test": 0.9841269841269841,
+          "recall_test": 0.8611111111111112,
+          "f1_train": 0.9568345323741008,
+          "f1_test": 0.9185185185185185,
+          "balanced_accuracy_test": 0.9186507936507937,
+          "recall_malignant_test": 0.9761904761904762,
+          "roc_auc_train": 0.9663777089783281,
+          "roc_auc_test": 0.9578373015873017,
+          "cv_accuracy_mean": 0.9296703296703297,
+          "cv_accuracy_std": 0.02153397576073123,
+          "cv_accuracy_folds": [
+            0.9340659340659341,
+            0.9230769230769231,
+            0.9010989010989011,
+            0.9230769230769231,
+            0.967032967032967
+          ],
+          "cv_f1_mean": 0.9430156010514456,
+          "cv_f1_std": 0.017738182900316955,
+          "cv_f1_folds": [
+            0.9482758620689655,
+            0.9357798165137615,
+            0.918918918918919,
+            0.9391304347826087,
+            0.972972972972973
+          ],
+          "cv_balanced_accuracy_mean": 0.9296181630546956,
+          "cv_balanced_accuracy_std": 0.02408291542180549,
+          "cv_roc_auc_mean": 0.9405056759545923,
+          "cv_roc_auc_std": 0.029633441221876004,
+          "cv_roc_auc_folds": [
+            0.9308565531475749,
+            0.9486584107327141,
+            0.9097007223942208,
+            0.9195046439628481,
+            0.9938080495356036
+          ],
+          "depth": 2,
+          "n_leaves": 3,
+          "fit_time_ms": 11.81880000513047,
+          "confusion_matrix_test": [
+            [
+              41,
+              1
+            ],
+            [
+              10,
+              62
+            ]
+          ],
+          "oob_score": null
+        },
+        "search": {
+          "n_candidates": 13,
+          "n_folds": 5,
+          "n_fits": 65,
+          "search_time_s": 3.7594226999790408,
+          "scoring": "roc_auc",
+          "space_text": "ccp_alpha sobre la ruta de poda de complejidad de costo del arbol gini, con 13 valores candidatos. Se maximiza el ROC-AUC de validacion cruzada.",
+          "best_params_text": "ccp_alpha=0.0203859",
+          "best_alpha": 0.0203859463
+        }
+      },
+      {
+        "name": "Entropía",
+        "role": "individual",
+        "params": {
+          "criterion": "entropy",
+          "random_state": 42
+        },
+        "params_text": "criterion=entropy, random_state=42",
+        "metrics": {
+          "accuracy_train": 1.0,
+          "accuracy_test": 0.9122807017543859,
+          "precision_test": 0.9696969696969697,
+          "recall_test": 0.8888888888888888,
+          "f1_train": 1.0,
+          "f1_test": 0.927536231884058,
+          "balanced_accuracy_test": 0.9206349206349206,
+          "recall_malignant_test": 0.9523809523809523,
+          "roc_auc_train": 1.0,
+          "roc_auc_test": 0.9206349206349206,
+          "cv_accuracy_mean": 0.9296703296703296,
+          "cv_accuracy_std": 0.02367105409729452,
+          "cv_accuracy_folds": [
+            0.9010989010989011,
+            0.967032967032967,
+            0.9230769230769231,
+            0.9120879120879121,
+            0.945054945054945
+          ],
+          "cv_f1_mean": 0.9439622975962862,
+          "cv_f1_std": 0.01850822843095422,
+          "cv_f1_folds": [
+            0.9230769230769231,
+            0.9734513274336283,
+            0.9369369369369369,
+            0.9298245614035088,
+            0.9565217391304348
+          ],
+          "cv_balanced_accuracy_mean": 0.9248710010319916,
+          "cv_balanced_accuracy_std": 0.028036862555198657,
+          "cv_roc_auc_mean": 0.9248710010319916,
+          "cv_roc_auc_std": 0.028036862555198654,
+          "cv_roc_auc_folds": [
+            0.8854489164086686,
+            0.9677502579979359,
+            0.9267285861713106,
+            0.9060887512899897,
+            0.9383384932920537
+          ],
+          "depth": 6,
+          "n_leaves": 16,
+          "fit_time_ms": 13.834699988365173,
+          "confusion_matrix_test": [
+            [
+              40,
+              2
+            ],
+            [
+              8,
+              64
+            ]
+          ],
+          "oob_score": null
+        }
+      },
+      {
+        "name": "Entropía podada",
+        "role": "individual",
+        "params": {
+          "criterion": "entropy",
+          "ccp_alpha": 0.0356992175,
+          "random_state": 42
+        },
+        "params_text": "criterion=entropy, ccp_alpha=0.0356992, random_state=42",
+        "metrics": {
+          "accuracy_train": 0.9604395604395605,
+          "accuracy_test": 0.8947368421052632,
+          "precision_test": 0.9545454545454546,
+          "recall_test": 0.875,
+          "f1_train": 0.9681978798586572,
+          "f1_test": 0.9130434782608695,
+          "balanced_accuracy_test": 0.9017857142857143,
+          "recall_malignant_test": 0.9285714285714286,
+          "roc_auc_train": 0.9818163054695561,
+          "roc_auc_test": 0.9391534391534393,
+          "cv_accuracy_mean": 0.9274725274725275,
+          "cv_accuracy_std": 0.016446845656149168,
+          "cv_accuracy_folds": [
+            0.9230769230769231,
+            0.9230769230769231,
+            0.9010989010989011,
+            0.945054945054945,
+            0.945054945054945
+          ],
+          "cv_f1_mean": 0.9417312743998025,
+          "cv_f1_std": 0.014271028041206828,
+          "cv_f1_folds": [
+            0.9401709401709402,
+            0.9357798165137615,
+            0.918918918918919,
+            0.9572649572649573,
+            0.9565217391304348
+          ],
+          "cv_balanced_accuracy_mean": 0.9231166150670795,
+          "cv_balanced_accuracy_std": 0.01417815445204756,
+          "cv_roc_auc_mean": 0.9514447884416924,
+          "cv_roc_auc_std": 0.016495250926546617,
+          "cv_roc_auc_folds": [
+            0.9594943240454077,
+            0.9620743034055727,
+            0.9220846233230133,
+            0.9453044375644996,
+            0.9682662538699691
+          ],
+          "depth": 3,
+          "n_leaves": 5,
+          "fit_time_ms": 7.363799988524988,
+          "confusion_matrix_test": [
+            [
+              39,
+              3
+            ],
+            [
+              9,
+              63
+            ]
+          ],
+          "oob_score": null
+        },
+        "search": {
+          "n_candidates": 12,
+          "n_folds": 5,
+          "n_fits": 60,
+          "search_time_s": 0.4424242000095546,
+          "scoring": "roc_auc",
+          "space_text": "ccp_alpha sobre la ruta de poda de complejidad de costo del arbol entropy, con 12 valores candidatos. Se maximiza el ROC-AUC de validacion cruzada.",
+          "best_params_text": "ccp_alpha=0.0356992",
+          "best_alpha": 0.0356992175
+        }
+      },
+      {
+        "name": "Regresión logística",
+        "role": "individual",
+        "params": {
+          "scaler": "StandardScaler",
+          "penalty": "L2",
+          "l1_ratio": 0.0,
+          "C": 1.0,
+          "solver": "lbfgs",
+          "max_iter": 10000,
+          "random_state": 42
+        },
+        "params_text": "scaler=StandardScaler, penalty=L2, l1_ratio=0, C=1, solver=lbfgs, max_iter=10000, random_state=42",
+        "metrics": {
+          "accuracy_train": 0.989010989010989,
+          "accuracy_test": 0.9824561403508771,
+          "precision_test": 0.9861111111111112,
+          "recall_test": 0.9861111111111112,
+          "f1_train": 0.9912739965095986,
+          "f1_test": 0.9861111111111112,
+          "balanced_accuracy_test": 0.9811507936507937,
+          "recall_malignant_test": 0.9761904761904762,
+          "roc_auc_train": 0.9974819401444789,
+          "roc_auc_test": 0.9953703703703703,
+          "cv_accuracy_mean": 0.9780219780219781,
+          "cv_accuracy_std": 0.009828870230768321,
+          "cv_accuracy_folds": [
+            0.967032967032967,
+            0.989010989010989,
+            0.978021978021978,
+            0.989010989010989,
+            0.967032967032967
+          ],
+          "cv_f1_mean": 0.9825442464894886,
+          "cv_f1_std": 0.007752336477690741,
+          "cv_f1_folds": [
+            0.9743589743589743,
+            0.9911504424778761,
+            0.9824561403508771,
+            0.991304347826087,
+            0.9734513274336283
+          ],
+          "cv_balanced_accuracy_mean": 0.9753353973168213,
+          "cv_balanced_accuracy_std": 0.012562777613879738,
+          "cv_roc_auc_mean": 0.9958720330237357,
+          "cv_roc_auc_std": 0.004960006126191094,
+          "cv_roc_auc_folds": [
+            0.9860681114551083,
+            0.9989680082559339,
+            0.9969040247678018,
+            0.9989680082559339,
+            0.9984520123839009
+          ],
+          "depth": null,
+          "n_leaves": null,
+          "fit_time_ms": 12.911500001791865,
+          "confusion_matrix_test": [
+            [
+              41,
+              1
+            ],
+            [
+              1,
+              71
+            ]
+          ],
+          "oob_score": null
+        }
+      }
+    ],
+    "conclusion": {
+      "winner": "Regresión logística",
+      "runner_up": "Gini podado",
+      "primary_metric": "roc_auc_test",
+      "primary_value": 0.9953703703703703,
+      "runner_up_value": 0.9578373015873017,
+      "cv_leader": "Regresión logística",
+      "cv_agrees": true,
+      "accuracy_leader": "Regresión logística",
+      "accuracy_leader_value": 0.9824561403508771
+    },
+    "pruning": {
+      "gini": {
+        "n_candidates": 13,
+        "n_folds": 5,
+        "n_fits": 65,
+        "search_time_s": 3.7594226999790408,
+        "scoring": "roc_auc",
+        "space_text": "ccp_alpha sobre la ruta de poda de complejidad de costo del arbol gini, con 13 valores candidatos. Se maximiza el ROC-AUC de validacion cruzada.",
+        "best_params_text": "ccp_alpha=0.0203859",
+        "best_alpha": 0.0203859463
+      },
+      "entropy": {
+        "n_candidates": 12,
+        "n_folds": 5,
+        "n_fits": 60,
+        "search_time_s": 0.4424242000095546,
+        "scoring": "roc_auc",
+        "space_text": "ccp_alpha sobre la ruta de poda de complejidad de costo del arbol entropy, con 12 valores candidatos. Se maximiza el ROC-AUC de validacion cruzada.",
+        "best_params_text": "ccp_alpha=0.0356992",
+        "best_alpha": 0.0356992175
+      }
+    }
+  },
+  "item2": {
+    "question": "2. Entrene modelos de árboles de decisión con varias configuraciones de hiper parámetros usando el dataset auto_mpg, comparar su eficiencia con respecto a un modelo lineal como el Regresor Lineal. ¿Cuál es el mejor?",
+    "models": [
+      {
+        "name": "Árbol sin restricciones",
+        "role": "individual",
+        "params": {
+          "criterion": "squared_error",
+          "max_depth": null,
+          "min_samples_split": 2,
+          "min_samples_leaf": 1,
+          "random_state": 42
+        },
+        "params_text": "criterion=squared_error, max_depth=sin límite, min_samples_split=2, min_samples_leaf=1, random_state=42",
+        "metrics": {
+          "r2_train": 1.0,
+          "r2_test": 0.7774964912256468,
+          "rmse_train": 0.0,
+          "rmse_test": 3.3699716409429166,
+          "mae_test": 2.29620253164557,
+          "mae_train": 0.0,
+          "mse_test": 11.356708860759495,
+          "cv_r2_mean": 0.7656334307311592,
+          "cv_r2_std": 0.09746051492393923,
+          "cv_r2_folds": [
+            0.6176111349528071,
+            0.842280121937856,
+            0.800486158701621,
+            0.6894867877537949,
+            0.8783029503097171
+          ],
+          "cv_rmse_mean": 3.687087132914656,
+          "cv_rmse_std": 0.5824048745854188,
+          "cv_rmse_folds": [
+            4.1979964987091885,
+            3.1151447773943004,
+            3.3648981682273362,
+            4.560825477066412,
+            3.1965707431760424
+          ],
+          "cv_mae_mean": 2.6512903225806452,
+          "cv_mae_std": 0.4992677166544278,
+          "cv_mae_folds": [
+            3.1714285714285717,
+            2.003174603174603,
+            2.4253968253968257,
+            3.2983870967741935,
+            2.358064516129032
+          ],
+          "depth": 16,
+          "n_leaves": 263,
+          "fit_time_ms": 10.857799992663786,
+          "oob_score": null
+        },
+        "importances": {
+          "raw": [
+            {
+              "feature": "displacement",
+              "importance": 0.6245212371586198
+            },
+            {
+              "feature": "horsepower",
+              "importance": 0.173119333727869
+            },
+            {
+              "feature": "model_year",
+              "importance": 0.103756305969726
+            },
+            {
+              "feature": "weight",
+              "importance": 0.061622711896414
+            },
+            {
+              "feature": "acceleration",
+              "importance": 0.022491727825993728
+            },
+            {
+              "feature": "cylinders",
+              "importance": 0.008654331958358507
+            },
+            {
+              "feature": "origin=japan",
+              "importance": 0.004680440258613955
+            },
+            {
+              "feature": "origin=usa",
+              "importance": 0.001153911204404915
+            }
+          ],
+          "relative": [
+            {
+              "feature": "displacement",
+              "importance": 0.6245212371586198
+            },
+            {
+              "feature": "horsepower",
+              "importance": 0.173119333727869
+            },
+            {
+              "feature": "model_year",
+              "importance": 0.103756305969726
+            },
+            {
+              "feature": "weight",
+              "importance": 0.061622711896414
+            },
+            {
+              "feature": "acceleration",
+              "importance": 0.022491727825993728
+            },
+            {
+              "feature": "cylinders",
+              "importance": 0.008654331958358507
+            },
+            {
+              "feature": "origin=japan",
+              "importance": 0.004680440258613955
+            },
+            {
+              "feature": "origin=usa",
+              "importance": 0.001153911204404915
+            }
+          ]
+        }
+      },
+      {
+        "name": "Árbol superficial",
+        "role": "individual",
+        "params": {
+          "criterion": "squared_error",
+          "max_depth": 2,
+          "min_samples_split": 2,
+          "min_samples_leaf": 1,
+          "random_state": 42
+        },
+        "params_text": "criterion=squared_error, max_depth=2, min_samples_split=2, min_samples_leaf=1, random_state=42",
+        "metrics": {
+          "r2_train": 0.7572875682480276,
+          "r2_test": 0.5833631999053324,
+          "rmse_train": 3.913450179742357,
+          "rmse_test": 4.611440694189079,
+          "mae_test": 3.499345397051876,
+          "mae_train": 2.8547242513363726,
+          "mse_test": 21.26538527602305,
+          "cv_r2_mean": 0.7153315135691627,
+          "cv_r2_std": 0.06990996521455403,
+          "cv_r2_folds": [
+            0.5948358171556853,
+            0.763323025604997,
+            0.6774731171003183,
+            0.7772733620723772,
+            0.7637522459124355
+          ],
+          "cv_rmse_mean": 4.146395834341418,
+          "cv_rmse_std": 0.25770377846095044,
+          "cv_rmse_folds": [
+            4.321206059069148,
+            3.816040923871671,
+            4.278271782695095,
+            3.8626867753422474,
+            4.4537736307289295
+          ],
+          "cv_mae_mean": 3.029338687741211,
+          "cv_mae_std": 0.16605359050007795,
+          "cv_mae_folds": [
+            3.0069057656185034,
+            2.921467296714007,
+            3.0954903846153847,
+            2.8171859276809155,
+            3.3056440640772435
+          ],
+          "depth": 2,
+          "n_leaves": 4,
+          "fit_time_ms": 9.36229998478666,
+          "oob_score": null
+        },
+        "importances": {
+          "raw": [
+            {
+              "feature": "displacement",
+              "importance": 0.7823267755882236
+            },
+            {
+              "feature": "horsepower",
+              "importance": 0.21767322441177642
+            },
+            {
+              "feature": "cylinders",
+              "importance": 0.0
+            },
+            {
+              "feature": "weight",
+              "importance": 0.0
+            },
+            {
+              "feature": "acceleration",
+              "importance": 0.0
+            },
+            {
+              "feature": "model_year",
+              "importance": 0.0
+            },
+            {
+              "feature": "origin=japan",
+              "importance": 0.0
+            },
+            {
+              "feature": "origin=usa",
+              "importance": 0.0
+            }
+          ],
+          "relative": [
+            {
+              "feature": "displacement",
+              "importance": 0.7823267755882236
+            },
+            {
+              "feature": "horsepower",
+              "importance": 0.21767322441177642
+            },
+            {
+              "feature": "cylinders",
+              "importance": 0.0
+            },
+            {
+              "feature": "weight",
+              "importance": 0.0
+            },
+            {
+              "feature": "acceleration",
+              "importance": 0.0
+            },
+            {
+              "feature": "model_year",
+              "importance": 0.0
+            },
+            {
+              "feature": "origin=japan",
+              "importance": 0.0
+            },
+            {
+              "feature": "origin=usa",
+              "importance": 0.0
+            }
+          ]
+        }
+      },
+      {
+        "name": "Árbol profundidad controlada",
+        "role": "individual",
+        "params": {
+          "criterion": "squared_error",
+          "max_depth": 4,
+          "min_samples_split": 5,
+          "min_samples_leaf": 2,
+          "random_state": 42
+        },
+        "params_text": "criterion=squared_error, max_depth=4, min_samples_split=5, min_samples_leaf=2, random_state=42",
+        "metrics": {
+          "r2_train": 0.8859473837127073,
+          "r2_test": 0.8144813998901738,
+          "rmse_train": 2.6826648859544324,
+          "rmse_test": 3.0771703806336252,
+          "mae_test": 2.2782169060718864,
+          "mae_train": 1.969129829033288,
+          "mse_test": 9.468977551448889,
+          "cv_r2_mean": 0.8036169777526047,
+          "cv_r2_std": 0.054986083571492664,
+          "cv_r2_folds": [
+            0.7019725501358987,
+            0.8503953158449912,
+            0.7917069957615518,
+            0.8476392698994846,
+            0.8263707571210969
+          ],
+          "cv_rmse_mean": 3.4382256981523853,
+          "cv_rmse_std": 0.2962540763167478,
+          "cv_rmse_folds": [
+            3.706103867187289,
+            3.03394438094982,
+            3.4381336309191033,
+            3.1947724786187432,
+            3.818174133086973
+          ],
+          "cv_mae_mean": 2.5602032349946526,
+          "cv_mae_std": 0.2007585545481453,
+          "cv_mae_folds": [
+            2.6262331088735333,
+            2.3487218307197604,
+            2.6325636742756715,
+            2.3279287008058343,
+            2.8655688602984632
+          ],
+          "depth": 4,
+          "n_leaves": 15,
+          "fit_time_ms": 8.066700014751405,
+          "oob_score": null
+        },
+        "importances": {
+          "raw": [
+            {
+              "feature": "displacement",
+              "importance": 0.6926263024368107
+            },
+            {
+              "feature": "horsepower",
+              "importance": 0.1860620955803337
+            },
+            {
+              "feature": "model_year",
+              "importance": 0.09043949067116061
+            },
+            {
+              "feature": "weight",
+              "importance": 0.030872111311695
+            },
+            {
+              "feature": "cylinders",
+              "importance": 0.0
+            },
+            {
+              "feature": "acceleration",
+              "importance": 0.0
+            },
+            {
+              "feature": "origin=japan",
+              "importance": 0.0
+            },
+            {
+              "feature": "origin=usa",
+              "importance": 0.0
+            }
+          ],
+          "relative": [
+            {
+              "feature": "displacement",
+              "importance": 0.6926263024368107
+            },
+            {
+              "feature": "horsepower",
+              "importance": 0.1860620955803337
+            },
+            {
+              "feature": "model_year",
+              "importance": 0.09043949067116061
+            },
+            {
+              "feature": "weight",
+              "importance": 0.030872111311695
+            },
+            {
+              "feature": "cylinders",
+              "importance": 0.0
+            },
+            {
+              "feature": "acceleration",
+              "importance": 0.0
+            },
+            {
+              "feature": "origin=japan",
+              "importance": 0.0
+            },
+            {
+              "feature": "origin=usa",
+              "importance": 0.0
+            }
+          ]
+        }
+      },
+      {
+        "name": "Árbol error absoluto",
+        "role": "individual",
+        "params": {
+          "criterion": "absolute_error",
+          "max_depth": 5,
+          "min_samples_leaf": 5,
+          "min_samples_split": 2,
+          "random_state": 42
+        },
+        "params_text": "criterion=absolute_error, max_depth=5, min_samples_leaf=5, min_samples_split=2, random_state=42",
+        "metrics": {
+          "r2_train": 0.8966391253763727,
+          "r2_test": 0.8629490929801031,
+          "rmse_train": 2.553829424302748,
+          "rmse_test": 2.6448361438561934,
+          "mae_test": 2.090506329113924,
+          "mae_train": 1.618849840255591,
+          "mse_test": 6.9951582278480995,
+          "cv_r2_mean": 0.8059793765669463,
+          "cv_r2_std": 0.041727730315529364,
+          "cv_r2_folds": [
+            0.7284503839120489,
+            0.8499402525963227,
+            0.8311270229900714,
+            0.8033027479684198,
+            0.8170764753678689
+          ],
+          "cv_rmse_mean": 3.4441892309940045,
+          "cv_rmse_std": 0.3330692016327087,
+          "cv_rmse_folds": [
+            3.5376433730550954,
+            3.038555159992568,
+            3.095747210876688,
+            3.6299660089051047,
+            3.919034402140569
+          ],
+          "cv_mae_mean": 2.5527240143369174,
+          "cv_mae_std": 0.27670027655406804,
+          "cv_mae_folds": [
+            2.617460317460317,
+            2.1944444444444446,
+            2.2936507936507944,
+            2.7056451612903225,
+            2.952419354838709
+          ],
+          "depth": 5,
+          "n_leaves": 29,
+          "fit_time_ms": 13.389700005063787,
+          "oob_score": null
+        },
+        "importances": {
+          "raw": [
+            {
+              "feature": "displacement",
+              "importance": 0.5650506193799919
+            },
+            {
+              "feature": "horsepower",
+              "importance": 0.24240709300131982
+            },
+            {
+              "feature": "weight",
+              "importance": 0.11846821354461413
+            },
+            {
+              "feature": "model_year",
+              "importance": 0.06426460416273648
+            },
+            {
+              "feature": "origin=japan",
+              "importance": 0.005659309564233164
+            },
+            {
+              "feature": "acceleration",
+              "importance": 0.00415016034710437
+            },
+            {
+              "feature": "cylinders",
+              "importance": 0.0
+            },
+            {
+              "feature": "origin=usa",
+              "importance": 0.0
+            }
+          ],
+          "relative": [
+            {
+              "feature": "displacement",
+              "importance": 0.565050619379992
+            },
+            {
+              "feature": "horsepower",
+              "importance": 0.24240709300131988
+            },
+            {
+              "feature": "weight",
+              "importance": 0.11846821354461416
+            },
+            {
+              "feature": "model_year",
+              "importance": 0.0642646041627365
+            },
+            {
+              "feature": "origin=japan",
+              "importance": 0.005659309564233165
+            },
+            {
+              "feature": "acceleration",
+              "importance": 0.004150160347104371
+            },
+            {
+              "feature": "cylinders",
+              "importance": 0.0
+            },
+            {
+              "feature": "origin=usa",
+              "importance": 0.0
+            }
+          ]
+        }
+      },
+      {
+        "name": "Árbol poda CCP",
+        "role": "individual",
+        "params": {
+          "criterion": "squared_error",
+          "ccp_alpha": 0.1509066383,
+          "random_state": 42
+        },
+        "params_text": "criterion=squared_error, ccp_alpha=0.150907, random_state=42",
+        "metrics": {
+          "r2_train": 0.9335963179631903,
+          "r2_test": 0.7977344253250106,
+          "rmse_train": 2.046962466002605,
+          "rmse_test": 3.2130597412370046,
+          "mae_test": 2.2556400491002333,
+          "mae_train": 1.590396520098932,
+          "mse_test": 10.323752900758008,
+          "cv_r2_mean": 0.794724699270043,
+          "cv_r2_std": 0.06552724843171134,
+          "cv_r2_folds": [
+            0.6672869015333088,
+            0.8400032937502715,
+            0.8078025752345673,
+            0.8116385042181841,
+            0.8468922216138834
+          ],
+          "cv_rmse_mean": 3.4987339063064176,
+          "cv_rmse_std": 0.2658066357536467,
+          "cv_rmse_folds": [
+            3.9158351705784056,
+            3.1375491675101204,
+            3.3026244574249777,
+            3.5522169091639526,
+            3.5854438268546316
+          ],
+          "cv_mae_mean": 2.552254645101199,
+          "cv_mae_std": 0.1507094325745513,
+          "cv_mae_folds": [
+            2.787263897268528,
+            2.365367281238209,
+            2.438191090249914,
+            2.5210936464968716,
+            2.649357310252472
+          ],
+          "depth": 7,
+          "n_leaves": 23,
+          "fit_time_ms": 11.037199990823865,
+          "oob_score": null
+        },
+        "search": {
+          "n_candidates": 35,
+          "n_folds": 5,
+          "n_fits": 175,
+          "search_time_s": 1.4812327999970876,
+          "scoring": "neg_root_mean_squared_error",
+          "space_text": "ccp_alpha sobre la ruta de poda, con 35 valores. Se minimiza el RMSE de validacion cruzada.",
+          "best_params_text": "ccp_alpha=0.150907",
+          "best_alpha": 0.1509066383
+        },
+        "importances": {
+          "raw": [
+            {
+              "feature": "displacement",
+              "importance": 0.6599615966768972
+            },
+            {
+              "feature": "horsepower",
+              "importance": 0.17987152016649835
+            },
+            {
+              "feature": "model_year",
+              "importance": 0.09815479462405192
+            },
+            {
+              "feature": "weight",
+              "importance": 0.04959559145855663
+            },
+            {
+              "feature": "acceleration",
+              "importance": 0.010207455700744383
+            },
+            {
+              "feature": "cylinders",
+              "importance": 0.002209041373251315
+            },
+            {
+              "feature": "origin=japan",
+              "importance": 0.0
+            },
+            {
+              "feature": "origin=usa",
+              "importance": 0.0
+            }
+          ],
+          "relative": [
+            {
+              "feature": "displacement",
+              "importance": 0.6599615966768974
+            },
+            {
+              "feature": "horsepower",
+              "importance": 0.17987152016649838
+            },
+            {
+              "feature": "model_year",
+              "importance": 0.09815479462405195
+            },
+            {
+              "feature": "weight",
+              "importance": 0.049595591458556645
+            },
+            {
+              "feature": "acceleration",
+              "importance": 0.010207455700744385
+            },
+            {
+              "feature": "cylinders",
+              "importance": 0.0022090413732513154
+            },
+            {
+              "feature": "origin=japan",
+              "importance": 0.0
+            },
+            {
+              "feature": "origin=usa",
+              "importance": 0.0
+            }
+          ]
+        }
+      },
+      {
+        "name": "Árbol GridSearchCV",
+        "role": "individual",
+        "params": {
+          "model__criterion": "squared_error",
+          "model__max_depth": 8,
+          "model__max_features": "sqrt",
+          "model__min_samples_leaf": 2,
+          "model__min_samples_split": 10
+        },
+        "params_text": "criterion=squared_error, max_depth=8, max_features=sqrt, min_samples_leaf=2, min_samples_split=10",
+        "metrics": {
+          "r2_train": 0.9254140495802164,
+          "r2_test": 0.8106768027767284,
+          "rmse_train": 2.169413371751396,
+          "rmse_test": 3.108563399242784,
+          "mae_test": 2.048089062629271,
+          "mae_train": 1.5724746810332226,
+          "mse_test": 9.663166407111852,
+          "cv_r2_mean": 0.8295858044120464,
+          "cv_r2_std": 0.040764611451367665,
+          "cv_r2_folds": [
+            0.7503132908815557,
+            0.8451364256393061,
+            0.8575064466382505,
+            0.8609472521603119,
+            0.834025606740808
+          ],
+          "cv_rmse_mean": 3.2215735574035507,
+          "cv_rmse_std": 0.3099787887337262,
+          "cv_rmse_folds": [
+            3.392244648644733,
+            3.0868082944825046,
+            2.8436950294393304,
+            3.052060931969303,
+            3.7330588824818838
+          ],
+          "cv_mae_mean": 2.376187283374304,
+          "cv_mae_std": 0.27125652305858095,
+          "cv_mae_folds": [
+            2.535981985386748,
+            2.076403376165281,
+            2.1983049886621315,
+            2.2432904505888382,
+            2.8269556160685188
+          ],
+          "depth": 8,
+          "n_leaves": 53,
+          "fit_time_ms": 9.783699992112815,
+          "oob_score": null
+        },
+        "search": {
+          "n_candidates": 444,
+          "n_folds": 5,
+          "n_fits": 2220,
+          "search_time_s": 31.423977600003127,
+          "scoring": "neg_root_mean_squared_error",
+          "space_text": "Primera malla: criterion squared_error, max_depth en {2, 3, 4, 5, 6, 8, 10, sin límite}, min_samples_split en {2, 5, 10, 20}, min_samples_leaf en {1, 2, 4, 8}, max_features en {todas (1.0), sqrt, log2}. Segunda malla: criterion absolute_error, max_depth en {3, 4, 5, 6, 8}, min_samples_split en {2, 10}, min_samples_leaf en {2, 5, 8}, max_features en {todas (1.0), sqrt}. scikit-learn 1.9 admite squared_error, absolute_error y poisson en DecisionTreeRegressor; friedman_mse ya no es válido, así que el contraste de criterion usa squared_error y absolute_error.",
+          "best_params_text": "criterion=squared_error, max_depth=8, max_features=sqrt, min_samples_leaf=2, min_samples_split=10"
+        },
+        "importances": {
+          "raw": [
+            {
+              "feature": "cylinders",
+              "importance": 0.6326659665046287
+            },
+            {
+              "feature": "weight",
+              "importance": 0.12253391665993531
+            },
+            {
+              "feature": "model_year",
+              "importance": 0.11392113160068569
+            },
+            {
+              "feature": "horsepower",
+              "importance": 0.0679835597996751
+            },
+            {
+              "feature": "displacement",
+              "importance": 0.03057378076166194
+            },
+            {
+              "feature": "acceleration",
+              "importance": 0.022850258591931523
+            },
+            {
+              "feature": "origin=usa",
+              "importance": 0.008244809807782708
+            },
+            {
+              "feature": "origin=japan",
+              "importance": 0.0012265762736988338
+            }
+          ],
+          "relative": [
+            {
+              "feature": "cylinders",
+              "importance": 0.6326659665046288
+            },
+            {
+              "feature": "weight",
+              "importance": 0.12253391665993534
+            },
+            {
+              "feature": "model_year",
+              "importance": 0.11392113160068572
+            },
+            {
+              "feature": "horsepower",
+              "importance": 0.06798355979967512
+            },
+            {
+              "feature": "displacement",
+              "importance": 0.030573780761661947
+            },
+            {
+              "feature": "acceleration",
+              "importance": 0.022850258591931526
+            },
+            {
+              "feature": "origin=usa",
+              "importance": 0.00824480980778271
+            },
+            {
+              "feature": "origin=japan",
+              "importance": 0.001226576273698834
+            }
+          ]
+        }
+      },
+      {
+        "name": "Regresión lineal",
+        "role": "individual",
+        "params": {
+          "preprocesado": "one-hot de origin con referencia europe",
+          "scaler": "StandardScaler",
+          "estimador": "LinearRegression"
+        },
+        "params_text": "preprocesado=one-hot de origin con referencia europe, scaler=StandardScaler, estimador=LinearRegression",
+        "metrics": {
+          "r2_train": 0.8286865575852228,
+          "r2_test": 0.792277471402258,
+          "rmse_train": 3.287831254830925,
+          "rmse_test": 3.256114096847402,
+          "mae_test": 2.461999698066149,
+          "mae_train": 2.5445826417298005,
+          "mse_test": 10.602279011688372,
+          "cv_r2_mean": 0.8187597995085248,
+          "cv_r2_std": 0.014342475107454572,
+          "cv_r2_folds": [
+            0.8153787250356124,
+            0.8402573352229838,
+            0.8169054100076083,
+            0.8251079039024686,
+            0.7961496233739515
+          ],
+          "cv_rmse_mean": 3.367095259842718,
+          "cv_rmse_std": 0.41789212260959663,
+          "cv_rmse_folds": [
+            2.9169590094650886,
+            3.1350572904092773,
+            3.2234665407228533,
+            3.4228550126161648,
+            4.137138446000206
+          ],
+          "cv_mae_mean": 2.6174053260863124,
+          "cv_mae_std": 0.24266448977564278,
+          "cv_mae_folds": [
+            2.2519173599915185,
+            2.443240194792772,
+            2.7381590720961557,
+            2.708121000319173,
+            2.945589003231943
+          ],
+          "depth": null,
+          "n_leaves": null,
+          "fit_time_ms": 13.278400001581758,
+          "oob_score": null
+        },
+        "coefficients": {
+          "intercept": 23.599361022364224,
+          "coefficients": [
+            {
+              "feature": "weight",
+              "coefficient": -5.393692349492289
+            },
+            {
+              "feature": "model_year",
+              "coefficient": 2.889178382854424
+            },
+            {
+              "feature": "displacement",
+              "coefficient": 1.9897501489640004
+            },
+            {
+              "feature": "origin=usa",
+              "coefficient": -1.375644219015897
+            },
+            {
+              "feature": "horsepower",
+              "coefficient": -0.8263849811456121
+            },
+            {
+              "feature": "cylinders",
+              "coefficient": -0.5807948458986352
+            },
+            {
+              "feature": "origin=japan",
+              "coefficient": 0.13250360366042946
+            },
+            {
+              "feature": "acceleration",
+              "coefficient": 0.11871843616538871
+            }
+          ],
+          "scale": "coeficientes sobre variables estandarizadas despues del one-hot"
+        }
+      }
+    ],
+    "validation_curve": {
+      "max_depth": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "r2_train": [
+        0.5924463414605281,
+        0.7572875682480276,
+        0.8401133075852176,
+        0.8930716698139086,
+        0.9307439366933947,
+        0.9555172890857665,
+        0.9715595269645776,
+        0.981908630116182,
+        0.9889572910364726,
+        0.9948204844254651,
+        0.9978103054886588,
+        0.9990025638468432
+      ],
+      "r2_test": [
+        0.4890183368653125,
+        0.5833631999053324,
+        0.732554904599257,
+        0.7714042734361117,
+        0.7858677479977673,
+        0.8193671549745597,
+        0.7830952337980333,
+        0.793894693042023,
+        0.8088943741988458,
+        0.7929001849300454,
+        0.7996669500371705,
+        0.7502055218586878
+      ],
+      "rmse_train": [
+        5.071146963002584,
+        3.913450179742357,
+        3.1762886141665345,
+        2.597527720960777,
+        2.090464031056222,
+        1.6753649367057908,
+        1.3396218002826912,
+        1.0684384906441933,
+        0.8347407433882094,
+        0.5716870706956279,
+        0.37171112857333893,
+        0.2508744026822839
+      ],
+      "rmse_test": [
+        5.106936666072028,
+        4.611440694189079,
+        3.694665567259825,
+        3.415795545690879,
+        3.3059696055257066,
+        3.036380371820153,
+        3.3273030782384443,
+        3.2434141079989525,
+        3.1231622758528546,
+        3.2512298211659463,
+        3.1976734843201102,
+        3.5706660239275223
+      ],
+      "best_test_depth": 6,
+      "best_test_r2": 0.8193671549745597,
+      "best_test_rmse": 3.036380371820153,
+      "note": "Arboles con criterion squared_error, min_samples_split 2 y min_samples_leaf 1. La curva aisla el efecto de max_depth."
+    },
+    "conclusion": {
+      "winner": "Árbol error absoluto",
+      "runner_up": "Árbol profundidad controlada",
+      "primary_metric": "rmse_test",
+      "primary_value": 2.6448361438561934,
+      "runner_up_value": 3.0771703806336252,
+      "cv_leader": "Árbol GridSearchCV",
+      "cv_agrees": false,
+      "winner_r2_test": 0.8629490929801031,
+      "runner_up_r2_test": 0.8144813998901738
+    }
+  },
+  "item3": {
+    "question": "3. Entrene un modelo ensemble clasificador, y compare su eficiencia con respecto a un modelo individual. ¿Cuál es mejor?",
+    "models": [
+      {
+        "name": "Árbol de decisión",
+        "role": "individual",
+        "params": {
+          "criterion": "gini",
+          "random_state": 42
+        },
+        "params_text": "criterion=gini, random_state=42",
+        "metrics": {
+          "accuracy_train": 1.0,
+          "accuracy_test": 0.9122807017543859,
+          "precision_test": 0.9558823529411765,
+          "recall_test": 0.9027777777777778,
+          "f1_train": 1.0,
+          "f1_test": 0.9285714285714286,
+          "balanced_accuracy_test": 0.9156746031746033,
+          "recall_malignant_test": 0.9285714285714286,
+          "roc_auc_train": 1.0,
+          "roc_auc_test": 0.9156746031746031,
+          "cv_accuracy_mean": 0.9164835164835164,
+          "cv_accuracy_std": 0.017855029460738393,
+          "cv_accuracy_folds": [
+            0.9340659340659341,
+            0.9340659340659341,
+            0.9010989010989011,
+            0.8901098901098901,
+            0.9230769230769231
+          ],
+          "cv_f1_mean": 0.9319011948418033,
+          "cv_f1_std": 0.014434630245039952,
+          "cv_f1_folds": [
+            0.9464285714285714,
+            0.9464285714285714,
+            0.9174311926605505,
+            0.9122807017543859,
+            0.9369369369369369
+          ],
+          "cv_balanced_accuracy_mean": 0.9179050567595459,
+          "cv_balanced_accuracy_std": 0.020093650453253748,
+          "cv_roc_auc_mean": 0.9179050567595459,
+          "cv_roc_auc_std": 0.02009365045325374,
+          "cv_roc_auc_folds": [
+            0.935500515995872,
+            0.935500515995872,
+            0.9091847265221878,
+            0.882610939112487,
+            0.9267285861713106
+          ],
+          "depth": 7,
+          "n_leaves": 19,
+          "fit_time_ms": 13.114900008076802,
+          "confusion_matrix_test": [
+            [
+              39,
+              3
+            ],
+            [
+              7,
+              65
+            ]
+          ],
+          "oob_score": null
+        }
+      },
+      {
+        "name": "SVC",
+        "role": "individual",
+        "params": {
+          "kernel": "rbf",
+          "probability": true,
+          "scaler": "StandardScaler",
+          "random_state": 42
+        },
+        "params_text": "kernel=rbf, probability=sí, scaler=StandardScaler, random_state=42",
+        "metrics": {
+          "accuracy_train": 0.9824175824175824,
+          "accuracy_test": 0.9824561403508771,
+          "precision_test": 0.9861111111111112,
+          "recall_test": 0.9861111111111112,
+          "f1_train": 0.9860627177700348,
+          "f1_test": 0.9861111111111112,
+          "balanced_accuracy_test": 0.9811507936507937,
+          "recall_malignant_test": 0.9761904761904762,
+          "roc_auc_train": 0.9980185758513932,
+          "roc_auc_test": 0.9950396825396826,
+          "cv_accuracy_mean": 0.9692307692307693,
+          "cv_accuracy_std": 0.014578570507056717,
+          "cv_accuracy_folds": [
+            0.945054945054945,
+            0.978021978021978,
+            0.967032967032967,
+            0.967032967032967,
+            0.989010989010989
+          ],
+          "cv_f1_mean": 0.9756153066291582,
+          "cv_f1_std": 0.011252295383339678,
+          "cv_f1_folds": [
+            0.9572649572649573,
+            0.9821428571428571,
+            0.9734513274336283,
+            0.9739130434782609,
+            0.991304347826087
+          ],
+          "cv_balanced_accuracy_mean": 0.9659442724458204,
+          "cv_balanced_accuracy_std": 0.018932900398554352,
+          "cv_roc_auc_mean": 0.9955624355005159,
+          "cv_roc_auc_std": 0.004758366102538106,
+          "cv_roc_auc_folds": [
+            0.9860681114551083,
+            0.9979360165118679,
+            0.9979360165118679,
+            0.9974200206398349,
+            0.9984520123839009
+          ],
+          "depth": null,
+          "n_leaves": null,
+          "fit_time_ms": 37.253999995300546,
+          "confusion_matrix_test": [
+            [
+              41,
+              1
+            ],
+            [
+              1,
+              71
+            ]
+          ],
+          "oob_score": null
+        }
+      },
+      {
+        "name": "k-NN",
+        "role": "individual",
+        "params": {
+          "n_neighbors": 5,
+          "scaler": "StandardScaler"
+        },
+        "params_text": "n_neighbors=5, scaler=StandardScaler",
+        "metrics": {
+          "accuracy_train": 0.9736263736263736,
+          "accuracy_test": 0.956140350877193,
+          "precision_test": 0.958904109589041,
+          "recall_test": 0.9722222222222222,
+          "f1_train": 0.9791666666666666,
+          "f1_test": 0.9655172413793104,
+          "balanced_accuracy_test": 0.9503968253968254,
+          "recall_malignant_test": 0.9285714285714286,
+          "roc_auc_train": 0.998328173374613,
+          "roc_auc_test": 0.9788359788359788,
+          "cv_accuracy_mean": 0.9626373626373625,
+          "cv_accuracy_std": 0.011206636293610512,
+          "cv_accuracy_folds": [
+            0.967032967032967,
+            0.967032967032967,
+            0.945054945054945,
+            0.9560439560439561,
+            0.978021978021978
+          ],
+          "cv_f1_mean": 0.9704887085675032,
+          "cv_f1_std": 0.00911106079108325,
+          "cv_f1_folds": [
+            0.9743589743589743,
+            0.9743589743589743,
+            0.9557522123893806,
+            0.9655172413793104,
+            0.9824561403508771
+          ],
+          "cv_balanced_accuracy_mean": 0.9559339525283796,
+          "cv_balanced_accuracy_std": 0.011293592586422685,
+          "cv_roc_auc_mean": 0.9882352941176471,
+          "cv_roc_auc_std": 0.008149795031116128,
+          "cv_roc_auc_folds": [
+            0.9801341589267285,
+            0.9971620227038185,
+            0.9840041279669762,
+            0.980908152734778,
+            0.9989680082559339
+          ],
+          "depth": null,
+          "n_leaves": null,
+          "fit_time_ms": 6.091700022807345,
+          "confusion_matrix_test": [
+            [
+              39,
+              3
+            ],
+            [
+              2,
+              70
+            ]
+          ],
+          "oob_score": null
+        }
+      },
+      {
+        "name": "Regresión logística",
+        "role": "individual",
+        "params": {
+          "penalty": "L2",
+          "l1_ratio": 0.0,
+          "C": 1.0,
+          "max_iter": 10000,
+          "scaler": "StandardScaler",
+          "random_state": 42
+        },
+        "params_text": "penalty=L2, l1_ratio=0, C=1, max_iter=10000, scaler=StandardScaler, random_state=42",
+        "metrics": {
+          "accuracy_train": 0.989010989010989,
+          "accuracy_test": 0.9824561403508771,
+          "precision_test": 0.9861111111111112,
+          "recall_test": 0.9861111111111112,
+          "f1_train": 0.9912739965095986,
+          "f1_test": 0.9861111111111112,
+          "balanced_accuracy_test": 0.9811507936507937,
+          "recall_malignant_test": 0.9761904761904762,
+          "roc_auc_train": 0.9974819401444789,
+          "roc_auc_test": 0.9953703703703703,
+          "cv_accuracy_mean": 0.9780219780219781,
+          "cv_accuracy_std": 0.009828870230768321,
+          "cv_accuracy_folds": [
+            0.967032967032967,
+            0.989010989010989,
+            0.978021978021978,
+            0.989010989010989,
+            0.967032967032967
+          ],
+          "cv_f1_mean": 0.9825442464894886,
+          "cv_f1_std": 0.007752336477690741,
+          "cv_f1_folds": [
+            0.9743589743589743,
+            0.9911504424778761,
+            0.9824561403508771,
+            0.991304347826087,
+            0.9734513274336283
+          ],
+          "cv_balanced_accuracy_mean": 0.9753353973168213,
+          "cv_balanced_accuracy_std": 0.012562777613879738,
+          "cv_roc_auc_mean": 0.9958720330237357,
+          "cv_roc_auc_std": 0.004960006126191094,
+          "cv_roc_auc_folds": [
+            0.9860681114551083,
+            0.9989680082559339,
+            0.9969040247678018,
+            0.9989680082559339,
+            0.9984520123839009
+          ],
+          "depth": null,
+          "n_leaves": null,
+          "fit_time_ms": 12.530999985756353,
+          "confusion_matrix_test": [
+            [
+              41,
+              1
+            ],
+            [
+              1,
+              71
+            ]
+          ],
+          "oob_score": null
+        }
+      },
+      {
+        "name": "Voting duro",
+        "role": "ensemble",
+        "params": {
+          "voting": "hard",
+          "bases": "arbol, SVC, k-NN, regresion logistica"
+        },
+        "params_text": "voting=hard, bases=arbol, SVC, k-NN, regresion logistica",
+        "metrics": {
+          "accuracy_train": 0.9868131868131869,
+          "accuracy_test": 0.9824561403508771,
+          "precision_test": 0.9861111111111112,
+          "recall_test": 0.9861111111111112,
+          "f1_train": 0.9895104895104895,
+          "f1_test": 0.9861111111111112,
+          "balanced_accuracy_test": 0.9811507936507937,
+          "recall_malignant_test": 0.9761904761904762,
+          "roc_auc_train": null,
+          "roc_auc_test": null,
+          "cv_accuracy_mean": 0.9670329670329672,
+          "cv_accuracy_std": 0.012037858406706946,
+          "cv_accuracy_folds": [
+            0.967032967032967,
+            0.989010989010989,
+            0.9560439560439561,
+            0.967032967032967,
+            0.9560439560439561
+          ],
+          "cv_f1_mean": 0.9735095916011653,
+          "cv_f1_std": 0.009815141282218966,
+          "cv_f1_folds": [
+            0.9739130434782609,
+            0.9911504424778761,
+            0.9642857142857143,
+            0.9739130434782609,
+            0.9642857142857143
+          ],
+          "cv_balanced_accuracy_mean": 0.9665634674922601,
+          "cv_balanced_accuracy_std": 0.012397438421161564,
+          "cv_roc_auc_mean": null,
+          "cv_roc_auc_std": null,
+          "cv_roc_auc_folds": null,
+          "depth": null,
+          "n_leaves": null,
+          "fit_time_ms": 66.49960001232103,
+          "confusion_matrix_test": [
+            [
+              41,
+              1
+            ],
+            [
+              1,
+              71
+            ]
+          ],
+          "oob_score": null
+        }
+      },
+      {
+        "name": "Voting suave",
+        "role": "ensemble",
+        "params": {
+          "voting": "soft",
+          "bases": "arbol, SVC, k-NN, regresion logistica"
+        },
+        "params_text": "voting=soft, bases=arbol, SVC, k-NN, regresion logistica",
+        "metrics": {
+          "accuracy_train": 0.9934065934065934,
+          "accuracy_test": 0.9736842105263158,
+          "precision_test": 0.9726027397260274,
+          "recall_test": 0.9861111111111112,
+          "f1_train": 0.9947643979057592,
+          "f1_test": 0.9793103448275862,
+          "balanced_accuracy_test": 0.9692460317460317,
+          "recall_malignant_test": 0.9523809523809523,
+          "roc_auc_train": 0.9998761609907121,
+          "roc_auc_test": 0.9910714285714285,
+          "cv_accuracy_mean": 0.9758241758241759,
+          "cv_accuracy_std": 0.01281527888976989,
+          "cv_accuracy_folds": [
+            0.978021978021978,
+            0.989010989010989,
+            0.9560439560439561,
+            0.967032967032967,
+            0.989010989010989
+          ],
+          "cv_f1_mean": 0.9806803427902636,
+          "cv_f1_std": 0.010306725712462212,
+          "cv_f1_folds": [
+            0.9824561403508771,
+            0.9911504424778761,
+            0.9642857142857143,
+            0.9743589743589743,
+            0.9911504424778761
+          ],
+          "cv_balanced_accuracy_mean": 0.974767801857585,
+          "cv_balanced_accuracy_std": 0.015171858134744087,
+          "cv_roc_auc_mean": 0.9942208462332301,
+          "cv_roc_auc_std": 0.004665698474905009,
+          "cv_roc_auc_folds": [
+            0.9860681114551083,
+            0.9979360165118679,
+            0.9943240454076367,
+            0.9932920536635707,
+            0.999484004127967
+          ],
+          "depth": null,
+          "n_leaves": null,
+          "fit_time_ms": 74.44120000582188,
+          "confusion_matrix_test": [
+            [
+              40,
+              2
+            ],
+            [
+              1,
+              71
+            ]
+          ],
+          "oob_score": null
+        }
+      },
+      {
+        "name": "Stacking",
+        "role": "ensemble",
+        "params": {
+          "final_estimator": "regresion logistica L2",
+          "cv": "StratifiedKFold de 5 pliegues",
+          "passthrough": false
+        },
+        "params_text": "final_estimator=regresion logistica L2, cv=StratifiedKFold de 5 pliegues, passthrough=no",
+        "metrics": {
+          "accuracy_train": 0.9912087912087912,
+          "accuracy_test": 0.9736842105263158,
+          "precision_test": 0.9726027397260274,
+          "recall_test": 0.9861111111111112,
+          "f1_train": 0.9930313588850174,
+          "f1_test": 0.9793103448275862,
+          "balanced_accuracy_test": 0.9692460317460317,
+          "recall_malignant_test": 0.9523809523809523,
+          "roc_auc_train": 0.9996697626418988,
+          "roc_auc_test": 0.9917328042328042,
+          "cv_accuracy_mean": 0.9780219780219781,
+          "cv_accuracy_std": 0.009828870230768321,
+          "cv_accuracy_folds": [
+            0.967032967032967,
+            0.989010989010989,
+            0.967032967032967,
+            0.978021978021978,
+            0.989010989010989
+          ],
+          "cv_f1_mean": 0.9825155563811014,
+          "cv_f1_std": 0.00784890652105839,
+          "cv_f1_folds": [
+            0.9739130434782609,
+            0.9911504424778761,
+            0.9734513274336283,
+            0.9827586206896551,
+            0.991304347826087
+          ],
+          "cv_balanced_accuracy_mean": 0.9753353973168215,
+          "cv_balanced_accuracy_std": 0.011086829044757622,
+          "cv_roc_auc_mean": 0.9950464396284829,
+          "cv_roc_auc_std": 0.004966443515176878,
+          "cv_roc_auc_folds": [
+            0.9855521155830753,
+            0.9984520123839009,
+            0.9963880288957688,
+            0.9953560371517027,
+            0.999484004127967
+          ],
+          "depth": null,
+          "n_leaves": null,
+          "fit_time_ms": 507.45800000731833,
+          "confusion_matrix_test": [
+            [
+              40,
+              2
+            ],
+            [
+              1,
+              71
+            ]
+          ],
+          "oob_score": null
+        }
+      },
+      {
+        "name": "AdaBoost",
+        "role": "ensemble",
+        "params": {
+          "n_estimators": 50,
+          "learning_rate": 1.0,
+          "estimator_max_depth": 1,
+          "random_state": 42
+        },
+        "params_text": "n_estimators=50, learning_rate=1, estimator_max_depth=1, random_state=42",
+        "metrics": {
+          "accuracy_train": 1.0,
+          "accuracy_test": 0.956140350877193,
+          "precision_test": 0.9466666666666667,
+          "recall_test": 0.9861111111111112,
+          "f1_train": 1.0,
+          "f1_test": 0.9659863945578231,
+          "balanced_accuracy_test": 0.9454365079365079,
+          "recall_malignant_test": 0.9047619047619048,
+          "roc_auc_train": 1.0,
+          "roc_auc_test": 0.982473544973545,
+          "cv_accuracy_mean": 0.9670329670329672,
+          "cv_accuracy_std": 0.019657740461536642,
+          "cv_accuracy_folds": [
+            0.989010989010989,
+            0.945054945054945,
+            0.945054945054945,
+            0.967032967032967,
+            0.989010989010989
+          ],
+          "cv_f1_mean": 0.9740022296544038,
+          "cv_f1_std": 0.01555627816127726,
+          "cv_f1_folds": [
+            0.991304347826087,
+            0.9565217391304348,
+            0.9565217391304348,
+            0.9743589743589743,
+            0.991304347826087
+          ],
+          "cv_balanced_accuracy_mean": 0.9606295149638804,
+          "cv_balanced_accuracy_std": 0.021132913157705505,
+          "cv_roc_auc_mean": 0.9929824561403509,
+          "cv_roc_auc_std": 0.0034320514238010053,
+          "cv_roc_auc_folds": [
+            0.9891640866873065,
+            0.9969040247678018,
+            0.9886480908152735,
+            0.9943240454076367,
+            0.9958720330237358
+          ],
+          "depth": null,
+          "n_leaves": null,
+          "fit_time_ms": 253.38519999058917,
+          "confusion_matrix_test": [
+            [
+              38,
+              4
+            ],
+            [
+              1,
+              71
+            ]
+          ],
+          "oob_score": null
+        }
+      },
+      {
+        "name": "Gradient Boosting",
+        "role": "ensemble",
+        "params": {
+          "n_estimators": 100,
+          "learning_rate": 0.1,
+          "max_depth": 3,
+          "random_state": 42
+        },
+        "params_text": "n_estimators=100, learning_rate=0.1, max_depth=3, random_state=42",
+        "metrics": {
+          "accuracy_train": 1.0,
+          "accuracy_test": 0.956140350877193,
+          "precision_test": 0.9466666666666667,
+          "recall_test": 0.9861111111111112,
+          "f1_train": 1.0,
+          "f1_test": 0.9659863945578231,
+          "balanced_accuracy_test": 0.9454365079365079,
+          "recall_malignant_test": 0.9047619047619048,
+          "roc_auc_train": 1.0,
+          "roc_auc_test": 0.9907407407407408,
+          "cv_accuracy_mean": 0.9516483516483516,
+          "cv_accuracy_std": 0.01490621974313245,
+          "cv_accuracy_folds": [
+            0.9560439560439561,
+            0.945054945054945,
+            0.9340659340659341,
+            0.945054945054945,
+            0.978021978021978
+          ],
+          "cv_f1_mean": 0.9613628324271083,
+          "cv_f1_std": 0.012073359199875268,
+          "cv_f1_folds": [
+            0.9649122807017544,
+            0.9557522123893806,
+            0.9464285714285714,
+            0.9572649572649573,
+            0.9824561403508771
+          ],
+          "cv_balanced_accuracy_mean": 0.9483488132094943,
+          "cv_balanced_accuracy_std": 0.015822153329284962,
+          "cv_roc_auc_mean": 0.9919504643962849,
+          "cv_roc_auc_std": 0.0051969776313784185,
+          "cv_roc_auc_folds": [
+            0.9855521155830753,
+            0.9963880288957688,
+            0.9901960784313726,
+            0.9881320949432404,
+            0.999484004127967
+          ],
+          "depth": null,
+          "n_leaves": null,
+          "fit_time_ms": 634.4849000161048,
+          "confusion_matrix_test": [
+            [
+              38,
+              4
+            ],
+            [
+              1,
+              71
+            ]
+          ],
+          "oob_score": null
+        }
+      }
+    ],
+    "conclusion": {
+      "winner": "Regresión logística",
+      "runner_up": "SVC",
+      "primary_metric": "roc_auc_test",
+      "primary_value": 0.9953703703703703,
+      "runner_up_value": 0.9950396825396826,
+      "cv_leader": "Regresión logística",
+      "cv_agrees": true,
+      "accuracy_leader": "SVC",
+      "accuracy_leader_value": 0.9824561403508771
+    },
+    "best_individual": {
+      "winner": "Regresión logística",
+      "runner_up": "SVC",
+      "primary_metric": "roc_auc_test",
+      "primary_value": 0.9953703703703703,
+      "runner_up_value": 0.9950396825396826,
+      "cv_leader": "Regresión logística",
+      "cv_agrees": true,
+      "accuracy_leader": "SVC",
+      "accuracy_leader_value": 0.9824561403508771
+    },
+    "best_ensemble": {
+      "winner": "Stacking",
+      "runner_up": "Voting suave",
+      "primary_metric": "roc_auc_test",
+      "primary_value": 0.9917328042328042,
+      "runner_up_value": 0.9910714285714285,
+      "cv_leader": "Stacking",
+      "cv_agrees": true,
+      "accuracy_leader": "Voting suave",
+      "accuracy_leader_value": 0.9736842105263158
+    }
+  },
+  "item4": {
+    "question": "4. Entrene un modelo bagging regresor o clasificador y compare su eficiencia con respecto a un modelo individual. ¿Cuál es el mejor?",
+    "classification": {
+      "models": [
+        {
+          "name": "Árbol individual",
+          "role": "individual",
+          "params": {
+            "criterion": "gini",
+            "random_state": 42
+          },
+          "params_text": "criterion=gini, random_state=42",
+          "metrics": {
+            "accuracy_train": 1.0,
+            "accuracy_test": 0.9122807017543859,
+            "precision_test": 0.9558823529411765,
+            "recall_test": 0.9027777777777778,
+            "f1_train": 1.0,
+            "f1_test": 0.9285714285714286,
+            "balanced_accuracy_test": 0.9156746031746033,
+            "recall_malignant_test": 0.9285714285714286,
+            "roc_auc_train": 1.0,
+            "roc_auc_test": 0.9156746031746031,
+            "cv_accuracy_mean": 0.9164835164835164,
+            "cv_accuracy_std": 0.017855029460738393,
+            "cv_accuracy_folds": [
+              0.9340659340659341,
+              0.9340659340659341,
+              0.9010989010989011,
+              0.8901098901098901,
+              0.9230769230769231
+            ],
+            "cv_f1_mean": 0.9319011948418033,
+            "cv_f1_std": 0.014434630245039952,
+            "cv_f1_folds": [
+              0.9464285714285714,
+              0.9464285714285714,
+              0.9174311926605505,
+              0.9122807017543859,
+              0.9369369369369369
+            ],
+            "cv_balanced_accuracy_mean": 0.9179050567595459,
+            "cv_balanced_accuracy_std": 0.020093650453253748,
+            "cv_roc_auc_mean": 0.9179050567595459,
+            "cv_roc_auc_std": 0.02009365045325374,
+            "cv_roc_auc_folds": [
+              0.935500515995872,
+              0.935500515995872,
+              0.9091847265221878,
+              0.882610939112487,
+              0.9267285861713106
+            ],
+            "depth": 7,
+            "n_leaves": 19,
+            "fit_time_ms": 12.008799996692687,
+            "confusion_matrix_test": [
+              [
+                39,
+                3
+              ],
+              [
+                7,
+                65
+              ]
+            ],
+            "oob_score": null
+          },
+          "n_estimators": 1
+        },
+        {
+          "name": "Bagging (10)",
+          "role": "ensemble",
+          "params": {
+            "n_estimators": 10,
+            "max_samples": 1.0,
+            "bootstrap": true,
+            "oob_score": true,
+            "base": "DecisionTreeClassifier",
+            "random_state": 42
+          },
+          "params_text": "n_estimators=10, max_samples=1, bootstrap=sí, oob_score=sí, base=DecisionTreeClassifier, random_state=42",
+          "metrics": {
+            "accuracy_train": 0.9956043956043956,
+            "accuracy_test": 0.9298245614035088,
+            "precision_test": 0.9444444444444444,
+            "recall_test": 0.9444444444444444,
+            "f1_train": 0.9964912280701754,
+            "f1_test": 0.9444444444444444,
+            "balanced_accuracy_test": 0.9246031746031746,
+            "recall_malignant_test": 0.9047619047619048,
+            "roc_auc_train": 0.999938080495356,
+            "roc_auc_test": 0.9899140211640212,
+            "cv_accuracy_mean": 0.9494505494505494,
+            "cv_accuracy_std": 0.011206636293610526,
+            "cv_accuracy_folds": [
+              0.9560439560439561,
+              0.945054945054945,
+              0.9340659340659341,
+              0.945054945054945,
+              0.967032967032967
+            ],
+            "cv_f1_mean": 0.9590884718122723,
+            "cv_f1_std": 0.009291625023694542,
+            "cv_f1_folds": [
+              0.9649122807017544,
+              0.9541284403669725,
+              0.9464285714285714,
+              0.9565217391304348,
+              0.9734513274336283
+            ],
+            "cv_balanced_accuracy_mean": 0.9501547987616099,
+            "cv_balanced_accuracy_std": 0.011900838228953745,
+            "cv_roc_auc_mean": 0.9860165118679051,
+            "cv_roc_auc_std": 0.009704838509306833,
+            "cv_roc_auc_folds": [
+              0.9876160990712075,
+              0.9950980392156864,
+              0.9744582043343653,
+              0.9752321981424149,
+              0.9976780185758514
+            ],
+            "depth": null,
+            "n_leaves": null,
+            "fit_time_ms": 90.64409998245537,
+            "confusion_matrix_test": [
+              [
+                38,
+                4
+              ],
+              [
+                4,
+                68
+              ]
+            ],
+            "oob_score": 0.9296703296703297
+          },
+          "n_estimators": 10,
+          "ensemble_diagnostics": {
+            "n_members": 10,
+            "mean_pairwise_prediction_correlation": 0.8356462326590989,
+            "equicorrelation_variance_factor": 0.852081609393189,
+            "independence_variance_factor": 0.1
+          }
+        },
+        {
+          "name": "Bagging (50)",
+          "role": "ensemble",
+          "params": {
+            "n_estimators": 50,
+            "max_samples": 1.0,
+            "bootstrap": true,
+            "oob_score": true,
+            "base": "DecisionTreeClassifier",
+            "random_state": 42
+          },
+          "params_text": "n_estimators=50, max_samples=1, bootstrap=sí, oob_score=sí, base=DecisionTreeClassifier, random_state=42",
+          "metrics": {
+            "accuracy_train": 1.0,
+            "accuracy_test": 0.9385964912280702,
+            "precision_test": 0.9452054794520548,
+            "recall_test": 0.9583333333333334,
+            "f1_train": 1.0,
+            "f1_test": 0.9517241379310345,
+            "balanced_accuracy_test": 0.9315476190476191,
+            "recall_malignant_test": 0.9047619047619048,
+            "roc_auc_train": 1.0,
+            "roc_auc_test": 0.992228835978836,
+            "cv_accuracy_mean": 0.9516483516483516,
+            "cv_accuracy_std": 0.020381579110979584,
+            "cv_accuracy_folds": [
+              0.9560439560439561,
+              0.945054945054945,
+              0.9340659340659341,
+              0.9340659340659341,
+              0.989010989010989
+            ],
+            "cv_f1_mean": 0.9611001115443392,
+            "cv_f1_std": 0.016436867634525794,
+            "cv_f1_folds": [
+              0.9655172413793104,
+              0.9541284403669725,
+              0.9464285714285714,
+              0.9482758620689655,
+              0.9911504424778761
+            ],
+            "cv_balanced_accuracy_mean": 0.9507223942208463,
+            "cv_balanced_accuracy_std": 0.023015961023053293,
+            "cv_roc_auc_mean": 0.9891124871001032,
+            "cv_roc_auc_std": 0.007858398600554095,
+            "cv_roc_auc_folds": [
+              0.989422084623323,
+              0.9948400412796697,
+              0.986842105263158,
+              0.9757481940144479,
+              0.9987100103199175
+            ],
+            "depth": null,
+            "n_leaves": null,
+            "fit_time_ms": 552.9301000060514,
+            "confusion_matrix_test": [
+              [
+                38,
+                4
+              ],
+              [
+                3,
+                69
+              ]
+            ],
+            "oob_score": 0.9516483516483516
+          },
+          "n_estimators": 50,
+          "ensemble_diagnostics": {
+            "n_members": 50,
+            "mean_pairwise_prediction_correlation": 0.8184527644457877,
+            "equicorrelation_variance_factor": 0.822083709156872,
+            "independence_variance_factor": 0.02
+          }
+        },
+        {
+          "name": "Bagging (100)",
+          "role": "ensemble",
+          "params": {
+            "n_estimators": 100,
+            "max_samples": 1.0,
+            "bootstrap": true,
+            "oob_score": true,
+            "base": "DecisionTreeClassifier",
+            "random_state": 42
+          },
+          "params_text": "n_estimators=100, max_samples=1, bootstrap=sí, oob_score=sí, base=DecisionTreeClassifier, random_state=42",
+          "metrics": {
+            "accuracy_train": 1.0,
+            "accuracy_test": 0.9385964912280702,
+            "precision_test": 0.9452054794520548,
+            "recall_test": 0.9583333333333334,
+            "f1_train": 1.0,
+            "f1_test": 0.9517241379310345,
+            "balanced_accuracy_test": 0.9315476190476191,
+            "recall_malignant_test": 0.9047619047619048,
+            "roc_auc_train": 1.0,
+            "roc_auc_test": 0.9927248677248678,
+            "cv_accuracy_mean": 0.9516483516483516,
+            "cv_accuracy_std": 0.01915999535622276,
+            "cv_accuracy_folds": [
+              0.945054945054945,
+              0.945054945054945,
+              0.9340659340659341,
+              0.945054945054945,
+              0.989010989010989
+            ],
+            "cv_f1_mean": 0.9609449247855515,
+            "cv_f1_std": 0.015556790778671203,
+            "cv_f1_folds": [
+              0.9557522123893806,
+              0.9541284403669725,
+              0.9464285714285714,
+              0.9572649572649573,
+              0.9911504424778761
+            ],
+            "cv_balanced_accuracy_mean": 0.9519091847265221,
+            "cv_balanced_accuracy_std": 0.02131606364547194,
+            "cv_roc_auc_mean": 0.9882352941176471,
+            "cv_roc_auc_std": 0.008356265991495786,
+            "cv_roc_auc_folds": [
+              0.9886480908152735,
+              0.9922600619195046,
+              0.9868421052631579,
+              0.9739422084623324,
+              0.9994840041279669
+            ],
+            "depth": null,
+            "n_leaves": null,
+            "fit_time_ms": 894.5202000031713,
+            "confusion_matrix_test": [
+              [
+                38,
+                4
+              ],
+              [
+                3,
+                69
+              ]
+            ],
+            "oob_score": 0.9560439560439561
+          },
+          "n_estimators": 100,
+          "ensemble_diagnostics": {
+            "n_members": 100,
+            "mean_pairwise_prediction_correlation": 0.8092201109210435,
+            "equicorrelation_variance_factor": 0.811127909811833,
+            "independence_variance_factor": 0.01
+          }
+        },
+        {
+          "name": "Bagging (200)",
+          "role": "ensemble",
+          "params": {
+            "n_estimators": 200,
+            "max_samples": 1.0,
+            "bootstrap": true,
+            "oob_score": true,
+            "base": "DecisionTreeClassifier",
+            "random_state": 42
+          },
+          "params_text": "n_estimators=200, max_samples=1, bootstrap=sí, oob_score=sí, base=DecisionTreeClassifier, random_state=42",
+          "metrics": {
+            "accuracy_train": 1.0,
+            "accuracy_test": 0.9473684210526315,
+            "precision_test": 0.9583333333333334,
+            "recall_test": 0.9583333333333334,
+            "f1_train": 1.0,
+            "f1_test": 0.9583333333333334,
+            "balanced_accuracy_test": 0.9434523809523809,
+            "recall_malignant_test": 0.9285714285714286,
+            "roc_auc_train": 1.0,
+            "roc_auc_test": 0.99239417989418,
+            "cv_accuracy_mean": 0.9516483516483516,
+            "cv_accuracy_std": 0.02153397576073124,
+            "cv_accuracy_folds": [
+              0.9560439560439561,
+              0.945054945054945,
+              0.9230769230769231,
+              0.945054945054945,
+              0.989010989010989
+            ],
+            "cv_f1_mean": 0.9611018436313387,
+            "cv_f1_std": 0.017389838864978677,
+            "cv_f1_folds": [
+              0.9649122807017544,
+              0.9541284403669725,
+              0.9380530973451328,
+              0.9572649572649573,
+              0.9911504424778761
+            ],
+            "cv_balanced_accuracy_mean": 0.9507223942208463,
+            "cv_balanced_accuracy_std": 0.024110869934907152,
+            "cv_roc_auc_mean": 0.988390092879257,
+            "cv_roc_auc_std": 0.008634262399732468,
+            "cv_roc_auc_folds": [
+              0.989938080495356,
+              0.9948400412796699,
+              0.9850361197110422,
+              0.9736842105263158,
+              0.9984520123839009
+            ],
+            "depth": null,
+            "n_leaves": null,
+            "fit_time_ms": 1805.7958999997936,
+            "confusion_matrix_test": [
+              [
+                39,
+                3
+              ],
+              [
+                3,
+                69
+              ]
+            ],
+            "oob_score": 0.9648351648351648
+          },
+          "n_estimators": 200,
+          "ensemble_diagnostics": {
+            "n_members": 200,
+            "mean_pairwise_prediction_correlation": 0.8002857654060355,
+            "equicorrelation_variance_factor": 0.8012843365790053,
+            "independence_variance_factor": 0.005
+          }
+        }
+      ],
+      "best_bagging": "Bagging (200)",
+      "individual": "Árbol individual"
+    },
+    "regression": {
+      "models": [
+        {
+          "name": "Árbol individual",
+          "role": "individual",
+          "params": {
+            "criterion": "squared_error",
+            "max_depth": null,
+            "min_samples_split": 2,
+            "min_samples_leaf": 1,
+            "random_state": 42
+          },
+          "params_text": "criterion=squared_error, max_depth=sin límite, min_samples_split=2, min_samples_leaf=1, random_state=42",
+          "metrics": {
+            "r2_train": 1.0,
+            "r2_test": 0.7774964912256468,
+            "rmse_train": 0.0,
+            "rmse_test": 3.3699716409429166,
+            "mae_test": 2.29620253164557,
+            "mae_train": 0.0,
+            "mse_test": 11.356708860759495,
+            "cv_r2_mean": 0.7656334307311592,
+            "cv_r2_std": 0.09746051492393923,
+            "cv_r2_folds": [
+              0.6176111349528071,
+              0.842280121937856,
+              0.800486158701621,
+              0.6894867877537949,
+              0.8783029503097171
+            ],
+            "cv_rmse_mean": 3.687087132914656,
+            "cv_rmse_std": 0.5824048745854188,
+            "cv_rmse_folds": [
+              4.1979964987091885,
+              3.1151447773943004,
+              3.3648981682273362,
+              4.560825477066412,
+              3.1965707431760424
+            ],
+            "cv_mae_mean": 2.6512903225806452,
+            "cv_mae_std": 0.4992677166544278,
+            "cv_mae_folds": [
+              3.1714285714285717,
+              2.003174603174603,
+              2.4253968253968257,
+              3.2983870967741935,
+              2.358064516129032
+            ],
+            "depth": 16,
+            "n_leaves": 263,
+            "fit_time_ms": 12.662400025874376,
+            "oob_score": null
+          },
+          "n_estimators": 1
+        },
+        {
+          "name": "Bagging (10)",
+          "role": "ensemble",
+          "params": {
+            "n_estimators": 10,
+            "max_samples": 1.0,
+            "bootstrap": true,
+            "oob_score": true,
+            "base": "DecisionTreeRegressor",
+            "random_state": 42
+          },
+          "params_text": "n_estimators=10, max_samples=1, bootstrap=sí, oob_score=sí, base=DecisionTreeRegressor, random_state=42",
+          "metrics": {
+            "r2_train": 0.9710246618162776,
+            "r2_test": 0.8533618845706474,
+            "rmse_train": 1.352159909820299,
+            "rmse_test": 2.735780498634505,
+            "mae_test": 1.977341772151899,
+            "mae_train": 0.8924281150159742,
+            "mse_test": 7.484494936708861,
+            "cv_r2_mean": 0.8591635803521613,
+            "cv_r2_std": 0.030909816867213346,
+            "cv_r2_folds": [
+              0.7990190149218646,
+              0.8767786106547059,
+              0.8743603175446002,
+              0.8617632700600126,
+              0.8838966885796236
+            ],
+            "cv_rmse_mean": 2.926495306852727,
+            "cv_rmse_std": 0.1795581175733285,
+            "cv_rmse_folds": [
+              3.0434553775142876,
+              2.75345554899974,
+              2.6702309513098923,
+              3.043092389383303,
+              3.1222422670564103
+            ],
+            "cv_mae_mean": 2.060201228878648,
+            "cv_mae_std": 0.21596333186110694,
+            "cv_mae_folds": [
+              1.9293650793650796,
+              1.7930158730158732,
+              1.9552380952380954,
+              2.2517741935483873,
+              2.371612903225807
+            ],
+            "depth": null,
+            "n_leaves": null,
+            "fit_time_ms": 57.29830000200309,
+            "oob_score": 0.8348541100780771
+          },
+          "n_estimators": 10,
+          "ensemble_diagnostics": {
+            "n_members": 10,
+            "mean_pairwise_prediction_correlation": 0.8536341499332405,
+            "equicorrelation_variance_factor": 0.8682707349399165,
+            "independence_variance_factor": 0.1
+          }
+        },
+        {
+          "name": "Bagging (50)",
+          "role": "ensemble",
+          "params": {
+            "n_estimators": 50,
+            "max_samples": 1.0,
+            "bootstrap": true,
+            "oob_score": true,
+            "base": "DecisionTreeRegressor",
+            "random_state": 42
+          },
+          "params_text": "n_estimators=50, max_samples=1, bootstrap=sí, oob_score=sí, base=DecisionTreeRegressor, random_state=42",
+          "metrics": {
+            "r2_train": 0.9795260918300417,
+            "r2_test": 0.8847706780733906,
+            "rmse_train": 1.1366170701767826,
+            "rmse_test": 2.425153973971211,
+            "mae_test": 1.729240506329114,
+            "mae_train": 0.7832523961661343,
+            "mse_test": 5.881371797468357,
+            "cv_r2_mean": 0.8683763981894661,
+            "cv_r2_std": 0.030486525036183786,
+            "cv_r2_folds": [
+              0.8124824134769667,
+              0.8868849060380402,
+              0.8998512555577673,
+              0.8620498897877573,
+              0.8806135260867981
+            ],
+            "cv_rmse_mean": 2.8335802510012997,
+            "cv_rmse_std": 0.2845089162922754,
+            "cv_rmse_folds": [
+              2.9397503835292405,
+              2.6381245743598365,
+              2.384010506528464,
+              3.03993598192356,
+              3.166079808665398
+            ],
+            "cv_mae_mean": 2.002665028161803,
+            "cv_mae_std": 0.25289595435295437,
+            "cv_mae_folds": [
+              1.890412698412698,
+              1.737174603174603,
+              1.7862539682539693,
+              2.218032258064517,
+              2.3814516129032266
+            ],
+            "depth": null,
+            "n_leaves": null,
+            "fit_time_ms": 236.19650001637638,
+            "oob_score": 0.8614704743570194
+          },
+          "n_estimators": 50,
+          "ensemble_diagnostics": {
+            "n_members": 50,
+            "mean_pairwise_prediction_correlation": 0.8658301438776055,
+            "equicorrelation_variance_factor": 0.8685135410000534,
+            "independence_variance_factor": 0.02
+          }
+        },
+        {
+          "name": "Bagging (100)",
+          "role": "ensemble",
+          "params": {
+            "n_estimators": 100,
+            "max_samples": 1.0,
+            "bootstrap": true,
+            "oob_score": true,
+            "base": "DecisionTreeRegressor",
+            "random_state": 42
+          },
+          "params_text": "n_estimators=100, max_samples=1, bootstrap=sí, oob_score=sí, base=DecisionTreeRegressor, random_state=42",
+          "metrics": {
+            "r2_train": 0.9809176294522977,
+            "r2_test": 0.8871152936069046,
+            "rmse_train": 1.097311576757315,
+            "rmse_test": 2.40035440157585,
+            "mae_test": 1.711151898734177,
+            "mae_train": 0.7662172523961657,
+            "mse_test": 5.761701253164556,
+            "cv_r2_mean": 0.8652813311948095,
+            "cv_r2_std": 0.03256859432542589,
+            "cv_r2_folds": [
+              0.8040636617528476,
+              0.8819730930134054,
+              0.899563710555323,
+              0.8654230226910892,
+              0.8753831679613824
+            ],
+            "cv_rmse_mean": 2.8648942402774975,
+            "cv_rmse_std": 0.29401882724658934,
+            "cv_rmse_folds": [
+              3.005017095796919,
+              2.69479375480803,
+              2.387430514238573,
+              3.0025399650854765,
+              3.2346898714584875
+            ],
+            "cv_mae_mean": 2.037649564772145,
+            "cv_mae_std": 0.24944180084157377,
+            "cv_mae_folds": [
+              1.9591746031746027,
+              1.7687777777777762,
+              1.8286825396825397,
+              2.1849516129032276,
+              2.44666129032258
+            ],
+            "depth": null,
+            "n_leaves": null,
+            "fit_time_ms": 453.202099975897,
+            "oob_score": 0.8676439375945368
+          },
+          "n_estimators": 100,
+          "ensemble_diagnostics": {
+            "n_members": 100,
+            "mean_pairwise_prediction_correlation": 0.8637192786618392,
+            "equicorrelation_variance_factor": 0.8650820858752207,
+            "independence_variance_factor": 0.01
+          }
+        },
+        {
+          "name": "Bagging (200)",
+          "role": "ensemble",
+          "params": {
+            "n_estimators": 200,
+            "max_samples": 1.0,
+            "bootstrap": true,
+            "oob_score": true,
+            "base": "DecisionTreeRegressor",
+            "random_state": 42
+          },
+          "params_text": "n_estimators=200, max_samples=1, bootstrap=sí, oob_score=sí, base=DecisionTreeRegressor, random_state=42",
+          "metrics": {
+            "r2_train": 0.9820508171152612,
+            "r2_test": 0.8879870265203007,
+            "rmse_train": 1.064231574915874,
+            "rmse_test": 2.391068275235031,
+            "mae_test": 1.6713481012658182,
+            "mae_train": 0.7436996805111811,
+            "mse_test": 5.717207496835425,
+            "cv_r2_mean": 0.8636024914595393,
+            "cv_r2_std": 0.03240124570563038,
+            "cv_r2_folds": [
+              0.8026276329792612,
+              0.8794197797843087,
+              0.8982133348016715,
+              0.8651639524124505,
+              0.8725877573200045
+            ],
+            "cv_rmse_mean": 2.8838839217811425,
+            "cv_rmse_std": 0.29610157417830757,
+            "cv_rmse_folds": [
+              3.016008964740794,
+              2.7237864525121833,
+              2.403426545316114,
+              3.005428627312743,
+              3.27076901902388
+            ],
+            "cv_mae_mean": 2.0516724526369683,
+            "cv_mae_std": 0.2516612036806552,
+            "cv_mae_folds": [
+              1.9783571428571411,
+              1.7881190476190494,
+              1.8420634920634913,
+              2.169064516129031,
+              2.480758064516127
+            ],
+            "depth": null,
+            "n_leaves": null,
+            "fit_time_ms": 986.0106999985874,
+            "oob_score": 0.8691603145414754
+          },
+          "n_estimators": 200,
+          "ensemble_diagnostics": {
+            "n_members": 200,
+            "mean_pairwise_prediction_correlation": 0.8650436375059591,
+            "equicorrelation_variance_factor": 0.8657184193184293,
+            "independence_variance_factor": 0.005
+          }
+        }
+      ],
+      "best_bagging": "Bagging (200)",
+      "individual": "Árbol individual"
+    }
+  },
+  "item5": {
+    "question": "5. Entrene un modelo RandomForest y compare su eficiencia con respecto a un modelo XGBoost. ¿Cuál es mejor?",
+    "classification": {
+      "models": [
+        {
+          "name": "Random Forest base",
+          "role": "ensemble",
+          "params": {
+            "n_estimators": 100,
+            "max_features": "sqrt",
+            "random_state": 42
+          },
+          "params_text": "n_estimators=100, max_features=sqrt, random_state=42",
+          "metrics": {
+            "accuracy_train": 1.0,
+            "accuracy_test": 0.956140350877193,
+            "precision_test": 0.958904109589041,
+            "recall_test": 0.9722222222222222,
+            "f1_train": 1.0,
+            "f1_test": 0.9655172413793104,
+            "balanced_accuracy_test": 0.9503968253968254,
+            "recall_malignant_test": 0.9285714285714286,
+            "roc_auc_train": 0.9999999999999999,
+            "roc_auc_test": 0.9937169312169312,
+            "cv_accuracy_mean": 0.9626373626373628,
+            "cv_accuracy_std": 0.01785502946073838,
+            "cv_accuracy_folds": [
+              0.967032967032967,
+              0.9560439560439561,
+              0.9340659340659341,
+              0.967032967032967,
+              0.989010989010989
+            ],
+            "cv_f1_mean": 0.9699350059969529,
+            "cv_f1_std": 0.01460477812598703,
+            "cv_f1_folds": [
+              0.9734513274336283,
+              0.9642857142857143,
+              0.9464285714285714,
+              0.9743589743589743,
+              0.9911504424778761
+            ],
+            "cv_balanced_accuracy_mean": 0.9618679050567595,
+            "cv_balanced_accuracy_std": 0.01808887540176132,
+            "cv_roc_auc_mean": 0.9895768833849328,
+            "cv_roc_auc_std": 0.008256901388106056,
+            "cv_roc_auc_folds": [
+              0.9865841073271413,
+              0.9979360165118678,
+              0.9883900928792569,
+              0.9762641898864809,
+              0.9987100103199174
+            ],
+            "depth": null,
+            "n_leaves": null,
+            "fit_time_ms": 361.3617999944836,
+            "confusion_matrix_test": [
+              [
+                39,
+                3
+              ],
+              [
+                2,
+                70
+              ]
+            ],
+            "oob_score": null
+          },
+          "importances": {
+            "raw": [
+              {
+                "feature": "worst area",
+                "importance": 0.14001598566310833
+              },
+              {
+                "feature": "worst concave points",
+                "importance": 0.12952961280106504
+              },
+              {
+                "feature": "worst radius",
+                "importance": 0.09769573685350633
+              },
+              {
+                "feature": "mean concave points",
+                "importance": 0.0908847484687512
+              },
+              {
+                "feature": "worst perimeter",
+                "importance": 0.07222637006988931
+              },
+              {
+                "feature": "mean perimeter",
+                "importance": 0.0695738754013612
+              },
+              {
+                "feature": "mean radius",
+                "importance": 0.06867599362483164
+              },
+              {
+                "feature": "mean concavity",
+                "importance": 0.05763806222702219
+              },
+              {
+                "feature": "mean area",
+                "importance": 0.04917214870032646
+              },
+              {
+                "feature": "worst concavity",
+                "importance": 0.03434012642032042
+              },
+              {
+                "feature": "area error",
+                "importance": 0.03310445959672674
+              },
+              {
+                "feature": "worst compactness",
+                "importance": 0.018600021740935
+              },
+              {
+                "feature": "worst texture",
+                "importance": 0.018596652281391013
+              },
+              {
+                "feature": "radius error",
+                "importance": 0.016770206345378243
+              },
+              {
+                "feature": "worst smoothness",
+                "importance": 0.012436195169428612
+              },
+              {
+                "feature": "mean compactness",
+                "importance": 0.011714647851926692
+              },
+              {
+                "feature": "perimeter error",
+                "importance": 0.009633098144080891
+              },
+              {
+                "feature": "mean texture",
+                "importance": 0.009584312264677012
+              },
+              {
+                "feature": "worst symmetry",
+                "importance": 0.008334518624728435
+              },
+              {
+                "feature": "compactness error",
+                "importance": 0.005979218921945563
+              },
+              {
+                "feature": "mean smoothness",
+                "importance": 0.005598164672763559
+              },
+              {
+                "feature": "texture error",
+                "importance": 0.005213863048233065
+              },
+              {
+                "feature": "worst fractal dimension",
+                "importance": 0.005166324336806241
+              },
+              {
+                "feature": "mean symmetry",
+                "importance": 0.004666012031817817
+              },
+              {
+                "feature": "mean fractal dimension",
+                "importance": 0.004488865467489473
+              },
+              {
+                "feature": "fractal dimension error",
+                "importance": 0.0044416884428086665
+              },
+              {
+                "feature": "concavity error",
+                "importance": 0.004310347849152097
+              },
+              {
+                "feature": "concave points error",
+                "importance": 0.004098238018028098
+              },
+              {
+                "feature": "symmetry error",
+                "importance": 0.004011980301326399
+              },
+              {
+                "feature": "smoothness error",
+                "importance": 0.0034985246601742215
+              }
+            ],
+            "relative": [
+              {
+                "feature": "worst area",
+                "importance": 0.14001598566310833
+              },
+              {
+                "feature": "worst concave points",
+                "importance": 0.12952961280106504
+              },
+              {
+                "feature": "worst radius",
+                "importance": 0.09769573685350633
+              },
+              {
+                "feature": "mean concave points",
+                "importance": 0.0908847484687512
+              },
+              {
+                "feature": "worst perimeter",
+                "importance": 0.07222637006988931
+              },
+              {
+                "feature": "mean perimeter",
+                "importance": 0.0695738754013612
+              },
+              {
+                "feature": "mean radius",
+                "importance": 0.06867599362483164
+              },
+              {
+                "feature": "mean concavity",
+                "importance": 0.05763806222702219
+              },
+              {
+                "feature": "mean area",
+                "importance": 0.04917214870032646
+              },
+              {
+                "feature": "worst concavity",
+                "importance": 0.03434012642032042
+              },
+              {
+                "feature": "area error",
+                "importance": 0.03310445959672674
+              },
+              {
+                "feature": "worst compactness",
+                "importance": 0.018600021740935
+              },
+              {
+                "feature": "worst texture",
+                "importance": 0.018596652281391013
+              },
+              {
+                "feature": "radius error",
+                "importance": 0.016770206345378243
+              },
+              {
+                "feature": "worst smoothness",
+                "importance": 0.012436195169428612
+              },
+              {
+                "feature": "mean compactness",
+                "importance": 0.011714647851926692
+              },
+              {
+                "feature": "perimeter error",
+                "importance": 0.009633098144080891
+              },
+              {
+                "feature": "mean texture",
+                "importance": 0.009584312264677012
+              },
+              {
+                "feature": "worst symmetry",
+                "importance": 0.008334518624728435
+              },
+              {
+                "feature": "compactness error",
+                "importance": 0.005979218921945563
+              },
+              {
+                "feature": "mean smoothness",
+                "importance": 0.005598164672763559
+              },
+              {
+                "feature": "texture error",
+                "importance": 0.005213863048233065
+              },
+              {
+                "feature": "worst fractal dimension",
+                "importance": 0.005166324336806241
+              },
+              {
+                "feature": "mean symmetry",
+                "importance": 0.004666012031817817
+              },
+              {
+                "feature": "mean fractal dimension",
+                "importance": 0.004488865467489473
+              },
+              {
+                "feature": "fractal dimension error",
+                "importance": 0.0044416884428086665
+              },
+              {
+                "feature": "concavity error",
+                "importance": 0.004310347849152097
+              },
+              {
+                "feature": "concave points error",
+                "importance": 0.004098238018028098
+              },
+              {
+                "feature": "symmetry error",
+                "importance": 0.004011980301326399
+              },
+              {
+                "feature": "smoothness error",
+                "importance": 0.0034985246601742215
+              }
+            ]
+          },
+          "ensemble_diagnostics": {
+            "n_members": 100,
+            "mean_pairwise_prediction_correlation": 0.7883375470426526,
+            "equicorrelation_variance_factor": 0.7904541715722261,
+            "independence_variance_factor": 0.01
+          }
+        },
+        {
+          "name": "Random Forest optimizado",
+          "role": "ensemble",
+          "params": {
+            "max_depth": 4,
+            "max_features": "sqrt",
+            "min_samples_leaf": 1,
+            "n_estimators": 200
+          },
+          "params_text": "max_depth=4, max_features=sqrt, min_samples_leaf=1, n_estimators=200",
+          "metrics": {
+            "accuracy_train": 0.9934065934065934,
+            "accuracy_test": 0.956140350877193,
+            "precision_test": 0.958904109589041,
+            "recall_test": 0.9722222222222222,
+            "f1_train": 0.9947643979057592,
+            "f1_test": 0.9655172413793104,
+            "balanced_accuracy_test": 0.9503968253968254,
+            "recall_malignant_test": 0.9285714285714286,
+            "roc_auc_train": 0.9985758513931888,
+            "roc_auc_test": 0.9927248677248677,
+            "cv_accuracy_mean": 0.956043956043956,
+            "cv_accuracy_std": 0.012037858406706946,
+            "cv_accuracy_folds": [
+              0.9560439560439561,
+              0.9560439560439561,
+              0.9340659340659341,
+              0.967032967032967,
+              0.967032967032967
+            ],
+            "cv_f1_mean": 0.9649007089861662,
+            "cv_f1_std": 0.01012580024965875,
+            "cv_f1_folds": [
+              0.9655172413793104,
+              0.9642857142857143,
+              0.9464285714285714,
+              0.9743589743589743,
+              0.9739130434782609
+            ],
+            "cv_balanced_accuracy_mean": 0.951857585139319,
+            "cv_balanced_accuracy_std": 0.00955163971331737,
+            "cv_roc_auc_mean": 0.9912280701754387,
+            "cv_roc_auc_std": 0.005097663172436927,
+            "cv_roc_auc_folds": [
+              0.9871001031991743,
+              0.9974200206398349,
+              0.9860681114551084,
+              0.9881320949432405,
+              0.9974200206398348
+            ],
+            "depth": null,
+            "n_leaves": null,
+            "fit_time_ms": 866.6493999771774,
+            "confusion_matrix_test": [
+              [
+                39,
+                3
+              ],
+              [
+                2,
+                70
+              ]
+            ],
+            "oob_score": null
+          },
+          "search": {
+            "n_candidates": 48,
+            "n_folds": 5,
+            "n_fits": 240,
+            "search_time_s": 41.31487319999724,
+            "scoring": "roc_auc",
+            "space_text": "n_estimators en {100, 200}, max_depth en {sin límite, 4, 8, 12}, min_samples_leaf en {1, 2, 4}, max_features en {sqrt, log2}.",
+            "best_params_text": "max_depth=4, max_features=sqrt, min_samples_leaf=1, n_estimators=200"
+          },
+          "importances": {
+            "raw": [
+              {
+                "feature": "worst perimeter",
+                "importance": 0.13851146096008735
+              },
+              {
+                "feature": "worst area",
+                "importance": 0.12894878586323755
+              },
+              {
+                "feature": "worst concave points",
+                "importance": 0.11159250086656605
+              },
+              {
+                "feature": "mean concave points",
+                "importance": 0.09872252762234554
+              },
+              {
+                "feature": "worst radius",
+                "importance": 0.09744808031776532
+              },
+              {
+                "feature": "mean radius",
+                "importance": 0.06140543353610358
+              },
+              {
+                "feature": "mean perimeter",
+                "importance": 0.05752141669234003
+              },
+              {
+                "feature": "mean area",
+                "importance": 0.049767630116751053
+              },
+              {
+                "feature": "mean concavity",
+                "importance": 0.046215993359308684
+              },
+              {
+                "feature": "worst concavity",
+                "importance": 0.036287932811300036
+              },
+              {
+                "feature": "area error",
+                "importance": 0.03409495085671821
+              },
+              {
+                "feature": "mean compactness",
+                "importance": 0.01804981729437893
+              },
+              {
+                "feature": "mean texture",
+                "importance": 0.01435670935680516
+              },
+              {
+                "feature": "worst compactness",
+                "importance": 0.013944713936106787
+              },
+              {
+                "feature": "worst smoothness",
+                "importance": 0.01212442355540783
+              },
+              {
+                "feature": "radius error",
+                "importance": 0.011685892707876878
+              },
+              {
+                "feature": "worst texture",
+                "importance": 0.011616994886196734
+              },
+              {
+                "feature": "perimeter error",
+                "importance": 0.007993019192507155
+              },
+              {
+                "feature": "worst symmetry",
+                "importance": 0.007805496812998873
+              },
+              {
+                "feature": "concavity error",
+                "importance": 0.006486340720587252
+              },
+              {
+                "feature": "worst fractal dimension",
+                "importance": 0.005901450056144616
+              },
+              {
+                "feature": "mean smoothness",
+                "importance": 0.005611264405336454
+              },
+              {
+                "feature": "fractal dimension error",
+                "importance": 0.003813841399173769
+              },
+              {
+                "feature": "symmetry error",
+                "importance": 0.003651727407069832
+              },
+              {
+                "feature": "compactness error",
+                "importance": 0.0034201093972497237
+              },
+              {
+                "feature": "texture error",
+                "importance": 0.0033345081769402887
+              },
+              {
+                "feature": "mean fractal dimension",
+                "importance": 0.0029949869538846135
+              },
+              {
+                "feature": "mean symmetry",
+                "importance": 0.0029799350315665935
+              },
+              {
+                "feature": "concave points error",
+                "importance": 0.002252678641266367
+              },
+              {
+                "feature": "smoothness error",
+                "importance": 0.001459377065978773
+              }
+            ],
+            "relative": [
+              {
+                "feature": "worst perimeter",
+                "importance": 0.13851146096008735
+              },
+              {
+                "feature": "worst area",
+                "importance": 0.12894878586323755
+              },
+              {
+                "feature": "worst concave points",
+                "importance": 0.11159250086656605
+              },
+              {
+                "feature": "mean concave points",
+                "importance": 0.09872252762234554
+              },
+              {
+                "feature": "worst radius",
+                "importance": 0.09744808031776532
+              },
+              {
+                "feature": "mean radius",
+                "importance": 0.06140543353610358
+              },
+              {
+                "feature": "mean perimeter",
+                "importance": 0.05752141669234003
+              },
+              {
+                "feature": "mean area",
+                "importance": 0.049767630116751053
+              },
+              {
+                "feature": "mean concavity",
+                "importance": 0.046215993359308684
+              },
+              {
+                "feature": "worst concavity",
+                "importance": 0.036287932811300036
+              },
+              {
+                "feature": "area error",
+                "importance": 0.03409495085671821
+              },
+              {
+                "feature": "mean compactness",
+                "importance": 0.01804981729437893
+              },
+              {
+                "feature": "mean texture",
+                "importance": 0.01435670935680516
+              },
+              {
+                "feature": "worst compactness",
+                "importance": 0.013944713936106787
+              },
+              {
+                "feature": "worst smoothness",
+                "importance": 0.01212442355540783
+              },
+              {
+                "feature": "radius error",
+                "importance": 0.011685892707876878
+              },
+              {
+                "feature": "worst texture",
+                "importance": 0.011616994886196734
+              },
+              {
+                "feature": "perimeter error",
+                "importance": 0.007993019192507155
+              },
+              {
+                "feature": "worst symmetry",
+                "importance": 0.007805496812998873
+              },
+              {
+                "feature": "concavity error",
+                "importance": 0.006486340720587252
+              },
+              {
+                "feature": "worst fractal dimension",
+                "importance": 0.005901450056144616
+              },
+              {
+                "feature": "mean smoothness",
+                "importance": 0.005611264405336454
+              },
+              {
+                "feature": "fractal dimension error",
+                "importance": 0.003813841399173769
+              },
+              {
+                "feature": "symmetry error",
+                "importance": 0.003651727407069832
+              },
+              {
+                "feature": "compactness error",
+                "importance": 0.0034201093972497237
+              },
+              {
+                "feature": "texture error",
+                "importance": 0.0033345081769402887
+              },
+              {
+                "feature": "mean fractal dimension",
+                "importance": 0.0029949869538846135
+              },
+              {
+                "feature": "mean symmetry",
+                "importance": 0.0029799350315665935
+              },
+              {
+                "feature": "concave points error",
+                "importance": 0.002252678641266367
+              },
+              {
+                "feature": "smoothness error",
+                "importance": 0.001459377065978773
+              }
+            ]
+          },
+          "ensemble_diagnostics": {
+            "n_members": 200,
+            "mean_pairwise_prediction_correlation": 0.8269635147484585,
+            "equicorrelation_variance_factor": 0.8278286971747162,
+            "independence_variance_factor": 0.005
+          }
+        },
+        {
+          "name": "XGBoost base",
+          "role": "ensemble",
+          "params": {
+            "n_estimators": 100,
+            "learning_rate": 0.1,
+            "eval_metric": "logloss",
+            "random_state": 42
+          },
+          "params_text": "n_estimators=100, learning_rate=0.1, eval_metric=logloss, random_state=42",
+          "metrics": {
+            "accuracy_train": 1.0,
+            "accuracy_test": 0.9473684210526315,
+            "precision_test": 0.9459459459459459,
+            "recall_test": 0.9722222222222222,
+            "f1_train": 1.0,
+            "f1_test": 0.958904109589041,
+            "balanced_accuracy_test": 0.9384920634920635,
+            "recall_malignant_test": 0.9047619047619048,
+            "roc_auc_train": 1.0,
+            "roc_auc_test": 0.9937169312169313,
+            "cv_accuracy_mean": 0.9648351648351647,
+            "cv_accuracy_std": 0.016150481820548422,
+            "cv_accuracy_folds": [
+              0.978021978021978,
+              0.978021978021978,
+              0.945054945054945,
+              0.945054945054945,
+              0.978021978021978
+            ],
+            "cv_f1_mean": 0.9720749575675456,
+            "cv_f1_std": 0.012720379983791325,
+            "cv_f1_folds": [
+              0.9827586206896551,
+              0.9821428571428571,
+              0.9557522123893806,
+              0.9572649572649573,
+              0.9824561403508771
+            ],
+            "cv_balanced_accuracy_mean": 0.9612487100103199,
+            "cv_balanced_accuracy_std": 0.019444488185752524,
+            "cv_roc_auc_mean": 0.9933952528379774,
+            "cv_roc_auc_std": 0.004767310407616565,
+            "cv_roc_auc_folds": [
+              0.9876160990712074,
+              0.9979360165118679,
+              0.9881320949432404,
+              0.9943240454076367,
+              0.9989680082559339
+            ],
+            "depth": null,
+            "n_leaves": null,
+            "fit_time_ms": 1997.9195000196341,
+            "confusion_matrix_test": [
+              [
+                38,
+                4
+              ],
+              [
+                2,
+                70
+              ]
+            ],
+            "oob_score": null
+          },
+          "importances": {
+            "raw": [
+              {
+                "feature": "worst perimeter",
+                "importance": 0.3964514136314392
+              },
+              {
+                "feature": "worst radius",
+                "importance": 0.26702553033828735
+              },
+              {
+                "feature": "worst concave points",
+                "importance": 0.06014889478683472
+              },
+              {
+                "feature": "mean concave points",
+                "importance": 0.0479782409965992
+              },
+              {
+                "feature": "worst compactness",
+                "importance": 0.028306061401963234
+              },
+              {
+                "feature": "texture error",
+                "importance": 0.023971032351255417
+              },
+              {
+                "feature": "worst texture",
+                "importance": 0.01943546161055565
+              },
+              {
+                "feature": "mean area",
+                "importance": 0.016113774850964546
+              },
+              {
+                "feature": "radius error",
+                "importance": 0.013312396593391895
+              },
+              {
+                "feature": "compactness error",
+                "importance": 0.012955259531736374
+              },
+              {
+                "feature": "worst smoothness",
+                "importance": 0.011842304840683937
+              },
+              {
+                "feature": "worst area",
+                "importance": 0.0117336455732584
+              },
+              {
+                "feature": "mean texture",
+                "importance": 0.011462047696113586
+              },
+              {
+                "feature": "area error",
+                "importance": 0.009969283826649189
+              },
+              {
+                "feature": "worst concavity",
+                "importance": 0.00877018179744482
+              },
+              {
+                "feature": "mean compactness",
+                "importance": 0.008186046034097672
+              },
+              {
+                "feature": "perimeter error",
+                "importance": 0.007723498158156872
+              },
+              {
+                "feature": "smoothness error",
+                "importance": 0.007362909149378538
+              },
+              {
+                "feature": "mean smoothness",
+                "importance": 0.007216464728116989
+              },
+              {
+                "feature": "worst symmetry",
+                "importance": 0.006393172778189182
+              },
+              {
+                "feature": "mean concavity",
+                "importance": 0.004057491198182106
+              },
+              {
+                "feature": "mean symmetry",
+                "importance": 0.003492414951324463
+              },
+              {
+                "feature": "worst fractal dimension",
+                "importance": 0.0031950839329510927
+              },
+              {
+                "feature": "mean radius",
+                "importance": 0.0028490633703768253
+              },
+              {
+                "feature": "mean fractal dimension",
+                "importance": 0.0027841662522405386
+              },
+              {
+                "feature": "concavity error",
+                "importance": 0.002394996816292405
+              },
+              {
+                "feature": "symmetry error",
+                "importance": 0.0018841222627088428
+              },
+              {
+                "feature": "fractal dimension error",
+                "importance": 0.0018816530937328935
+              },
+              {
+                "feature": "mean perimeter",
+                "importance": 0.0011033662594854832
+              },
+              {
+                "feature": "concave points error",
+                "importance": 0.0
+              }
+            ],
+            "relative": [
+              {
+                "feature": "worst perimeter",
+                "importance": 0.3964514220312888
+              },
+              {
+                "feature": "worst radius",
+                "importance": 0.26702553599591455
+              },
+              {
+                "feature": "worst concave points",
+                "importance": 0.06014889606124478
+              },
+              {
+                "feature": "mean concave points",
+                "importance": 0.04797824201314245
+              },
+              {
+                "feature": "worst compactness",
+                "importance": 0.02830606200170043
+              },
+              {
+                "feature": "texture error",
+                "importance": 0.023971032859143798
+              },
+              {
+                "feature": "worst texture",
+                "importance": 0.019435462022346223
+              },
+              {
+                "feature": "mean area",
+                "importance": 0.016113775192376584
+              },
+              {
+                "feature": "radius error",
+                "importance": 0.013312396875449483
+              },
+              {
+                "feature": "compactness error",
+                "importance": 0.012955259806227089
+              },
+              {
+                "feature": "worst smoothness",
+                "importance": 0.011842305091593825
+              },
+              {
+                "feature": "worst area",
+                "importance": 0.01173364582186606
+              },
+              {
+                "feature": "mean texture",
+                "importance": 0.011462047938966742
+              },
+              {
+                "feature": "area error",
+                "importance": 0.009969284037874277
+              },
+              {
+                "feature": "worst concavity",
+                "importance": 0.008770181983263828
+              },
+              {
+                "feature": "mean compactness",
+                "importance": 0.008186046207540251
+              },
+              {
+                "feature": "perimeter error",
+                "importance": 0.007723498321799176
+              },
+              {
+                "feature": "smoothness error",
+                "importance": 0.007362909305380831
+              },
+              {
+                "feature": "mean smoothness",
+                "importance": 0.007216464881016478
+              },
+              {
+                "feature": "worst symmetry",
+                "importance": 0.0063931729136451
+              },
+              {
+                "feature": "mean concavity",
+                "importance": 0.004057491284150562
+              },
+              {
+                "feature": "mean symmetry",
+                "importance": 0.0034924150253203157
+              },
+              {
+                "feature": "worst fractal dimension",
+                "importance": 0.003195084000647218
+              },
+              {
+                "feature": "mean radius",
+                "importance": 0.0028490634307416093
+              },
+              {
+                "feature": "mean fractal dimension",
+                "importance": 0.002784166311230309
+              },
+              {
+                "feature": "concavity error",
+                "importance": 0.0023949968670366134
+              },
+              {
+                "feature": "symmetry error",
+                "importance": 0.001884122302628851
+              },
+              {
+                "feature": "fractal dimension error",
+                "importance": 0.001881653133600586
+              },
+              {
+                "feature": "mean perimeter",
+                "importance": 0.001103366282863154
+              },
+              {
+                "feature": "concave points error",
+                "importance": 0.0
+              }
+            ]
+          }
+        },
+        {
+          "name": "XGBoost optimizado",
+          "role": "ensemble",
+          "params": {
+            "colsample_bytree": 1.0,
+            "learning_rate": 0.2,
+            "max_depth": 2,
+            "n_estimators": 200,
+            "reg_lambda": 5.0,
+            "subsample": 0.8
+          },
+          "params_text": "colsample_bytree=1, learning_rate=0.2, max_depth=2, n_estimators=200, reg_lambda=5, subsample=0.8",
+          "metrics": {
+            "accuracy_train": 1.0,
+            "accuracy_test": 0.956140350877193,
+            "precision_test": 0.9466666666666667,
+            "recall_test": 0.9861111111111112,
+            "f1_train": 1.0,
+            "f1_test": 0.9659863945578231,
+            "balanced_accuracy_test": 0.9454365079365079,
+            "recall_malignant_test": 0.9047619047619048,
+            "roc_auc_train": 1.0,
+            "roc_auc_test": 0.9914021164021164,
+            "cv_accuracy_mean": 0.9736263736263737,
+            "cv_accuracy_std": 0.02262775855161978,
+            "cv_accuracy_folds": [
+              0.989010989010989,
+              0.967032967032967,
+              0.9340659340659341,
+              0.978021978021978,
+              1.0
+            ],
+            "cv_f1_mean": 0.9789765434004003,
+            "cv_f1_std": 0.01809898343999531,
+            "cv_f1_folds": [
+              0.991304347826087,
+              0.9734513274336283,
+              0.9473684210526315,
+              0.9827586206896551,
+              1.0
+            ],
+            "cv_balanced_accuracy_mean": 0.970639834881321,
+            "cv_balanced_accuracy_std": 0.023546266119666336,
+            "cv_roc_auc_mean": 0.9951496388028896,
+            "cv_roc_auc_std": 0.003814183408168487,
+            "cv_roc_auc_folds": [
+              0.9901960784313726,
+              0.9979360165118679,
+              0.9912280701754386,
+              0.9963880288957688,
+              1.0
+            ],
+            "depth": null,
+            "n_leaves": null,
+            "fit_time_ms": 176.27769999671727,
+            "confusion_matrix_test": [
+              [
+                38,
+                4
+              ],
+              [
+                1,
+                71
+              ]
+            ],
+            "oob_score": null
+          },
+          "search": {
+            "n_candidates": 192,
+            "n_folds": 5,
+            "n_fits": 960,
+            "search_time_s": 71.18082780000987,
+            "scoring": "roc_auc",
+            "space_text": "n_estimators en {100, 200}, learning_rate en {0.05, 0.1, 0.2}, max_depth en {2, 3, 4, 6}, subsample en {0.8, 1.0}, colsample_bytree en {0.8, 1.0}, reg_lambda en {1, 5}.",
+            "best_params_text": "colsample_bytree=1, learning_rate=0.2, max_depth=2, n_estimators=200, reg_lambda=5, subsample=0.8"
+          },
+          "importances": {
+            "raw": [
+              {
+                "feature": "worst radius",
+                "importance": 0.29436662793159485
+              },
+              {
+                "feature": "worst perimeter",
+                "importance": 0.23785030841827393
+              },
+              {
+                "feature": "worst concave points",
+                "importance": 0.10859615355730057
+              },
+              {
+                "feature": "mean concave points",
+                "importance": 0.09732796251773834
+              },
+              {
+                "feature": "concavity error",
+                "importance": 0.05194571241736412
+              },
+              {
+                "feature": "mean area",
+                "importance": 0.025846334174275398
+              },
+              {
+                "feature": "perimeter error",
+                "importance": 0.02339446358382702
+              },
+              {
+                "feature": "mean texture",
+                "importance": 0.01797637715935707
+              },
+              {
+                "feature": "worst texture",
+                "importance": 0.014814251102507114
+              },
+              {
+                "feature": "radius error",
+                "importance": 0.01447331067174673
+              },
+              {
+                "feature": "worst compactness",
+                "importance": 0.01422557421028614
+              },
+              {
+                "feature": "worst concavity",
+                "importance": 0.014154787175357342
+              },
+              {
+                "feature": "texture error",
+                "importance": 0.013820474036037922
+              },
+              {
+                "feature": "area error",
+                "importance": 0.013532279059290886
+              },
+              {
+                "feature": "worst area",
+                "importance": 0.010020013898611069
+              },
+              {
+                "feature": "worst smoothness",
+                "importance": 0.006827226839959621
+              },
+              {
+                "feature": "mean smoothness",
+                "importance": 0.006596164777874947
+              },
+              {
+                "feature": "worst symmetry",
+                "importance": 0.0065061175264418125
+              },
+              {
+                "feature": "compactness error",
+                "importance": 0.006314103491604328
+              },
+              {
+                "feature": "mean compactness",
+                "importance": 0.0049491454847157
+              },
+              {
+                "feature": "mean concavity",
+                "importance": 0.004536445718258619
+              },
+              {
+                "feature": "fractal dimension error",
+                "importance": 0.0027550444938242435
+              },
+              {
+                "feature": "smoothness error",
+                "importance": 0.0025362649466842413
+              },
+              {
+                "feature": "mean fractal dimension",
+                "importance": 0.002357145305722952
+              },
+              {
+                "feature": "concave points error",
+                "importance": 0.0019336293917149305
+              },
+              {
+                "feature": "symmetry error",
+                "importance": 0.0018034278182312846
+              },
+              {
+                "feature": "worst fractal dimension",
+                "importance": 0.0005405195988714695
+              },
+              {
+                "feature": "mean radius",
+                "importance": 0.0
+              },
+              {
+                "feature": "mean perimeter",
+                "importance": 0.0
+              },
+              {
+                "feature": "mean symmetry",
+                "importance": 0.0
+              }
+            ],
+            "relative": [
+              {
+                "feature": "worst radius",
+                "importance": 0.2943666675805853
+              },
+              {
+                "feature": "worst perimeter",
+                "importance": 0.23785034045493741
+              },
+              {
+                "feature": "worst concave points",
+                "importance": 0.10859616818439292
+              },
+              {
+                "feature": "mean concave points",
+                "importance": 0.09732797562708936
+              },
+              {
+                "feature": "concavity error",
+                "importance": 0.051945719414064354
+              },
+              {
+                "feature": "mean area",
+                "importance": 0.02584633765558394
+              },
+              {
+                "feature": "perimeter error",
+                "importance": 0.02339446673488687
+              },
+              {
+                "feature": "mean texture",
+                "importance": 0.01797637958064107
+              },
+              {
+                "feature": "worst texture",
+                "importance": 0.014814253097876305
+              },
+              {
+                "feature": "radius error",
+                "importance": 0.014473312621193788
+              },
+              {
+                "feature": "worst compactness",
+                "importance": 0.014225576126364941
+              },
+              {
+                "feature": "worst concavity",
+                "importance": 0.014154789081901657
+              },
+              {
+                "feature": "texture error",
+                "importance": 0.01382047589755275
+              },
+              {
+                "feature": "area error",
+                "importance": 0.013532280881987999
+              },
+              {
+                "feature": "worst area",
+                "importance": 0.010020015248232247
+              },
+              {
+                "feature": "worst smoothness",
+                "importance": 0.006827227759536183
+              },
+              {
+                "feature": "mean smoothness",
+                "importance": 0.006596165666329171
+              },
+              {
+                "feature": "worst symmetry",
+                "importance": 0.006506118402767344
+              },
+              {
+                "feature": "compactness error",
+                "importance": 0.006314104342067
+              },
+              {
+                "feature": "mean compactness",
+                "importance": 0.004949146151328704
+              },
+              {
+                "feature": "mean concavity",
+                "importance": 0.0045364463292840405
+              },
+              {
+                "feature": "fractal dimension error",
+                "importance": 0.002755044864908199
+              },
+              {
+                "feature": "smoothness error",
+                "importance": 0.002536265288300223
+              },
+              {
+                "feature": "mean fractal dimension",
+                "importance": 0.002357145623212853
+              },
+              {
+                "feature": "concave points error",
+                "importance": 0.0019336296521603954
+              },
+              {
+                "feature": "symmetry error",
+                "importance": 0.0018034280611395682
+              },
+              {
+                "feature": "worst fractal dimension",
+                "importance": 0.0005405196716754302
+              },
+              {
+                "feature": "mean radius",
+                "importance": 0.0
+              },
+              {
+                "feature": "mean perimeter",
+                "importance": 0.0
+              },
+              {
+                "feature": "mean symmetry",
+                "importance": 0.0
+              }
+            ]
+          }
+        }
+      ],
+      "conclusion": {
+        "winner": "Random Forest base",
+        "runner_up": "XGBoost base",
+        "primary_metric": "roc_auc_test",
+        "primary_value": 0.9937169312169312,
+        "runner_up_value": 0.9937169312169313,
+        "cv_leader": "XGBoost optimizado",
+        "cv_agrees": false,
+        "accuracy_leader": "XGBoost optimizado",
+        "accuracy_leader_value": 0.956140350877193
+      }
+    },
+    "regression": {
+      "models": [
+        {
+          "name": "Random Forest base",
+          "role": "ensemble",
+          "params": {
+            "n_estimators": 100,
+            "max_features": 1.0,
+            "random_state": 42
+          },
+          "params_text": "n_estimators=100, max_features=1, random_state=42",
+          "metrics": {
+            "r2_train": 0.9808955710649572,
+            "r2_test": 0.8874713118691065,
+            "rmse_train": 1.097945615720503,
+            "rmse_test": 2.396566267270263,
+            "mae_test": 1.7064303797468354,
+            "mae_train": 0.7669392971246002,
+            "mse_test": 5.743529873417721,
+            "cv_r2_mean": 0.8666520875743584,
+            "cv_r2_std": 0.030517198911226014,
+            "cv_r2_folds": [
+              0.8098302594911969,
+              0.8824809569027552,
+              0.8997834518422123,
+              0.8656516444149686,
+              0.8755141252206593
+            ],
+            "cv_rmse_mean": 2.8534503933580355,
+            "cv_rmse_std": 0.2910808241592992,
+            "cv_rmse_folds": [
+              2.960466562864927,
+              2.6889897229552044,
+              2.384817393428687,
+              2.9999884972897783,
+              3.232989790251582
+            ],
+            "cv_mae_mean": 2.0330452636968763,
+            "cv_mae_std": 0.2549530539718838,
+            "cv_mae_folds": [
+              1.9386190476190472,
+              1.7581746031746017,
+              1.8371746031746037,
+              2.169919354838712,
+              2.461338709677419
+            ],
+            "depth": null,
+            "n_leaves": null,
+            "fit_time_ms": 407.5406999909319,
+            "oob_score": null
+          },
+          "importances": {
+            "raw": [
+              {
+                "feature": "displacement",
+                "importance": 0.41601392676412385
+              },
+              {
+                "feature": "horsepower",
+                "importance": 0.1684854130220022
+              },
+              {
+                "feature": "weight",
+                "importance": 0.14401170285920623
+              },
+              {
+                "feature": "cylinders",
+                "importance": 0.13721159538075034
+              },
+              {
+                "feature": "model_year",
+                "importance": 0.10521275821197612
+              },
+              {
+                "feature": "acceleration",
+                "importance": 0.024612805114272676
+              },
+              {
+                "feature": "origin=japan",
+                "importance": 0.0027967635989930456
+              },
+              {
+                "feature": "origin=usa",
+                "importance": 0.0016550350486754773
+              }
+            ],
+            "relative": [
+              {
+                "feature": "displacement",
+                "importance": 0.41601392676412385
+              },
+              {
+                "feature": "horsepower",
+                "importance": 0.1684854130220022
+              },
+              {
+                "feature": "weight",
+                "importance": 0.14401170285920623
+              },
+              {
+                "feature": "cylinders",
+                "importance": 0.13721159538075034
+              },
+              {
+                "feature": "model_year",
+                "importance": 0.10521275821197612
+              },
+              {
+                "feature": "acceleration",
+                "importance": 0.024612805114272676
+              },
+              {
+                "feature": "origin=japan",
+                "importance": 0.0027967635989930456
+              },
+              {
+                "feature": "origin=usa",
+                "importance": 0.0016550350486754773
+              }
+            ]
+          },
+          "ensemble_diagnostics": {
+            "n_members": 100,
+            "mean_pairwise_prediction_correlation": 0.8676634786432252,
+            "equicorrelation_variance_factor": 0.868986843856793,
+            "independence_variance_factor": 0.01
+          }
+        },
+        {
+          "name": "Random Forest optimizado",
+          "role": "ensemble",
+          "params": {
+            "model__max_depth": 16,
+            "model__max_features": 1.0,
+            "model__min_samples_leaf": 1,
+            "model__n_estimators": 100
+          },
+          "params_text": "max_depth=16, max_features=1, min_samples_leaf=1, n_estimators=100",
+          "metrics": {
+            "r2_train": 0.9808539864134401,
+            "r2_test": 0.8875226665844785,
+            "rmse_train": 1.099139916455115,
+            "rmse_test": 2.3960193444112714,
+            "mae_test": 1.7061341169379145,
+            "mae_train": 0.7674912520918905,
+            "mse_test": 5.740908698793019,
+            "cv_r2_mean": 0.8666779987851436,
+            "cv_r2_std": 0.030391918822808676,
+            "cv_r2_folds": [
+              0.8101260967379094,
+              0.8824692326525942,
+              0.8997165345192035,
+              0.8655640047953518,
+              0.8755141252206593
+            ],
+            "cv_rmse_mean": 2.853371376445593,
+            "cv_rmse_std": 0.2907406212581892,
+            "cv_rmse_folds": [
+              2.9581629441206,
+              2.6891238527145,
+              2.385613464375763,
+              3.0009668307655204,
+              3.232989790251582
+            ],
+            "cv_mae_mean": 2.032201996927803,
+            "cv_mae_std": 0.25536556292500956,
+            "cv_mae_folds": [
+              1.9360873015873015,
+              1.7582063492063476,
+              1.8355873015873014,
+              2.169790322580647,
+              2.461338709677419
+            ],
+            "depth": null,
+            "n_leaves": null,
+            "fit_time_ms": 109.45630000787787,
+            "oob_score": null
+          },
+          "search": {
+            "n_candidates": 90,
+            "n_folds": 5,
+            "n_fits": 450,
+            "search_time_s": 36.912012799992226,
+            "scoring": "neg_root_mean_squared_error",
+            "space_text": "n_estimators en {100, 200}, max_depth en {sin límite, 4, 8, 12, 16}, min_samples_leaf en {1, 2, 4}, max_features en {todas (1.0), sqrt, 0.5}.",
+            "best_params_text": "max_depth=16, max_features=1, min_samples_leaf=1, n_estimators=100"
+          },
+          "importances": {
+            "raw": [
+              {
+                "feature": "displacement",
+                "importance": 0.4159209850144936
+              },
+              {
+                "feature": "horsepower",
+                "importance": 0.16853963965780058
+              },
+              {
+                "feature": "weight",
+                "importance": 0.14402413197221822
+              },
+              {
+                "feature": "cylinders",
+                "importance": 0.13726883477182253
+              },
+              {
+                "feature": "model_year",
+                "importance": 0.10519907048466255
+              },
+              {
+                "feature": "acceleration",
+                "importance": 0.024595678887334858
+              },
+              {
+                "feature": "origin=japan",
+                "importance": 0.002794840009412291
+              },
+              {
+                "feature": "origin=usa",
+                "importance": 0.0016568192022554137
+              }
+            ],
+            "relative": [
+              {
+                "feature": "displacement",
+                "importance": 0.4159209850144936
+              },
+              {
+                "feature": "horsepower",
+                "importance": 0.16853963965780058
+              },
+              {
+                "feature": "weight",
+                "importance": 0.14402413197221822
+              },
+              {
+                "feature": "cylinders",
+                "importance": 0.13726883477182253
+              },
+              {
+                "feature": "model_year",
+                "importance": 0.10519907048466255
+              },
+              {
+                "feature": "acceleration",
+                "importance": 0.024595678887334858
+              },
+              {
+                "feature": "origin=japan",
+                "importance": 0.002794840009412291
+              },
+              {
+                "feature": "origin=usa",
+                "importance": 0.0016568192022554137
+              }
+            ]
+          },
+          "ensemble_diagnostics": {
+            "n_members": 100,
+            "mean_pairwise_prediction_correlation": 0.8677369172028968,
+            "equicorrelation_variance_factor": 0.8690595480308678,
+            "independence_variance_factor": 0.01
+          }
+        },
+        {
+          "name": "XGBoost base",
+          "role": "ensemble",
+          "params": {
+            "n_estimators": 100,
+            "learning_rate": 0.1,
+            "random_state": 42
+          },
+          "params_text": "n_estimators=100, learning_rate=0.1, random_state=42",
+          "metrics": {
+            "r2_train": 0.9986867894141506,
+            "r2_test": 0.8556390228972622,
+            "rmse_train": 0.2878597779927687,
+            "rmse_test": 2.7144554644349186,
+            "mae_test": 1.8817932829072206,
+            "mae_train": 0.2138865711589972,
+            "mse_test": 7.368268468400589,
+            "cv_r2_mean": 0.8369583233358023,
+            "cv_r2_std": 0.044450209487403865,
+            "cv_r2_folds": [
+              0.7569274038204756,
+              0.8326048265792072,
+              0.8604141187974887,
+              0.844521958562742,
+              0.8903233089190983
+            ],
+            "cv_rmse_mean": 3.126541319333909,
+            "cv_rmse_std": 0.18515162721170558,
+            "cv_rmse_folds": [
+              3.347013415711613,
+              3.2092716889690838,
+              2.8145317803589194,
+              3.2272896306501724,
+              3.034600080979755
+            ],
+            "cv_mae_mean": 2.174826798641676,
+            "cv_mae_std": 0.09742216941366563,
+            "cv_mae_folds": [
+              2.1943243057008774,
+              2.0503493203057186,
+              2.1096089287409705,
+              2.340061781483312,
+              2.1797896569774995
+            ],
+            "depth": null,
+            "n_leaves": null,
+            "fit_time_ms": 41.88370000338182,
+            "oob_score": null
+          },
+          "importances": {
+            "raw": [
+              {
+                "feature": "displacement",
+                "importance": 0.40228068828582764
+              },
+              {
+                "feature": "cylinders",
+                "importance": 0.28290054202079773
+              },
+              {
+                "feature": "horsepower",
+                "importance": 0.11555714160203934
+              },
+              {
+                "feature": "model_year",
+                "importance": 0.09878923743963242
+              },
+              {
+                "feature": "weight",
+                "importance": 0.05618996545672417
+              },
+              {
+                "feature": "origin=japan",
+                "importance": 0.016029387712478638
+              },
+              {
+                "feature": "acceleration",
+                "importance": 0.015259405598044395
+              },
+              {
+                "feature": "origin=usa",
+                "importance": 0.012993655167520046
+              }
+            ],
+            "relative": [
+              {
+                "feature": "displacement",
+                "importance": 0.4022806789195007
+              },
+              {
+                "feature": "cylinders",
+                "importance": 0.28290053543400634
+              },
+              {
+                "feature": "horsepower",
+                "importance": 0.11555713891151503
+              },
+              {
+                "feature": "model_year",
+                "importance": 0.09878923513951629
+              },
+              {
+                "feature": "weight",
+                "importance": 0.056189964148449616
+              },
+              {
+                "feature": "origin=japan",
+                "importance": 0.016029387339265382
+              },
+              {
+                "feature": "acceleration",
+                "importance": 0.015259405242758681
+              },
+              {
+                "feature": "origin=usa",
+                "importance": 0.012993654864987944
+              }
+            ]
+          }
+        },
+        {
+          "name": "XGBoost optimizado",
+          "role": "ensemble",
+          "params": {
+            "model__colsample_bytree": 0.8,
+            "model__learning_rate": 0.05,
+            "model__max_depth": 2,
+            "model__n_estimators": 200,
+            "model__reg_lambda": 1.0,
+            "model__subsample": 0.8
+          },
+          "params_text": "colsample_bytree=0.8, learning_rate=0.05, max_depth=2, n_estimators=200, reg_lambda=1, subsample=0.8",
+          "metrics": {
+            "r2_train": 0.9361143390138273,
+            "r2_test": 0.8749408860189545,
+            "rmse_train": 2.0077770925927054,
+            "rmse_test": 2.52647780854164,
+            "mae_test": 1.8821440877793711,
+            "mae_train": 1.4689440254967052,
+            "mse_test": 6.383090117053369,
+            "cv_r2_mean": 0.8671186265398978,
+            "cv_r2_std": 0.03726205164213183,
+            "cv_r2_folds": [
+              0.7932852807490759,
+              0.8782189152210486,
+              0.8843183062595656,
+              0.8940835227513964,
+              0.8856871077184028
+            ],
+            "cv_rmse_mean": 2.8295761629787397,
+            "cv_rmse_std": 0.2216466018838227,
+            "cv_rmse_folds": [
+              3.086563060482313,
+              2.7373160146688447,
+              2.5622277466648926,
+              2.663699173224798,
+              3.098074819852851
+            ],
+            "cv_mae_mean": 2.0263047003953565,
+            "cv_mae_std": 0.18116902801204077,
+            "cv_mae_folds": [
+              2.0570883221096463,
+              1.7767713516477555,
+              1.9509364385453483,
+              2.012175156993251,
+              2.3345522326807817
+            ],
+            "depth": null,
+            "n_leaves": null,
+            "fit_time_ms": 17.554899997776374,
+            "oob_score": null
+          },
+          "search": {
+            "n_candidates": 192,
+            "n_folds": 5,
+            "n_fits": 960,
+            "search_time_s": 5.220211000007112,
+            "scoring": "neg_root_mean_squared_error",
+            "space_text": "n_estimators en {100, 200}, learning_rate en {0.05, 0.1, 0.2}, max_depth en {2, 3, 4, 6}, subsample en {0.8, 1.0}, colsample_bytree en {0.8, 1.0}, reg_lambda en {1, 5}.",
+            "best_params_text": "colsample_bytree=0.8, learning_rate=0.05, max_depth=2, n_estimators=200, reg_lambda=1, subsample=0.8"
+          },
+          "importances": {
+            "raw": [
+              {
+                "feature": "cylinders",
+                "importance": 0.30217114090919495
+              },
+              {
+                "feature": "displacement",
+                "importance": 0.29363980889320374
+              },
+              {
+                "feature": "weight",
+                "importance": 0.14123301208019257
+              },
+              {
+                "feature": "horsepower",
+                "importance": 0.1059723049402237
+              },
+              {
+                "feature": "model_year",
+                "importance": 0.10221690684556961
+              },
+              {
+                "feature": "origin=usa",
+                "importance": 0.03223545104265213
+              },
+              {
+                "feature": "acceleration",
+                "importance": 0.012304878793656826
+              },
+              {
+                "feature": "origin=japan",
+                "importance": 0.010226462967693806
+              }
+            ],
+            "relative": [
+              {
+                "feature": "cylinders",
+                "importance": 0.30217115104027226
+              },
+              {
+                "feature": "displacement",
+                "importance": 0.29363981873824585
+              },
+              {
+                "feature": "weight",
+                "importance": 0.14123301681539846
+              },
+              {
+                "feature": "horsepower",
+                "importance": 0.10597230849322221
+              },
+              {
+                "feature": "model_year",
+                "importance": 0.10221691027265858
+              },
+              {
+                "feature": "origin=usa",
+                "importance": 0.03223545212342988
+              },
+              {
+                "feature": "acceleration",
+                "importance": 0.01230487920621005
+              },
+              {
+                "feature": "origin=japan",
+                "importance": 0.010226463310562707
+              }
+            ]
+          }
+        }
+      ],
+      "conclusion": {
+        "winner": "Random Forest optimizado",
+        "runner_up": "Random Forest base",
+        "primary_metric": "rmse_test",
+        "primary_value": 2.3960193444112714,
+        "runner_up_value": 2.396566267270263,
+        "cv_leader": "XGBoost optimizado",
+        "cv_agrees": false,
+        "winner_r2_test": 0.8875226665844785,
+        "runner_up_r2_test": 0.8874713118691065
+      }
+    }
+  }
+}

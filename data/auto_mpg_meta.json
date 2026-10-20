@@ -1,0 +1,98 @@
+{
+  "source": "seaborn.load_dataset('mpg')",
+  "n_raw": 398,
+  "n_missing_horsepower": 6,
+  "n_clean": 392,
+  "dropped_rows": 6,
+  "dropped_columns": [
+    "car_name"
+  ],
+  "origin_reference_for_one_hot": "europe",
+  "target_summary": {
+    "feature": "mpg",
+    "mean": 23.445918367346938,
+    "std": 7.8050074865717995,
+    "min": 9.0,
+    "max": 46.6
+  },
+  "feature_summary": [
+    {
+      "feature": "cylinders",
+      "mean": 5.471938775510204,
+      "std": 1.7057832474527845,
+      "min": 3.0,
+      "max": 8.0
+    },
+    {
+      "feature": "displacement",
+      "mean": 194.41198979591837,
+      "std": 104.64400390890466,
+      "min": 68.0,
+      "max": 455.0
+    },
+    {
+      "feature": "horsepower",
+      "mean": 104.46938775510205,
+      "std": 38.49115993282849,
+      "min": 46.0,
+      "max": 230.0
+    },
+    {
+      "feature": "weight",
+      "mean": 2977.5841836734694,
+      "std": 849.4025600429492,
+      "min": 1613.0,
+      "max": 5140.0
+    },
+    {
+      "feature": "acceleration",
+      "mean": 15.541326530612244,
+      "std": 2.758864119188082,
+      "min": 8.0,
+      "max": 24.8
+    },
+    {
+      "feature": "model_year",
+      "mean": 75.9795918367347,
+      "std": 3.6837365435778295,
+      "min": 70.0,
+      "max": 82.0
+    }
+  ],
+  "correlations_with_mpg": [
+    {
+      "feature": "weight",
+      "correlation": -0.832244214831575
+    },
+    {
+      "feature": "displacement",
+      "correlation": -0.8051269467104577
+    },
+    {
+      "feature": "horsepower",
+      "correlation": -0.7784267838977762
+    },
+    {
+      "feature": "cylinders",
+      "correlation": -0.7776175081260227
+    },
+    {
+      "feature": "model_year",
+      "correlation": 0.5805409660907862
+    },
+    {
+      "feature": "acceleration",
+      "correlation": 0.423328536902787
+    }
+  ],
+  "corr_weight_displacement": 0.9329944040890112,
+  "origin_counts": {
+    "usa": 245,
+    "japan": 79,
+    "europe": 68
+  },
+  "mpg_mean": 23.445918367346938,
+  "mpg_std": 7.8050074865717995,
+  "mpg_min": 9.0,
+  "mpg_max": 46.6
+}
