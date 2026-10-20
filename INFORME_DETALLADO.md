@@ -4,11 +4,11 @@ Este archivo es el anexo técnico. El informe formal de evaluación, con las cin
 
 ## 1. Resumen ejecutivo
 
-Este informe compara árboles CART y ensambles sobre dos tareas tabulares, con una sola semilla y un protocolo común de partición y validación cruzada. En el ítem 1 el ganador es Regresión logística (ROC-AUC de prueba 0.9954). En el ítem 2 el ganador es Árbol error absoluto (RMSE de prueba 2.6448 mpg). En el ítem 3 el ganador es Regresión logística (ROC-AUC de prueba 0.9954). En el ítem 4 el mejor bagging de clasificación es Bagging (200) y el de regresión es Bagging (200). En el ítem 5, la clasificación la gana Random Forest base y la regresión la gana Random Forest optimizado.
+Este informe compara árboles CART y ensambles sobre dos tareas tabulares, con una sola semilla y un protocolo común de partición y validación cruzada. En la pregunta 1 el ganador es Regresión logística (ROC-AUC de prueba 0.9954). En la pregunta 2 el ganador es Árbol error absoluto (RMSE de prueba 2.6448 mpg). En la pregunta 3 el ganador es Regresión logística (ROC-AUC de prueba 0.9954). En la pregunta 4 el mejor bagging de clasificación es Bagging (200) y el de regresión es Bagging (200). En la pregunta 5, la clasificación la gana Random Forest base y la regresión la gana Random Forest optimizado.
 
-Todos los números salen de la ejecución de `src/run_experiments.py` con `random_state=42`. No hay métricas interpoladas ni celdas pendientes. El detalle de cada contraste está en la sección del ítem, junto a la figura y a la respuesta de cuál modelo es mejor.
+Todos los números salen de la ejecución de `src/run_experiments.py` con `random_state=42`. No hay métricas interpoladas ni celdas pendientes. El detalle de cada contraste está en la sección de la pregunta, junto a la figura y a la respuesta de cuál modelo es mejor.
 
-## 2. Metodología y entorno experimental
+## Datos y protocolo experimental
 
 ### Arquitectura del flujo
 
@@ -132,11 +132,11 @@ Correlación de Pearson con mpg:
 | acceleration | 15.541 | 2.759 | 8.000 | 24.800 |
 | model_year | 75.980 | 3.684 | 70.000 | 82.000 |
 
-## 3. Ítem 1. Árboles de decisión: Gini, entropía y regresión logística
+## Pregunta 1. Árboles de decisión: Gini, entropía y regresión logística
 
-### Enunciado oficial
+### Indicación
 
-> 1. Entrene modelos de árboles de decisión con criterios de impureza diferentes (índice gini y entropía) usando el dataset 'breast_cancer' de scikit-learn, compare su eficiencia con respecto a un modelo lineal como el Regresor Logístico. ¿Cuál es mejor?
+> Entrene modelos de árboles de decisión con criterios de impureza diferentes (índice gini y entropía) usando el dataset “breast_cancer” de scikit-learn, compare su eficiencia con respecto a un modelo lineal como el Regresor Logístico. ¿Cuál es mejor?
 
 ### Diseño del experimento y configuración de hiperparámetros
 
@@ -178,7 +178,7 @@ Matrices de confusión en el conjunto de prueba, con filas de clase real y colum
 
 
 
-![Gráfico del ítem 1: métricas de prueba, matrices de confusión y curvas ROC en cáncer de mama](plots/item1_breast_cancer.png)
+![Gráfico de la pregunta 1: métricas de prueba, matrices de confusión y curvas ROC en cáncer de mama](plots/item1_breast_cancer.png)
 
 ### Respuesta Fundamentada: ¿Cuál es mejor?
 
@@ -190,13 +190,13 @@ La poda reduce la complejidad. Gini podado queda con profundidad 2, 3 hojas, acc
 
 **Ganador: Regresión logística.** Su ROC-AUC de prueba es 0.9954, frente a 0.9578 de Gini podado (diferencia de 3.75 puntos de ROC-AUC). El F1 de prueba del ganador es 0.9861 y su accuracy de prueba es 0.9825. Comete 2 errores en 114 casos de prueba. La regresión logística comete 2 errores, con recall maligno 0.9762 y F1 0.9861. La validación cruzada señala al mismo modelo, Regresión logística, como líder de ROC-AUC. Prueba t pareada sobre los 5 pliegues de ROC-AUC: la media de Regresión logística menos Gini podado es 0.0554, t = 3.824, p = 0.0187. El promedio de pliegues favorece a Regresión logística. Con 5 pliegues la potencia es limitada; el valor p es un apoyo descriptivo, y el conjunto de prueba sigue siendo el criterio de decisión.
 
-La regresión logística es el mejor modelo de este ítem. En el espacio de 30 variables citológicas, la frontera lineal con penalización L2 aprovecha que varias mediciones (medias, errores estándar y peores valores) se alinean con una dirección de separación estable. Cada coeficiente queda encogido por la norma L2 con C = 1, así que el ajuste no necesita memorizar particiones. Los árboles sin poda alcanzan accuracy de entrenamiento 1.0000 (Gini) y 1.0000 (entropía): sus cortes ortogonales llegan a aislar el entrenamiento y pierden parte de esa exactitud en la prueba (brechas 0.0877 y 0.0877). La logística mantiene accuracy de entrenamiento 0.9890 y de prueba 0.9825, con un tiempo de ajuste de 12.91 ms.
+La regresión logística es el mejor modelo de esta pregunta. En el espacio de 30 variables citológicas, la frontera lineal con penalización L2 aprovecha que varias mediciones (medias, errores estándar y peores valores) se alinean con una dirección de separación estable. Cada coeficiente queda encogido por la norma L2 con C = 1, así que el ajuste no necesita memorizar particiones. Los árboles sin poda alcanzan accuracy de entrenamiento 1.0000 (Gini) y 1.0000 (entropía): sus cortes ortogonales llegan a aislar el entrenamiento y pierden parte de esa exactitud en la prueba (brechas 0.0877 y 0.0877). La logística mantiene accuracy de entrenamiento 0.9890 y de prueba 0.9825, con un tiempo de ajuste de 12.91 ms.
 
-## 4. Ítem 2. Árboles de regresión con varias configuraciones y regresión lineal
+## Pregunta 2. Árboles de regresión con varias configuraciones y regresión lineal
 
-### Enunciado oficial
+### Indicación
 
-> 2. Entrene modelos de árboles de decisión con varias configuraciones de hiper parámetros usando el dataset auto_mpg, comparar su eficiencia con respecto a un modelo lineal como el Regresor Lineal. ¿Cuál es el mejor?
+> Entrene modelos de árboles de decisión con varias configuraciones de hiper parámetros usando el dataset auto_mpg, comparar su eficiencia con respecto a un modelo lineal como el Regresor Lineal. ¿Cuál es el mejor?
 
 ### Diseño del experimento y configuración de hiperparámetros
 
@@ -245,7 +245,7 @@ Coeficientes de la regresión lineal sobre variables estandarizadas (intercepto 
 
 
 
-![Gráfico del ítem 2: R², RMSE y curva de validación de max_depth en auto_mpg](plots/item2_auto_mpg.png)
+![Gráfico de la pregunta 2: R², RMSE y curva de validación de max_depth en auto_mpg](plots/item2_auto_mpg.png)
 
 ### Respuesta Fundamentada: ¿Cuál es mejor?
 
@@ -255,17 +255,17 @@ El árbol sin restricciones memoriza el entrenamiento: R² train 1.0000, R² tes
 
 El árbol superficial (max_depth = 2) muestra el otro extremo: R² test 0.5834 y RMSE test 4.6114, con profundidad 2 y 4 hojas. La curva que aísla `max_depth`, con el resto de hiperparámetros en su valor base, alcanza el menor RMSE de prueba en profundidad 6 (RMSE 3.0364, R² 0.8194). El R² de entrenamiento llega a 0.9990 en profundidad 12. A partir de ese punto el entrenamiento sigue cerrado y la prueba deja de mejorar.
 
-**Ganador: Árbol error absoluto.** RMSE de prueba 2.6448 mpg, R² de prueba 0.8629, MAE 2.0905 y validación cruzada de R² 0.8060 ± 0.0417. El segundo modelo, Árbol profundidad controlada, tiene RMSE 3.0772 (0.4323 mpg más). La métrica de prueba selecciona a Árbol error absoluto y la validación cruzada selecciona a Árbol GridSearchCV en R². El ganador del ítem es el de la prueba, y esta discrepancia queda registrada. Prueba t pareada sobre los 5 pliegues de R²: la media de Árbol error absoluto menos Árbol profundidad controlada es 0.0024, t = 0.162, p = 0.8795. El promedio de pliegues favorece a Árbol error absoluto. Con 5 pliegues la potencia es limitada; el valor p es un apoyo descriptivo, y el conjunto de prueba sigue siendo el criterio de decisión.
+**Ganador: Árbol error absoluto.** RMSE de prueba 2.6448 mpg, R² de prueba 0.8629, MAE 2.0905 y validación cruzada de R² 0.8060 ± 0.0417. El segundo modelo, Árbol profundidad controlada, tiene RMSE 3.0772 (0.4323 mpg más). La métrica de prueba selecciona a Árbol error absoluto y la validación cruzada selecciona a Árbol GridSearchCV en R². El ganador de la pregunta es el de la prueba, y esta discrepancia queda registrada. Prueba t pareada sobre los 5 pliegues de R²: la media de Árbol error absoluto menos Árbol profundidad controlada es 0.0024, t = 0.162, p = 0.8795. El promedio de pliegues favorece a Árbol error absoluto. Con 5 pliegues la potencia es limitada; el valor p es un apoyo descriptivo, y el conjunto de prueba sigue siendo el criterio de decisión.
 
 El ganador supera a la regresión lineal porque un árbol regularizado parte el espacio de `weight`, `horsepower`, `displacement` y `model_year` en regiones donde la pendiente de mpg cambia. Esas interacciones no caben en un único hiperplano. Las importancias relativas del ganador se concentran en displacement (0.565), horsepower (0.242), weight (0.118). La regresión lineal, aun así, ya explica una parte grande de la varianza (R² de prueba 0.7923) y sus mayores coeficientes estandarizados son weight (-5.394), model_year (2.889), displacement (1.990), origin=usa (-1.376), horsepower (-0.826).
 
 La búsqueda del árbol optimizado evaluó 444 combinaciones (2220 ajustes) en 31.42 s. La configuración elegida es criterion=squared_error, max_depth=8, max_features=sqrt, min_samples_leaf=2, min_samples_split=10.
 
-## 5. Ítem 3. Ensambles de clasificación frente a modelos individuales
+## Pregunta 3. Ensamble clasificador frente a un modelo individual
 
-### Enunciado oficial
+### Indicación
 
-> 3. Entrene un modelo ensemble clasificador, y compare su eficiencia con respecto a un modelo individual. ¿Cuál es mejor?
+> Entrene un modelo ensemble clasificador, y compare su eficiencia con respecto a un modelo individual. ¿Cuál es mejor?
 
 ### Diseño del experimento y configuración de hiperparámetros
 
@@ -303,7 +303,7 @@ El voting duro no emite probabilidades, de modo que su ROC-AUC queda marcado com
 
 
 
-![Gráfico del ítem 3: modelos individuales y ensambles de clasificación](plots/item3_ensemble_clf.png)
+![Gráfico de la pregunta 3: modelos individuales y ensambles de clasificación](plots/item3_ensemble_clf.png)
 
 ### Respuesta Fundamentada: ¿Cuál es mejor?
 
@@ -317,11 +317,11 @@ El stacking entrena a las bases en pliegues internos y deja que una regresión l
 
 El árbol individual queda en accuracy de entrenamiento 1.0000 y de prueba 0.9123, con profundidad 7 y 19 hojas. Esa brecha es la varianza que el ensamble ataca. La regresión logística individual sigue en ROC-AUC 0.9954 y F1 0.9861: cualquier ensamble tiene que mejorar esa base lineal, no solo al árbol.
 
-## 6. Ítem 4. Bagging clasificador y regresor frente al modelo individual
+## Pregunta 4. Bagging clasificador y regresor frente al modelo individual
 
-### Enunciado oficial
+### Indicación
 
-> 4. Entrene un modelo bagging regresor o clasificador y compare su eficiencia con respecto a un modelo individual. ¿Cuál es el mejor?
+> Entrene un modelo bagging regresor o clasificador y compare su eficiencia con respecto a un modelo individual. ¿Cuál es el mejor?
 
 ### Diseño del experimento y configuración de hiperparámetros
 
@@ -379,7 +379,7 @@ Escenario B. Regresión en auto_mpg:
 
 
 
-![Gráfico del ítem 4: ganancia del bagging y convergencia al aumentar el número de árboles](plots/item4_bagging.png)
+![Gráfico de la pregunta 4: ganancia del bagging y convergencia al aumentar el número de árboles](plots/item4_bagging.png)
 
 ### Respuesta Fundamentada: ¿Cuál es mejor?
 
@@ -401,11 +401,11 @@ $$
 
 Cuando los árboles son independientes, \(\rho = 0\) y la expresión se reduce a \(\sigma^{2}/B\).
 
-## 7. Ítem 5. Random Forest frente a XGBoost
+## Pregunta 5. Random Forest frente a XGBoost
 
-### Enunciado oficial
+### Indicación
 
-> 5. Entrene un modelo RandomForest y compare su eficiencia con respecto a un modelo XGBoost. ¿Cuál es mejor?
+> Entrene un modelo RandomForest y compare su eficiencia con respecto a un modelo XGBoost. ¿Cuál es mejor?
 
 ### Diseño del experimento y configuración de hiperparámetros
 
@@ -493,37 +493,37 @@ Importancias relativas de XGBoost optimizado en clasificación:
 
 
 
-![Gráfico del ítem 5: métricas de clasificación y regresión e importancias de Random Forest y XGBoost](plots/item5_rf_vs_xgboost.png)
+![Gráfico de la pregunta 5: métricas de clasificación y regresión e importancias de Random Forest y XGBoost](plots/item5_rf_vs_xgboost.png)
 
 ### Respuesta Fundamentada: ¿Cuál es mejor?
 
 Random Forest promedia árboles profundos entrenados en paralelo. Cada árbol ve una muestra bootstrap y, en clasificación, un subconjunto de variables de tamaño cercano a la raíz cuadrada de p. Ese submuestreo baja la correlación entre árboles y, con ella, la varianza del promedio. XGBoost suma árboles en serie. En cada paso usa una aproximación de Taylor de segundo orden de la pérdida y penaliza la norma de los pesos de las hojas con regularización L2 (`reg_lambda`) y, si se activa, L1. Por eso puede reducir sesgo y varianza a la vez, a cambio de más sensibilidad al learning rate y a la profundidad.
 
-**En clasificación gana Random Forest base.** ROC-AUC de prueba 0.9937, F1 0.9655, accuracy 0.9561 y validación cruzada 0.9626 ± 0.0179. XGBoost base queda en ROC-AUC 0.9937 (diferencia de 0.00 puntos). El ROC-AUC de prueba empata en la práctica, así que el desempate lo resuelven el F1 y la accuracy. El ajuste final de Random Forest base tardó 361.36 ms y el de XGBoost base 1997.92 ms. La métrica de prueba selecciona a Random Forest base y la validación cruzada selecciona a XGBoost optimizado en ROC-AUC. El ganador del ítem es el de la prueba, y esta discrepancia queda registrada. Prueba t pareada sobre los 5 pliegues de ROC-AUC: la media de Random Forest base menos XGBoost base es -0.0038, t = -1.070, p = 0.3447. El promedio de pliegues favorece a XGBoost base. Con 5 pliegues la potencia es limitada; el valor p es un apoyo descriptivo, y el conjunto de prueba sigue siendo el criterio de decisión.
+**En clasificación gana Random Forest base.** ROC-AUC de prueba 0.9937, F1 0.9655, accuracy 0.9561 y validación cruzada 0.9626 ± 0.0179. XGBoost base queda en ROC-AUC 0.9937 (diferencia de 0.00 puntos). El ROC-AUC de prueba empata en la práctica, así que el desempate lo resuelven el F1 y la accuracy. El ajuste final de Random Forest base tardó 361.36 ms y el de XGBoost base 1997.92 ms. La métrica de prueba selecciona a Random Forest base y la validación cruzada selecciona a XGBoost optimizado en ROC-AUC. El ganador de la pregunta es el de la prueba, y esta discrepancia queda registrada. Prueba t pareada sobre los 5 pliegues de ROC-AUC: la media de Random Forest base menos XGBoost base es -0.0038, t = -1.070, p = 0.3447. El promedio de pliegues favorece a XGBoost base. Con 5 pliegues la potencia es limitada; el valor p es un apoyo descriptivo, y el conjunto de prueba sigue siendo el criterio de decisión.
 
 Las importancias relativas del Random Forest optimizado en clasificación se concentran en worst perimeter (0.139), worst area (0.129), worst concave points (0.112). Las de XGBoost optimizado se concentran en worst radius (0.294), worst perimeter (0.238), worst concave points (0.109). Ambas escalas están normalizadas para sumar 1; no son intercambiables en unidades brutas, y tampoco son efectos causales.
 
 En el conjunto de prueba, la correlación media entre las predicciones de los 100 miembros de Random Forest base es 0.788. Bajo el modelo de equicorrelación, el factor de varianza del promedio es 0.790. Si los miembros fueran independientes, ese factor sería 0.0100. La correlación observada impide que la varianza caiga en la proporción ideal 1/B.
 
-**En regresión gana Random Forest optimizado.** RMSE de prueba 2.3960 mpg, R² de prueba 0.8875, MAE 1.7061 y validación cruzada de R² 0.8667 ± 0.0304. Random Forest base tiene RMSE 2.3966 (0.0005 mpg más) y R² 0.8875. El margen de RMSE es ajustado: la diferencia relativa es 0.02%, por debajo del 1%. El ajuste final de Random Forest optimizado tardó 109.46 ms y el de Random Forest base 407.54 ms. La métrica de prueba selecciona a Random Forest optimizado y la validación cruzada selecciona a XGBoost optimizado en R². El ganador del ítem es el de la prueba, y esta discrepancia queda registrada. Prueba t pareada sobre los 5 pliegues de R²: la media de Random Forest optimizado menos Random Forest base es 0.0000, t = 0.373, p = 0.7280. El promedio de pliegues favorece a Random Forest optimizado. Con 5 pliegues la potencia es limitada; el valor p es un apoyo descriptivo, y el conjunto de prueba sigue siendo el criterio de decisión.
+**En regresión gana Random Forest optimizado.** RMSE de prueba 2.3960 mpg, R² de prueba 0.8875, MAE 1.7061 y validación cruzada de R² 0.8667 ± 0.0304. Random Forest base tiene RMSE 2.3966 (0.0005 mpg más) y R² 0.8875. El margen de RMSE es ajustado: la diferencia relativa es 0.02%, por debajo del 1%. El ajuste final de Random Forest optimizado tardó 109.46 ms y el de Random Forest base 407.54 ms. La métrica de prueba selecciona a Random Forest optimizado y la validación cruzada selecciona a XGBoost optimizado en R². El ganador de la pregunta es el de la prueba, y esta discrepancia queda registrada. Prueba t pareada sobre los 5 pliegues de R²: la media de Random Forest optimizado menos Random Forest base es 0.0000, t = 0.373, p = 0.7280. El promedio de pliegues favorece a Random Forest optimizado. Con 5 pliegues la potencia es limitada; el valor p es un apoyo descriptivo, y el conjunto de prueba sigue siendo el criterio de decisión.
 
 En regresión, las importancias relativas del Random Forest optimizado priorizan displacement (0.416), horsepower (0.169), weight (0.144). Las de XGBoost optimizado priorizan cylinders (0.302), displacement (0.294), weight (0.141).
 
 Conviene Random Forest cuando se quiere un ajuste paralelo, con poca sensibilidad a un learning rate y con el submuestreo de variables ya activo. En clasificación la configuración optimizada fue max_depth=4, max_features=sqrt, min_samples_leaf=1, n_estimators=200. Conviene XGBoost cuando una búsqueda de learning rate, profundidad, submuestreo y `reg_lambda` mejora de forma clara la prueba. La mejor configuración de regresión que encontró esa búsqueda es colsample_bytree=0.8, learning_rate=0.05, max_depth=2, n_estimators=200, reg_lambda=1, subsample=0.8. Cuando la diferencia de la métrica principal es pequeña, el tiempo de ajuste y la simplicidad de un bosque paralelo deciden el uso práctico. Las búsquedas costaron 41.31 s (Random Forest, clasificación), 71.18 s (XGBoost, clasificación), 36.91 s (Random Forest, regresión) y 5.22 s (XGBoost, regresión).
 
-## 8. Cuadro comparativo global y conclusiones generales
+## Conclusiones
 
-| Ítem | Ganador | Métrica principal | Valor | Conclusión |
+| Pregunta | Ganador | Métrica principal | Valor | Conclusión |
 | --- | --- | --- | --- | --- |
-| 1 | Regresión logística | ROC-AUC de prueba | 0.9954 | Gini y entropía se comparan entre sí y contra la regresión logística L2. |
-| 2 | Árbol error absoluto | RMSE de prueba (mpg) | 2.6448 | El árbol sin restricciones muestra la brecha de sobreajuste; el ganador es el menor RMSE de prueba. |
-| 3 | Regresión logística | ROC-AUC de prueba | 0.9954 | El ensamble se juzga contra el árbol y contra el mejor modelo individual. |
-| 4 clasificación | Bagging (200) | Accuracy de prueba del mejor bagging | 0.9474 | Bootstrap y promedio de árboles profundos frente a un solo árbol. |
-| 4 regresión | Bagging (200) | RMSE de prueba del mejor bagging | 2.3911 | La misma comparación en millas por galón, con OOB R². |
-| 5 clasificación | Random Forest base | ROC-AUC de prueba | 0.9937 | Bosque paralelo con submuestreo de variables frente a boosting de segundo orden. |
-| 5 regresión | Random Forest optimizado | RMSE de prueba (mpg) | 2.3960 | La misma comparación sobre auto_mpg, en versión base y optimizada. |
+| Pregunta 1 | Regresión logística | ROC-AUC de prueba | 0.9954 | Gini y entropía se comparan entre sí y contra la regresión logística L2. |
+| Pregunta 2 | Árbol error absoluto | RMSE de prueba (mpg) | 2.6448 | El árbol sin restricciones muestra la brecha de sobreajuste; el ganador es el menor RMSE de prueba. |
+| Pregunta 3 | Regresión logística | ROC-AUC de prueba | 0.9954 | El ensamble se juzga contra el árbol y contra el mejor modelo individual. |
+| Pregunta 4, clasificación | Bagging (200) | Accuracy de prueba del mejor bagging | 0.9474 | Bootstrap y promedio de árboles profundos frente a un solo árbol. |
+| Pregunta 4, regresión | Bagging (200) | RMSE de prueba del mejor bagging | 2.3911 | La misma comparación en millas por galón, con OOB R². |
+| Pregunta 5, clasificación | Random Forest base | ROC-AUC de prueba | 0.9937 | Bosque paralelo con submuestreo de variables frente a boosting de segundo orden. |
+| Pregunta 5, regresión | Random Forest optimizado | RMSE de prueba (mpg) | 2.3960 | La misma comparación sobre auto_mpg, en versión base y optimizada. |
 
-El patrón que se repite es el siguiente. Un árbol CART sin restricciones ajusta el entrenamiento hasta dejar poca o ninguna impureza y esa exactitud no se traslada completa a la prueba. La regresión regularizada, la poda, el bagging y el boosting atacan esa varianza por caminos distintos: penalización del coeficiente, eliminación de ramas, promedio de muestras bootstrap y corrección secuencial del residuo. En cáncer de mama la señal es fuerte y varios modelos superan 0.95 de ROC-AUC; la diferencia útil está en los centésimas y en el recall de la clase maligna. En auto_mpg la señal tiene una parte lineal grande (peso, potencia, cilindrada y año) y una parte de interacción que solo aparece cuando el árbol o el ensamble están regularizados. Los ganadores declarados con la métrica de prueba son: ítem 1, Regresión logística; ítem 2, Árbol error absoluto; ítem 3, Regresión logística; ítem 4, Bagging (200) en clasificación y Bagging (200) en regresión; ítem 5, Random Forest base en clasificación y Random Forest optimizado en regresión.
+El patrón que se repite es el siguiente. Un árbol CART sin restricciones ajusta el entrenamiento hasta dejar poca o ninguna impureza y esa exactitud no se traslada completa a la prueba. La regresión regularizada, la poda, el bagging y el boosting atacan esa varianza por caminos distintos: penalización del coeficiente, eliminación de ramas, promedio de muestras bootstrap y corrección secuencial del residuo. En cáncer de mama la señal es fuerte y varios modelos superan 0.95 de ROC-AUC; la diferencia útil está en los centésimas y en el recall de la clase maligna. En auto_mpg la señal tiene una parte lineal grande (peso, potencia, cilindrada y año) y una parte de interacción que solo aparece cuando el árbol o el ensamble están regularizados. Los ganadores declarados con la métrica de prueba son: pregunta 1, Regresión logística; pregunta 2, Árbol error absoluto; pregunta 3, Regresión logística; pregunta 4, Bagging (200) en clasificación y Bagging (200) en regresión; pregunta 5, Random Forest base en clasificación y Random Forest optimizado en regresión.
 
 ### Limitaciones
 
@@ -534,7 +534,7 @@ El patrón que se repite es el siguiente. Un árbol CART sin restricciones ajust
 - La correlación entre miembros del ensamble se calcula con sus predicciones sobre la prueba. Es una diagnóstico del desacuerdo, no la correlación teórica entre muestras de entrenamiento.
 - No hay una cohorte externa ni un coste distinto para los errores malignos. El recall maligno se reporta para que esa asimetría sea visible.
 
-## 9. Reproducibilidad
+## Reproducibilidad
 
 El informe formal (`README.md`), este anexo (`INFORME_DETALLADO.md`), las figuras, el JSON y el notebook salen de `src/run_experiments.py`. Volver a ejecutarlo regenera todos esos artefactos con la misma semilla.
 

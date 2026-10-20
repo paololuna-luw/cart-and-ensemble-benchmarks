@@ -2288,6 +2288,11 @@ def image_line(filename: str, caption: str) -> str:
     return f"![{caption}]({filename})"
 
 
+def display_question(text: str) -> str:
+    cleaned = re.sub(r"^\d+\.\s*", "", str(text))
+    return cleaned.replace("'breast_cancer'", "“breast_cancer”")
+
+
 def agree_sentence(conclusion: dict, cv_label: str) -> str:
     if conclusion["cv_agrees"]:
         return (
@@ -2295,7 +2300,7 @@ def agree_sentence(conclusion: dict, cv_label: str) -> str:
         )
     return (
         f"La métrica de prueba selecciona a {conclusion['winner']} y la validación cruzada selecciona a "
-        f"{conclusion['cv_leader']} en {cv_label}. El ganador del ítem es el de la prueba, y esta discrepancia queda registrada."
+        f"{conclusion['cv_leader']} en {cv_label}. El ganador de la pregunta es el de la prueba, y esta discrepancia queda registrada."
     )
 
 
@@ -2433,7 +2438,7 @@ def section_item1(item) -> str:
             ),
             (
                 (
-                    "La regresión logística es el mejor modelo de este ítem. En el espacio de 30 variables citológicas, "
+                    "La regresión logística es el mejor modelo de esta pregunta. En el espacio de 30 variables citológicas, "
                     "la frontera lineal con penalización L2 aprovecha que varias mediciones (medias, errores estándar y peores valores) "
                     "se alinean con una dirección de separación estable. Cada coeficiente queda encogido por la norma L2 con C = 1, "
                     "así que el ajuste no necesita memorizar particiones. "
@@ -2462,9 +2467,9 @@ def section_item1(item) -> str:
     )
     return "\n\n".join(
         [
-            "## 3. Ítem 1. Árboles de decisión: Gini, entropía y regresión logística",
-            "### Enunciado oficial",
-            f"> {item['question']}",
+            "## Pregunta 1. Árboles de decisión: Gini, entropía y regresión logística",
+            "### Indicación",
+            f"> {display_question(item['question'])}",
             "### Diseño del experimento y configuración de hiperparámetros",
             design,
             "### Resultados",
@@ -2476,7 +2481,7 @@ def section_item1(item) -> str:
             "",
             image_line(
                 "plots/item1_breast_cancer.png",
-                "Gráfico del ítem 1: métricas de prueba, matrices de confusión y curvas ROC en cáncer de mama",
+                "Gráfico de la pregunta 1: métricas de prueba, matrices de confusión y curvas ROC en cáncer de mama",
             ),
             "### Respuesta Fundamentada: ¿Cuál es mejor?",
             answer,
@@ -2524,7 +2529,7 @@ def section_item2(item, mpg_meta) -> str:
         )
     elif winner["name"] == "Regresión lineal":
         closing = (
-            f"La regresión lineal es el mejor modelo del ítem. El RMSE de prueba del árbol más cercano, {runner['name']}, "
+            f"La regresión lineal es el mejor modelo de la pregunta. El RMSE de prueba del árbol más cercano, {runner['name']}, "
             f"es {fmt(runner['metrics']['rmse_test'])}, {fmt(runner['metrics']['rmse_test'] - linear['metrics']['rmse_test'])} mpg por encima. "
             f"Las correlaciones de {corr_text} muestran una señal aproximadamente lineal, y la colinealidad entre weight y displacement "
             f"(r = {fmt(mpg_meta['corr_weight_displacement'], 3)}) cabe en el ajuste de mínimos cuadrados. "
@@ -2581,9 +2586,9 @@ def section_item2(item, mpg_meta) -> str:
     )
     return "\n\n".join(
         [
-            "## 4. Ítem 2. Árboles de regresión con varias configuraciones y regresión lineal",
-            "### Enunciado oficial",
-            f"> {item['question']}",
+            "## Pregunta 2. Árboles de regresión con varias configuraciones y regresión lineal",
+            "### Indicación",
+            f"> {display_question(item['question'])}",
             "### Diseño del experimento y configuración de hiperparámetros",
             design,
             "### Resultados",
@@ -2600,7 +2605,7 @@ def section_item2(item, mpg_meta) -> str:
             "",
             image_line(
                 "plots/item2_auto_mpg.png",
-                "Gráfico del ítem 2: R², RMSE y curva de validación de max_depth en auto_mpg",
+                "Gráfico de la pregunta 2: R², RMSE y curva de validación de max_depth en auto_mpg",
             ),
             "### Respuesta Fundamentada: ¿Cuál es mejor?",
             answer,
@@ -2694,9 +2699,9 @@ def section_item3(item) -> str:
     )
     return "\n\n".join(
         [
-            "## 5. Ítem 3. Ensambles de clasificación frente a modelos individuales",
-            "### Enunciado oficial",
-            f"> {item['question']}",
+            "## Pregunta 3. Ensamble clasificador frente a un modelo individual",
+            "### Indicación",
+            f"> {display_question(item['question'])}",
             "### Diseño del experimento y configuración de hiperparámetros",
             design,
             "### Resultados",
@@ -2704,7 +2709,7 @@ def section_item3(item) -> str:
             "",
             image_line(
                 "plots/item3_ensemble_clf.png",
-                "Gráfico del ítem 3: modelos individuales y ensambles de clasificación",
+                "Gráfico de la pregunta 3: modelos individuales y ensambles de clasificación",
             ),
             "### Respuesta Fundamentada: ¿Cuál es mejor?",
             answer,
@@ -2785,9 +2790,9 @@ def section_item4(item) -> str:
     )
     return "\n\n".join(
         [
-            "## 6. Ítem 4. Bagging clasificador y regresor frente al modelo individual",
-            "### Enunciado oficial",
-            f"> {item['question']}",
+            "## Pregunta 4. Bagging clasificador y regresor frente al modelo individual",
+            "### Indicación",
+            f"> {display_question(item['question'])}",
             "### Diseño del experimento y configuración de hiperparámetros",
             design,
             "### Resultados",
@@ -2801,7 +2806,7 @@ def section_item4(item) -> str:
             "",
             image_line(
                 "plots/item4_bagging.png",
-                "Gráfico del ítem 4: ganancia del bagging y convergencia al aumentar el número de árboles",
+                "Gráfico de la pregunta 4: ganancia del bagging y convergencia al aumentar el número de árboles",
             ),
             "### Respuesta Fundamentada: ¿Cuál es mejor?",
             answer,
@@ -2886,9 +2891,9 @@ def section_item5(item) -> str:
     )
     return "\n\n".join(
         [
-            "## 7. Ítem 5. Random Forest frente a XGBoost",
-            "### Enunciado oficial",
-            f"> {item['question']}",
+            "## Pregunta 5. Random Forest frente a XGBoost",
+            "### Indicación",
+            f"> {display_question(item['question'])}",
             "### Diseño del experimento y configuración de hiperparámetros",
             design,
             "### Resultados",
@@ -2916,7 +2921,7 @@ def section_item5(item) -> str:
             "",
             image_line(
                 "plots/item5_rf_vs_xgboost.png",
-                "Gráfico del ítem 5: métricas de clasificación y regresión e importancias de Random Forest y XGBoost",
+                "Gráfico de la pregunta 5: métricas de clasificación y regresión e importancias de Random Forest y XGBoost",
             ),
             "### Respuesta Fundamentada: ¿Cuál es mejor?",
             answer,
@@ -2936,7 +2941,7 @@ def dataset_section(results) -> str:
     corr_rows = [[row["feature"], fmt(row["correlation"], 4)] for row in mpg["correlations_with_mpg"]]
     return "\n\n".join(
         [
-            "## 2. Metodología y entorno experimental",
+            "## Datos y protocolo experimental",
             "### Arquitectura del flujo",
             "\n".join(
                 [
@@ -3008,26 +3013,26 @@ def global_section(results) -> str:
     item5c = results["item5"]["classification"]["conclusion"]
     item5r = results["item5"]["regression"]["conclusion"]
     rows = [
-        ["1", item1["winner"], "ROC-AUC de prueba", fmt(item1["primary_value"]), "Gini y entropía se comparan entre sí y contra la regresión logística L2."],
-        ["2", item2["winner"], "RMSE de prueba (mpg)", fmt(item2["primary_value"]), "El árbol sin restricciones muestra la brecha de sobreajuste; el ganador es el menor RMSE de prueba."],
-        ["3", item3["winner"], "ROC-AUC de prueba", fmt(item3["primary_value"]), "El ensamble se juzga contra el árbol y contra el mejor modelo individual."],
-        ["4 clasificación", item4c["best_bagging"], "Accuracy de prueba del mejor bagging", fmt(find_model(item4c["models"], item4c["best_bagging"])["metrics"]["accuracy_test"]), "Bootstrap y promedio de árboles profundos frente a un solo árbol."],
-        ["4 regresión", item4r["best_bagging"], "RMSE de prueba del mejor bagging", fmt(find_model(item4r["models"], item4r["best_bagging"])["metrics"]["rmse_test"]), "La misma comparación en millas por galón, con OOB R²."],
-        ["5 clasificación", item5c["winner"], "ROC-AUC de prueba", fmt(item5c["primary_value"]), "Bosque paralelo con submuestreo de variables frente a boosting de segundo orden."],
-        ["5 regresión", item5r["winner"], "RMSE de prueba (mpg)", fmt(item5r["primary_value"]), "La misma comparación sobre auto_mpg, en versión base y optimizada."],
+        ["Pregunta 1", item1["winner"], "ROC-AUC de prueba", fmt(item1["primary_value"]), "Gini y entropía se comparan entre sí y contra la regresión logística L2."],
+        ["Pregunta 2", item2["winner"], "RMSE de prueba (mpg)", fmt(item2["primary_value"]), "El árbol sin restricciones muestra la brecha de sobreajuste; el ganador es el menor RMSE de prueba."],
+        ["Pregunta 3", item3["winner"], "ROC-AUC de prueba", fmt(item3["primary_value"]), "El ensamble se juzga contra el árbol y contra el mejor modelo individual."],
+        ["Pregunta 4, clasificación", item4c["best_bagging"], "Accuracy de prueba del mejor bagging", fmt(find_model(item4c["models"], item4c["best_bagging"])["metrics"]["accuracy_test"]), "Bootstrap y promedio de árboles profundos frente a un solo árbol."],
+        ["Pregunta 4, regresión", item4r["best_bagging"], "RMSE de prueba del mejor bagging", fmt(find_model(item4r["models"], item4r["best_bagging"])["metrics"]["rmse_test"]), "La misma comparación en millas por galón, con OOB R²."],
+        ["Pregunta 5, clasificación", item5c["winner"], "ROC-AUC de prueba", fmt(item5c["primary_value"]), "Bosque paralelo con submuestreo de variables frente a boosting de segundo orden."],
+        ["Pregunta 5, regresión", item5r["winner"], "RMSE de prueba (mpg)", fmt(item5r["primary_value"]), "La misma comparación sobre auto_mpg, en versión base y optimizada."],
     ]
     return "\n\n".join(
         [
-            "## 8. Cuadro comparativo global y conclusiones generales",
-            md_table(["Ítem", "Ganador", "Métrica principal", "Valor", "Conclusión"], rows),
+            "## Conclusiones",
+            md_table(["Pregunta", "Ganador", "Métrica principal", "Valor", "Conclusión"], rows),
             (
                 "El patrón que se repite es el siguiente. Un árbol CART sin restricciones ajusta el entrenamiento hasta dejar poca o ninguna impureza y esa exactitud no se traslada completa a la prueba. "
                 "La regresión regularizada, la poda, el bagging y el boosting atacan esa varianza por caminos distintos: penalización del coeficiente, eliminación de ramas, promedio de muestras bootstrap y corrección secuencial del residuo. "
                 "En cáncer de mama la señal es fuerte y varios modelos superan 0.95 de ROC-AUC; la diferencia útil está en los centésimas y en el recall de la clase maligna. "
                 "En auto_mpg la señal tiene una parte lineal grande (peso, potencia, cilindrada y año) y una parte de interacción que solo aparece cuando el árbol o el ensamble están regularizados. "
-                f"Los ganadores declarados con la métrica de prueba son: ítem 1, {item1['winner']}; ítem 2, {item2['winner']}; ítem 3, {item3['winner']}; "
-                f"ítem 4, {item4c['best_bagging']} en clasificación y {item4r['best_bagging']} en regresión; "
-                f"ítem 5, {item5c['winner']} en clasificación y {item5r['winner']} en regresión."
+                f"Los ganadores declarados con la métrica de prueba son: pregunta 1, {item1['winner']}; pregunta 2, {item2['winner']}; pregunta 3, {item3['winner']}; "
+                f"pregunta 4, {item4c['best_bagging']} en clasificación y {item4r['best_bagging']} en regresión; "
+                f"pregunta 5, {item5c['winner']} en clasificación y {item5r['winner']} en regresión."
             ),
             "### Limitaciones",
             "\n".join(
@@ -3047,7 +3052,7 @@ def global_section(results) -> str:
 def reproducibility_section() -> str:
     return "\n\n".join(
         [
-            "## 9. Reproducibilidad",
+            "## Reproducibilidad",
             "El informe formal (`README.md`), este anexo (`INFORME_DETALLADO.md`), las figuras, el JSON y el notebook salen de `src/run_experiments.py`. Volver a ejecutarlo regenera todos esos artefactos con la misma semilla.",
             "```powershell",
             "git clone https://github.com/paololuna-luw/cart-and-ensemble-benchmarks.git",
@@ -3507,20 +3512,20 @@ def build_readme(results) -> str:
             "## 1. Resumen ejecutivo",
             (
                 "Este informe compara árboles CART y ensambles sobre dos tareas tabulares, con una sola semilla y un protocolo común de partición y validación cruzada. "
-                f"En el ítem 1 el ganador es {results['item1']['conclusion']['winner']} "
+                f"En la pregunta 1 el ganador es {results['item1']['conclusion']['winner']} "
                 f"(ROC-AUC de prueba {fmt(results['item1']['conclusion']['primary_value'])}). "
-                f"En el ítem 2 el ganador es {results['item2']['conclusion']['winner']} "
+                f"En la pregunta 2 el ganador es {results['item2']['conclusion']['winner']} "
                 f"(RMSE de prueba {fmt(results['item2']['conclusion']['primary_value'])} mpg). "
-                f"En el ítem 3 el ganador es {results['item3']['conclusion']['winner']} "
+                f"En la pregunta 3 el ganador es {results['item3']['conclusion']['winner']} "
                 f"(ROC-AUC de prueba {fmt(results['item3']['conclusion']['primary_value'])}). "
-                f"En el ítem 4 el mejor bagging de clasificación es {results['item4']['classification']['best_bagging']} "
+                f"En la pregunta 4 el mejor bagging de clasificación es {results['item4']['classification']['best_bagging']} "
                 f"y el de regresión es {results['item4']['regression']['best_bagging']}. "
-                f"En el ítem 5, la clasificación la gana {results['item5']['classification']['conclusion']['winner']} "
+                f"En la pregunta 5, la clasificación la gana {results['item5']['classification']['conclusion']['winner']} "
                 f"y la regresión la gana {results['item5']['regression']['conclusion']['winner']}."
             ),
             (
                 "Todos los números salen de la ejecución de `src/run_experiments.py` con `random_state=42`. "
-                "No hay métricas interpoladas ni celdas pendientes. El detalle de cada contraste está en la sección del ítem, junto a la figura y a la respuesta de cuál modelo es mejor."
+                "No hay métricas interpoladas ni celdas pendientes. El detalle de cada contraste está en la sección de la pregunta, junto a la figura y a la respuesta de cuál modelo es mejor."
             ),
         ]
     )
@@ -3606,10 +3611,22 @@ def build_and_execute_notebook(results) -> None:
     cells = [
         new_markdown_cell(
             "# Tarea de Ejecución 03: Aplicación y Evaluación Empírica de Modelos CART y Ensamblados\n\n"
-            "Notebook ejecutado. El informe formal para evaluación está en `README.md`. "
-            "Este cuaderno y `INFORME_DETALLADO.md` conservan el detalle técnico. "
-            "Las celdas leen `results_metrics.json`, rehacen dos ajustes de control "
-            "y muestran las tablas y las figuras que respaldan las cinco respuestas."
+            "En forma individual o en pares realice lo siguiente:\n\n"
+            "1. **Pregunta 1.** Entrene modelos de árboles de decisión con criterios de impureza diferentes "
+            "(índice gini y entropía) usando el dataset “breast_cancer” de scikit-learn, compare su eficiencia "
+            "con respecto a un modelo lineal como el Regresor Logístico. ¿Cuál es mejor?\n"
+            "2. **Pregunta 2.** Entrene modelos de árboles de decisión con varias configuraciones de hiper parámetros "
+            "usando el dataset auto_mpg, comparar su eficiencia con respecto a un modelo lineal como el Regresor Lineal. "
+            "¿Cuál es el mejor?\n"
+            "3. **Pregunta 3.** Entrene un modelo ensemble clasificador, y compare su eficiencia con respecto a un modelo individual. "
+            "¿Cuál es mejor?\n"
+            "4. **Pregunta 4.** Entrene un modelo bagging regresor o clasificador y compare su eficiencia con respecto a un modelo individual. "
+            "¿Cuál es el mejor?\n"
+            "5. **Pregunta 5.** Entrene un modelo RandomForest y compare su eficiencia con respecto a un modelo XGBoost. "
+            "¿Cuál es mejor?\n\n"
+            "El cuaderno sigue ese orden: datos y protocolo, preguntas 1 a 5, conclusiones y una comprobación de dos modelos. "
+            "Cada pregunta cita la indicación, muestra las métricas ya calculadas y cierra con la respuesta. "
+            "El informe formal está en `README.md`. El anexo con pruebas t e hiperparámetros está en `INFORME_DETALLADO.md`."
         ),
         new_code_cell(
             "\n".join(
@@ -3628,13 +3645,13 @@ def build_and_execute_notebook(results) -> None:
                     "print('Semilla:', results['meta']['seed'])",
                     "print('Python:', results['meta']['python'])",
                     "print('Inicio del experimento:', results['meta']['started_at'])",
-                    "print('Ganador item 1:', results['item1']['conclusion']['winner'])",
-                    "print('Ganador item 2:', results['item2']['conclusion']['winner'])",
-                    "print('Ganador item 3:', results['item3']['conclusion']['winner'])",
-                    "print('Mejor bagging clasificador:', results['item4']['classification']['best_bagging'])",
-                    "print('Mejor bagging regresor:', results['item4']['regression']['best_bagging'])",
-                    "print('Ganador item 5 clasificacion:', results['item5']['classification']['conclusion']['winner'])",
-                    "print('Ganador item 5 regresion:', results['item5']['regression']['conclusion']['winner'])",
+                    "print('Pregunta 1. Gini, entropía y regresión logística:', results['item1']['conclusion']['winner'])",
+                    "print('Pregunta 2. Árboles de regresión y regresión lineal:', results['item2']['conclusion']['winner'])",
+                    "print('Pregunta 3. Ensamble clasificador y modelo individual:', results['item3']['conclusion']['winner'])",
+                    "print('Pregunta 4. Bagging clasificador:', results['item4']['classification']['best_bagging'])",
+                    "print('Pregunta 4. Bagging regresor:', results['item4']['regression']['best_bagging'])",
+                    "print('Pregunta 5. Random Forest y XGBoost, clasificación:', results['item5']['classification']['conclusion']['winner'])",
+                    "print('Pregunta 5. Random Forest y XGBoost, regresión:', results['item5']['regression']['conclusion']['winner'])",
                 ]
             )
         ),
@@ -3688,9 +3705,9 @@ def build_and_execute_notebook(results) -> None:
         new_code_cell(
             "\n".join(
                 [
-                    "print('Clasificacion')",
+                    "print('Pregunta 4. Clasificación en cáncer de mama')",
                     "show_models(results['item4']['classification']['models'])",
-                    "print('Regresion')",
+                    "print('Pregunta 4. Regresión en auto_mpg')",
                     "show_models(results['item4']['regression']['models'])",
                     "display(Image(filename='plots/item4_bagging.png'))",
                 ]
@@ -3700,9 +3717,9 @@ def build_and_execute_notebook(results) -> None:
         new_code_cell(
             "\n".join(
                 [
-                    "print('Clasificacion')",
+                    "print('Pregunta 5. Clasificación en cáncer de mama')",
                     "show_models(results['item5']['classification']['models'])",
-                    "print('Regresion')",
+                    "print('Pregunta 5. Regresión en auto_mpg')",
                     "show_models(results['item5']['regression']['models'])",
                     "display(Image(filename='plots/item5_rf_vs_xgboost.png'))",
                 ]
