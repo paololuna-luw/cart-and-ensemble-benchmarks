@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """Tarea 03: CART y ensamblados.
 
-Entrena los modelos, guarda metricas y figuras, escribe el README y ejecuta el notebook.
+Entrena los modelos, guarda metricas y figuras, escribe el README formal,
+el anexo INFORME_DETALLADO.md y ejecuta el notebook.
 Todo el azar queda fijo con random_state=42.
 """
 
@@ -3047,7 +3048,7 @@ def reproducibility_section() -> str:
     return "\n\n".join(
         [
             "## 9. Reproducibilidad",
-            "El informe, las figuras, el JSON y el notebook salen de `src/run_experiments.py`. Volver a ejecutarlo regenera todos esos artefactos con la misma semilla.",
+            "El informe formal (`README.md`), este anexo (`INFORME_DETALLADO.md`), las figuras, el JSON y el notebook salen de `src/run_experiments.py`. Volver a ejecutarlo regenera todos esos artefactos con la misma semilla.",
             "```powershell",
             "git clone https://github.com/paololuna-luw/cart-and-ensemble-benchmarks.git",
             "cd cart-and-ensemble-benchmarks",
@@ -3065,10 +3066,444 @@ def reproducibility_section() -> str:
     )
 
 
+def build_formal_readme(results) -> str:
+    question_1 = (
+        "Entrene modelos de árboles de decisión con criterios de impureza diferentes (índice gini y entropía) "
+        "usando el dataset “breast_cancer” de scikit-learn, compare su eficiencia con respecto a un modelo lineal "
+        "como el Regresor Logístico. ¿Cuál es mejor?"
+    )
+    question_2 = (
+        "Entrene modelos de árboles de decisión con varias configuraciones de hiper parámetros usando el dataset "
+        "auto_mpg, comparar su eficiencia con respecto a un modelo lineal como el Regresor Lineal. ¿Cuál es el mejor?"
+    )
+    question_3 = (
+        "Entrene un modelo ensemble clasificador, y compare su eficiencia con respecto a un modelo individual. "
+        "¿Cuál es mejor?"
+    )
+    question_4 = (
+        "Entrene un modelo bagging regresor o clasificador  y compare su eficiencia con respecto a un modelo "
+        "individual. ¿Cuál es el mejor?"
+    )
+    question_5 = (
+        "Entrene un modelo RandomForest y compare su eficiencia con respecto a un modelo XGBoost. ¿Cuál es mejor?"
+    )
+    delivery = (
+        "Los resultados deben ser documentos en un archivo PDF, Colab, o en un repositorio de GitHub "
+        "(incluye readme donde se resumen los hallazgos) u otro en el que se evidencie la respuesta a las "
+        "preguntas de las indicaciones así como el código correspondiente de los modelos entrenados. "
+        "La URL correspondiente será enviada al Aula Virtual."
+    )
+    bc = results["datasets"]["breast_cancer"]
+    mpg = results["datasets"]["auto_mpg"]
+    meta = results["meta"]
+    item1 = results["item1"]
+    item2 = results["item2"]
+    item3 = results["item3"]
+    item4 = results["item4"]
+    item5 = results["item5"]
+
+    models1 = item1["models"]
+    gini = find_model(models1, "Gini")
+    entropy = find_model(models1, "Entropía")
+    gini_pruned = find_model(models1, "Gini podado")
+    entropy_pruned = find_model(models1, "Entropía podada")
+    logistic = find_model(models1, "Regresión logística")
+    winner1 = find_model(models1, item1["conclusion"]["winner"])
+    unpruned_pair = [gini, entropy]
+    better_unpruned = max(
+        unpruned_pair,
+        key=lambda model: (
+            model["metrics"]["roc_auc_test"],
+            model["metrics"]["f1_test"],
+            model["metrics"]["cv_accuracy_mean"],
+            -model["metrics"]["n_leaves"],
+        ),
+    )
+    other_unpruned = entropy if better_unpruned is gini else gini
+    errors1, total1 = errors_from_cm(winner1["metrics"])
+
+    models2 = item2["models"]
+    unrestricted = find_model(models2, "Árbol sin restricciones")
+    shallow = find_model(models2, "Árbol superficial")
+    linear = find_model(models2, "Regresión lineal")
+    tuned = find_model(models2, "Árbol GridSearchCV")
+    winner2 = find_model(models2, item2["conclusion"]["winner"])
+    curve = item2["validation_curve"]
+
+    models3 = item3["models"]
+    tree3 = find_model(models3, "Árbol de decisión")
+    winner3 = find_model(models3, item3["conclusion"]["winner"])
+    runner3 = find_model(models3, item3["conclusion"]["runner_up"])
+    best_ind = find_model(models3, item3["best_individual"]["winner"])
+    best_ens = find_model(models3, item3["best_ensemble"]["winner"])
+
+    clf4 = item4["classification"]["models"]
+    reg4 = item4["regression"]["models"]
+    tree4c = find_model(clf4, "Árbol individual")
+    tree4r = find_model(reg4, "Árbol individual")
+    best4c = find_model(clf4, item4["classification"]["best_bagging"])
+    best4r = find_model(reg4, item4["regression"]["best_bagging"])
+    bag100c = find_model(clf4, "Bagging (100)")
+    bag100r = find_model(reg4, "Bagging (100)")
+
+    clf5 = item5["classification"]["models"]
+    reg5 = item5["regression"]["models"]
+    winner5c = find_model(clf5, item5["classification"]["conclusion"]["winner"])
+    runner5c = find_model(clf5, item5["classification"]["conclusion"]["runner_up"])
+    winner5r = find_model(reg5, item5["regression"]["conclusion"]["winner"])
+    runner5r = find_model(reg5, item5["regression"]["conclusion"]["runner_up"])
+    best_xgb_c = max(
+        (model for model in clf5 if model["name"].startswith("XGBoost")),
+        key=lambda model: model["metrics"]["roc_auc_test"],
+    )
+    best_xgb_r = min(
+        (model for model in reg5 if model["name"].startswith("XGBoost")),
+        key=lambda model: model["metrics"]["rmse_test"],
+    )
+
+    scoreboard = md_table(
+        ["Pregunta", "Indicación", "Respuesta", "Evidencia principal"],
+        [
+            ["[1](#pregunta-1)", "Gini y entropía frente a regresión logística", winner1["name"], f"ROC-AUC de prueba {fmt(winner1['metrics']['roc_auc_test'])}"],
+            ["[2](#pregunta-2)", "Árboles de regresión frente a regresión lineal", winner2["name"], f"RMSE de prueba {fmt(winner2['metrics']['rmse_test'])} mpg"],
+            ["[3](#pregunta-3)", "Ensamble clasificador frente a modelo individual", winner3["name"], f"ROC-AUC de prueba {fmt(winner3['metrics']['roc_auc_test'])}"],
+            ["[4](#pregunta-4)", "Bagging frente al modelo individual", best4c["name"] if best4c["name"] == best4r["name"] else f"{best4c['name']} en clasificación y {best4r['name']} en regresión", f"Accuracy {fmt(best4c['metrics']['accuracy_test'])}; RMSE {fmt(best4r['metrics']['rmse_test'])} mpg"],
+            ["[5](#pregunta-5)", "Random Forest frente a XGBoost", f"{winner5c['name']}; {winner5r['name']}", f"ROC-AUC {fmt(winner5c['metrics']['roc_auc_test'])}; RMSE {fmt(winner5r['metrics']['rmse_test'])} mpg"],
+        ],
+    )
+    evidence = md_table(
+        ["Requisito de la indicación", "Dónde se evidencia"],
+        [
+            ["Respuesta a cada pregunta", "Secciones Pregunta 1 a Pregunta 5 de este README"],
+            ["Resumen de hallazgos", "Cuadro de dictámenes y sección de conclusiones"],
+            ["Métricas de entrenamiento, prueba y validación cruzada", "Tabla de cada pregunta y `results_metrics.json`"],
+            ["Gráficos comparativos", "Carpeta `plots/` e imágenes incrustadas bajo cada pregunta"],
+            ["Código de los modelos entrenados", "`src/run_experiments.py` y `Tarea_03_CART_Ensamblados.ipynb`"],
+            ["Detalle técnico, pruebas t e hiperparámetros", "[INFORME_DETALLADO.md](INFORME_DETALLADO.md)"],
+        ],
+    )
+    code_map = md_table(
+        ["Pregunta", "Función", "Datos", "Figura"],
+        [
+            ["1", "`run_item1`", "`load_breast_cancer`", "`plots/item1_breast_cancer.png`"],
+            ["2", "`run_item2`", "auto_mpg limpio, 392 filas", "`plots/item2_auto_mpg.png`"],
+            ["3", "`run_item3`", "`load_breast_cancer`", "`plots/item3_ensemble_clf.png`"],
+            ["4", "`run_item4`", "breast_cancer y auto_mpg", "`plots/item4_bagging.png`"],
+            ["5", "`run_item5`", "breast_cancer y auto_mpg", "`plots/item5_rf_vs_xgboost.png`"],
+        ],
+    )
+
+    answer_1 = "\n\n".join(
+        [
+            f"**Respuesta: es mejor {winner1['name']}.**",
+            (
+                f"Entre los árboles sin poda, {better_unpruned['name']} obtiene ROC-AUC de prueba "
+                f"{fmt(better_unpruned['metrics']['roc_auc_test'])}, F1 {fmt(better_unpruned['metrics']['f1_test'])}, "
+                f"profundidad {fmt_int_opt(better_unpruned['metrics']['depth'])} y "
+                f"{fmt_int_opt(better_unpruned['metrics']['n_leaves'])} hojas. "
+                f"{other_unpruned['name']} obtiene ROC-AUC {fmt(other_unpruned['metrics']['roc_auc_test'])}, "
+                f"F1 {fmt(other_unpruned['metrics']['f1_test'])}, profundidad {fmt_int_opt(other_unpruned['metrics']['depth'])} "
+                f"y {fmt_int_opt(other_unpruned['metrics']['n_leaves'])} hojas. "
+                f"Los dos alcanzan accuracy de entrenamiento {fmt(gini['metrics']['accuracy_train'])}."
+            ),
+            (
+                f"La poda reduce esa memorización. Gini podado queda en profundidad {fmt_int_opt(gini_pruned['metrics']['depth'])}, "
+                f"{fmt_int_opt(gini_pruned['metrics']['n_leaves'])} hojas y ROC-AUC {fmt(gini_pruned['metrics']['roc_auc_test'])}. "
+                f"Entropía podada queda en profundidad {fmt_int_opt(entropy_pruned['metrics']['depth'])}, "
+                f"{fmt_int_opt(entropy_pruned['metrics']['n_leaves'])} hojas y ROC-AUC {fmt(entropy_pruned['metrics']['roc_auc_test'])}."
+            ),
+            (
+                f"{winner1['name']} alcanza ROC-AUC de prueba {fmt(winner1['metrics']['roc_auc_test'])}, "
+                f"F1 {fmt(winner1['metrics']['f1_test'])}, accuracy de prueba {fmt(winner1['metrics']['accuracy_test'])} "
+                f"y validación cruzada {fmt_pm(winner1['metrics']['cv_accuracy_mean'], winner1['metrics']['cv_accuracy_std'])}. "
+                f"Comete {errors1} errores en {total1} casos de prueba. "
+                f"El recall de la clase maligna es {fmt(winner1['metrics']['recall_malignant_test'])}. "
+                f"La diferencia de ROC-AUC frente a {gini_pruned['name']} es "
+                f"{fmt_pp(winner1['metrics']['roc_auc_test'], gini_pruned['metrics']['roc_auc_test'])} puntos. "
+                "En 30 variables citológicas, la frontera lineal con penalización L2 separa las clases con menos varianza "
+                "que los cortes ortogonales de un árbol CART individual."
+            ),
+        ]
+    )
+    answer_2 = "\n\n".join(
+        [
+            f"**Respuesta: el mejor es {winner2['name']}.**",
+            (
+                f"El árbol sin restricciones muestra el sobreajuste: R² de entrenamiento {fmt(unrestricted['metrics']['r2_train'])}, "
+                f"R² de prueba {fmt(unrestricted['metrics']['r2_test'])} y RMSE de prueba {fmt(unrestricted['metrics']['rmse_test'])} mpg, "
+                f"con profundidad {fmt_int_opt(unrestricted['metrics']['depth'])} y {fmt_int_opt(unrestricted['metrics']['n_leaves'])} hojas. "
+                f"La regresión lineal obtiene R² de prueba {fmt(linear['metrics']['r2_test'])} y RMSE {fmt(linear['metrics']['rmse_test'])} mpg. "
+                f"El árbol superficial, de profundidad 2, queda en RMSE {fmt(shallow['metrics']['rmse_test'])} mpg."
+            ),
+            (
+                f"La curva de `max_depth` marca el menor RMSE de prueba en profundidad {curve['best_test_depth']} "
+                f"(RMSE {fmt(curve['best_test_rmse'])}, R² {fmt(curve['best_test_r2'])}). "
+                f"{winner2['name']} obtiene RMSE de prueba {fmt(winner2['metrics']['rmse_test'])} mpg, "
+                f"R² de prueba {fmt(winner2['metrics']['r2_test'])}, MAE {fmt(winner2['metrics']['mae_test'])} "
+                f"y validación cruzada de R² {fmt_pm(winner2['metrics']['cv_r2_mean'], winner2['metrics']['cv_r2_std'])}. "
+                f"Su RMSE es {fmt(linear['metrics']['rmse_test'] - winner2['metrics']['rmse_test'])} mpg menor que el de la regresión lineal. "
+                f"La validación cruzada de R² favorece a {tuned['name']} "
+                f"({fmt_pm(tuned['metrics']['cv_r2_mean'], tuned['metrics']['cv_r2_std'])}). "
+                "El dictamen de la pregunta usa el RMSE de prueba."
+            ),
+            (
+                "El árbol regularizado parte el espacio de peso, potencia, cilindrada y año en regiones con distinta pendiente de consumo. "
+                "Esa interacción queda fuera de un único hiperplano lineal."
+            ),
+        ]
+    )
+    answer_3 = "\n\n".join(
+        [
+            f"**Respuesta: es mejor {winner3['name']}.**",
+            (
+                f"El mejor ensamble es {best_ens['name']}, con ROC-AUC de prueba {fmt(best_ens['metrics']['roc_auc_test'])}, "
+                f"F1 {fmt(best_ens['metrics']['f1_test'])} y accuracy {fmt(best_ens['metrics']['accuracy_test'])}. "
+                f"El árbol individual queda en ROC-AUC {fmt(tree3['metrics']['roc_auc_test'])}, "
+                f"F1 {fmt(tree3['metrics']['f1_test'])} y accuracy {fmt(tree3['metrics']['accuracy_test'])}, "
+                f"con accuracy de entrenamiento {fmt(tree3['metrics']['accuracy_train'])}. "
+                f"El ensamble lo supera por {fmt(best_ens['metrics']['roc_auc_test'] - tree3['metrics']['roc_auc_test'])} de ROC-AUC "
+                f"y por {fmt_pp(best_ens['metrics']['accuracy_test'], tree3['metrics']['accuracy_test'])} puntos porcentuales de accuracy."
+            ),
+            (
+                f"El mejor modelo individual es {best_ind['name']}, con ROC-AUC {fmt(best_ind['metrics']['roc_auc_test'])}, "
+                f"F1 {fmt(best_ind['metrics']['f1_test'])}, accuracy {fmt(best_ind['metrics']['accuracy_test'])} "
+                f"y validación cruzada {fmt_pm(best_ind['metrics']['cv_accuracy_mean'], best_ind['metrics']['cv_accuracy_std'])}. "
+                f"La diferencia de ROC-AUC entre {winner3['name']} y {runner3['name']} es "
+                f"{fmt_pp(winner3['metrics']['roc_auc_test'], runner3['metrics']['roc_auc_test'])} puntos."
+                f"{auc_margin_sentence(winner3['metrics']['roc_auc_test'], runner3['metrics']['roc_auc_test'])} "
+                "La votación, el apilamiento y el boosting corrigen la varianza del árbol. "
+                "En este conjunto, la frontera lineal regularizada sigue por encima de esas combinaciones."
+            ),
+        ]
+    )
+    answer_4 = "\n\n".join(
+        [
+            (
+                f"**Respuesta: el mejor es el bagging, {best4c['name']}, en clasificación y en regresión.**"
+                if best4c["name"] == best4r["name"]
+                else f"**Respuesta: el mejor es el bagging. En clasificación, {best4c['name']}. En regresión, {best4r['name']}.**"
+            ),
+            (
+                f"En cáncer de mama, el árbol individual tiene accuracy de prueba {fmt(tree4c['metrics']['accuracy_test'])}, "
+                f"F1 {fmt(tree4c['metrics']['f1_test'])} y ROC-AUC {fmt(tree4c['metrics']['roc_auc_test'])}. "
+                f"{best4c['name']} sube la accuracy a {fmt(best4c['metrics']['accuracy_test'])} "
+                f"({fmt_pp(best4c['metrics']['accuracy_test'], tree4c['metrics']['accuracy_test'])} puntos porcentuales), "
+                f"el F1 a {fmt(best4c['metrics']['f1_test'])} y el ROC-AUC a {fmt(best4c['metrics']['roc_auc_test'])}. "
+                f"Su OOB accuracy es {fmt(best4c['metrics']['oob_score'])} y su validación cruzada es "
+                f"{fmt_pm(best4c['metrics']['cv_accuracy_mean'], best4c['metrics']['cv_accuracy_std'])}. "
+                f"El bagging de 100 árboles queda en accuracy {fmt(bag100c['metrics']['accuracy_test'])} y OOB {fmt(bag100c['metrics']['oob_score'])}."
+            ),
+            (
+                f"En auto_mpg, el árbol individual pasa de R² de entrenamiento {fmt(tree4r['metrics']['r2_train'])} "
+                f"a R² de prueba {fmt(tree4r['metrics']['r2_test'])}, con RMSE {fmt(tree4r['metrics']['rmse_test'])} mpg. "
+                f"{best4r['name']} obtiene R² de prueba {fmt(best4r['metrics']['r2_test'])}, "
+                f"RMSE {fmt(best4r['metrics']['rmse_test'])} mpg, MAE {fmt(best4r['metrics']['mae_test'])} "
+                f"y OOB R² {fmt(best4r['metrics']['oob_score'])}. "
+                f"La reducción de RMSE frente al árbol es {fmt(tree4r['metrics']['rmse_test'] - best4r['metrics']['rmse_test'])} mpg "
+                f"({fmt(rel_drop(tree4r['metrics']['rmse_test'], best4r['metrics']['rmse_test']), 2)}%). "
+                f"El bagging de 100 árboles queda en RMSE {fmt(bag100r['metrics']['rmse_test'])} y OOB R² {fmt(bag100r['metrics']['oob_score'])}."
+            ),
+            (
+                "El muestreo bootstrap con reemplazo y el promedio de árboles profundos reducen la varianza del predictor. "
+                "Con correlación ρ entre miembros, la varianza del promedio es ρσ² + (1 − ρ)σ² / B. "
+                "Si los árboles fueran independientes, ρ = 0 y la varianza quedaría en σ² / B. "
+                "La correlación estimada en el anexo muestra que los miembros comparten errores, y aun así el bagging mejora la prueba en las dos tareas."
+            ),
+        ]
+    )
+    answer_5 = "\n\n".join(
+        [
+            f"**Respuesta: en clasificación es mejor {winner5c['name']}. En regresión es mejor {winner5r['name']}.**",
+            (
+                "Random Forest promedia árboles profundos en paralelo. En clasificación cada árbol ve un subconjunto de variables "
+                "de tamaño cercano a la raíz cuadrada de p, lo que descorrelaciona los árboles y reduce la varianza. "
+                "XGBoost suma árboles en serie con una aproximación de Taylor de segundo orden y regularización L2 sobre las hojas."
+            ),
+            (
+                f"En clasificación, {winner5c['name']} obtiene ROC-AUC de prueba {fmt(winner5c['metrics']['roc_auc_test'])}, "
+                f"F1 {fmt(winner5c['metrics']['f1_test'])}, accuracy {fmt(winner5c['metrics']['accuracy_test'])} "
+                f"y validación cruzada {fmt_pm(winner5c['metrics']['cv_accuracy_mean'], winner5c['metrics']['cv_accuracy_std'])}. "
+                f"{runner5c['name']} queda en ROC-AUC {fmt(runner5c['metrics']['roc_auc_test'])}, "
+                f"F1 {fmt(runner5c['metrics']['f1_test'])} y accuracy {fmt(runner5c['metrics']['accuracy_test'])} "
+                f"(diferencia de {fmt_pp(winner5c['metrics']['roc_auc_test'], runner5c['metrics']['roc_auc_test'])} puntos de ROC-AUC)."
+                f"{auc_margin_sentence(winner5c['metrics']['roc_auc_test'], runner5c['metrics']['roc_auc_test'])} "
+                f"El mejor XGBoost de esta tarea, {best_xgb_c['name']}, alcanza ROC-AUC {fmt(best_xgb_c['metrics']['roc_auc_test'])} "
+                f"y F1 {fmt(best_xgb_c['metrics']['f1_test'])}. "
+                f"La validación cruzada de ROC-AUC favorece a {item5['classification']['conclusion']['cv_leader']}."
+            ),
+            (
+                f"En regresión, {winner5r['name']} obtiene RMSE de prueba {fmt(winner5r['metrics']['rmse_test'])} mpg, "
+                f"R² {fmt(winner5r['metrics']['r2_test'])}, MAE {fmt(winner5r['metrics']['mae_test'])} "
+                f"y validación cruzada de R² {fmt_pm(winner5r['metrics']['cv_r2_mean'], winner5r['metrics']['cv_r2_std'])}. "
+                f"{runner5r['name']} tiene RMSE {fmt(runner5r['metrics']['rmse_test'])}."
+                f"{rmse_margin_sentence(winner5r['metrics']['rmse_test'], runner5r['metrics']['rmse_test'])} "
+                f"El mejor XGBoost de regresión, {best_xgb_r['name']}, queda en RMSE {fmt(best_xgb_r['metrics']['rmse_test'])} mpg "
+                f"y R² {fmt(best_xgb_r['metrics']['r2_test'])}. "
+                f"La validación cruzada de R² favorece a {item5['regression']['conclusion']['cv_leader']}."
+            ),
+        ]
+    )
+
+    def block(anchor: str, title: str, question: str, answer: str, table: str, figure: str, caption: str, code_line: str) -> str:
+        return "\n\n".join(
+            [
+                f"<a id=\"{anchor}\"></a>",
+                f"## {title}",
+                "### Indicación",
+                f"> {question}",
+                "### Respuesta Fundamentada: ¿Cuál es mejor?",
+                answer,
+                "### Métricas",
+                table,
+                "### Gráfico",
+                image_line(figure, caption),
+                "### Código correspondiente",
+                code_line,
+            ]
+        )
+
+    parts = [
+        "# Informe formal de evaluación",
+        "## Tarea de Ejecución 03: Aplicación y Evaluación Empírica de Modelos CART y Ensamblados",
+        (
+            "Documento preparado para la revisión en el Aula Virtual. "
+            "Cada pregunta de la indicación aparece citada, seguida de la respuesta, de la tabla de métricas reales "
+            "y del gráfico. El anexo [INFORME_DETALLADO.md](INFORME_DETALLADO.md) conserva el diseño experimental completo, "
+            "las descripciones de los datos, las pruebas t, las importancias y los hiperparámetros."
+        ),
+        md_table(
+            ["Campo", "Contenido"],
+            [
+                ["Repositorio", "https://github.com/paololuna-luw/cart-and-ensemble-benchmarks"],
+                ["Código de los modelos", "`src/run_experiments.py`"],
+                ["Notebook ejecutado", "`Tarea_03_CART_Ensamblados.ipynb`"],
+                ["Métricas completas", "`results_metrics.json`"],
+                ["Anexo técnico", "[INFORME_DETALLADO.md](INFORME_DETALLADO.md)"],
+                ["Semilla", str(meta["seed"])],
+                ["Partición", "80% entrenamiento / 20% prueba. En clasificación, estratificada."],
+                ["Validación", "5 pliegues sobre el entrenamiento. Se reporta media ± desviación estándar."],
+                ["Entorno", f"Python {meta['python']}, scikit-learn {meta['versions']['scikit-learn']}, XGBoost {meta['versions']['xgboost']}"],
+                ["Datos", f"breast_cancer: {bc['n_rows']} filas y {bc['n_features']} variables. auto_mpg: {mpg['n_clean']} filas tras eliminar {mpg['n_missing_horsepower']} ausencias de horsepower."],
+            ],
+        ),
+        "## Indicación de entrega",
+        f"> {delivery}",
+        "Este repositorio cubre esa indicación. El cuadro siguiente localiza cada evidencia.",
+        evidence,
+        "## Cuadro de dictámenes",
+        "Esta tabla es la lectura rápida para el evaluador. El desarrollo de cada fila está en la sección enlazada.",
+        scoreboard,
+        (
+            "Criterio de decisión, igual en las cinco preguntas. "
+            "En clasificación gana el mayor ROC-AUC de prueba; el desempate usa F1, accuracy de prueba y accuracy media de validación cruzada. "
+            "En regresión gana el menor RMSE de prueba; el desempate usa el R² de prueba y el R² medio de validación cruzada. "
+            "Precisión, recall y F1 toman como clase positiva la etiqueta benigna."
+        ),
+        block(
+            "pregunta-1",
+            "Pregunta 1. Árboles de decisión: Gini, entropía y regresión logística",
+            question_1,
+            answer_1,
+            clf_table(models1),
+            "plots/item1_breast_cancer.png",
+            "Gráfico de la pregunta 1: métricas, matrices de confusión y curvas ROC",
+            "Función `run_item1` en `src/run_experiments.py`. Modelos: `DecisionTreeClassifier(criterion='gini')`, `DecisionTreeClassifier(criterion='entropy')`, sus versiones con `ccp_alpha` elegido por validación cruzada, y `Pipeline` de `StandardScaler` con `LogisticRegression`.",
+        ),
+        block(
+            "pregunta-2",
+            "Pregunta 2. Árboles de regresión con varias configuraciones y regresión lineal",
+            question_2,
+            answer_2,
+            reg_table(models2),
+            "plots/item2_auto_mpg.png",
+            "Gráfico de la pregunta 2: R², RMSE y curva de validación de max_depth",
+            "Función `run_item2` en `src/run_experiments.py`. Seis configuraciones de `DecisionTreeRegressor` (sin restricciones, profundidad 2, profundidad controlada, error absoluto, poda por complejidad de costo y `GridSearchCV`) frente a `Pipeline` de `StandardScaler` con `LinearRegression`.",
+        ),
+        block(
+            "pregunta-3",
+            "Pregunta 3. Ensamble clasificador frente a modelo individual",
+            question_3,
+            answer_3,
+            clf_table(models3),
+            "plots/item3_ensemble_clf.png",
+            "Gráfico de la pregunta 3: modelos individuales y ensambles de clasificación",
+            "Función `run_item3` en `src/run_experiments.py`. Individuales: árbol, SVC con probabilidades, k-NN y regresión logística. Ensambles: `VotingClassifier` duro y suave, `StackingClassifier`, `AdaBoostClassifier` y `GradientBoostingClassifier`.",
+        ),
+        block(
+            "pregunta-4",
+            "Pregunta 4. Bagging clasificador y regresor frente al modelo individual",
+            question_4,
+            answer_4,
+            "Clasificación en cáncer de mama:\n\n" + clf_table(clf4, with_oob=True) + "\n\nRegresión en auto_mpg:\n\n" + reg_table(reg4, with_oob=True),
+            "plots/item4_bagging.png",
+            "Gráfico de la pregunta 4: ganancia del bagging y convergencia al aumentar el número de árboles",
+            "Función `run_item4` en `src/run_experiments.py`. `BaggingClassifier` y `BaggingRegressor` con 10, 50, 100 y 200 árboles, `bootstrap=True` y `oob_score=True`, frente al árbol individual de cada tarea.",
+        ),
+        block(
+            "pregunta-5",
+            "Pregunta 5. Random Forest frente a XGBoost",
+            question_5,
+            answer_5,
+            "Clasificación en cáncer de mama:\n\n" + clf_table(clf5) + "\n\nRegresión en auto_mpg:\n\n" + reg_table(reg5),
+            "plots/item5_rf_vs_xgboost.png",
+            "Gráfico de la pregunta 5: métricas de clasificación, regresión e importancias",
+            "Función `run_item5` en `src/run_experiments.py`. `RandomForestClassifier`, `RandomForestRegressor`, `XGBClassifier` y `XGBRegressor`, cada uno en versión base y en versión elegida por `GridSearchCV`.",
+        ),
+        "## Conclusiones",
+        (
+            "Las cinco indicaciones quedan respondidas con la métrica de prueba y el mismo protocolo de partición y validación cruzada."
+        ),
+        md_table(
+            ["Pregunta", "Conclusión"],
+            [
+                ["1", f"Es mejor {winner1['name']}: ROC-AUC de prueba {fmt(winner1['metrics']['roc_auc_test'])}. Entre los árboles sin poda, {better_unpruned['name']} generaliza con menos hojas. Los dos árboles sin poda llegan a accuracy de entrenamiento 1.0000."],
+                ["2", f"El mejor es {winner2['name']}: RMSE de prueba {fmt(winner2['metrics']['rmse_test'])} mpg y R² {fmt(winner2['metrics']['r2_test'])}. El árbol sin restricciones cae de R² {fmt(unrestricted['metrics']['r2_train'])} en entrenamiento a {fmt(unrestricted['metrics']['r2_test'])} en prueba. Su RMSE de prueba, {fmt(unrestricted['metrics']['rmse_test'])} mpg, es mayor que el de la regresión lineal, {fmt(linear['metrics']['rmse_test'])} mpg."],
+                ["3", f"Es mejor {winner3['name']}, con ROC-AUC {fmt(winner3['metrics']['roc_auc_test'])}. {best_ens['name']} supera al árbol individual (ROC-AUC {fmt(tree3['metrics']['roc_auc_test'])}) y alcanza {fmt(best_ens['metrics']['roc_auc_test'])}."],
+                ["4", f"El mejor es el bagging: {best4c['name']} en clasificación (accuracy {fmt(best4c['metrics']['accuracy_test'])}) y {best4r['name']} en regresión (RMSE {fmt(best4r['metrics']['rmse_test'])} mpg)."],
+                ["5", f"En clasificación es mejor {winner5c['name']} (ROC-AUC {fmt(winner5c['metrics']['roc_auc_test'])}, F1 {fmt(winner5c['metrics']['f1_test'])}). En regresión es mejor {winner5r['name']} (RMSE {fmt(winner5r['metrics']['rmse_test'])} mpg)."],
+            ],
+        ),
+        (
+            "Un árbol CART sin restricciones ajusta el entrenamiento hasta dejar poca o ninguna impureza, y esa exactitud se reduce en la prueba. "
+            "La regresión con penalización L2, la poda, el bagging y el boosting atacan esa varianza por caminos distintos. "
+            "En cáncer de mama la señal es fuerte y varios modelos superan 0.95 de ROC-AUC. "
+            "En auto_mpg hay una parte lineal grande y una parte de interacción que aparece cuando el árbol o el ensamble están regularizados. "
+            "El detalle de cada contraste, con pruebas t, matrices de confusión, coeficientes e importancias, está en [INFORME_DETALLADO.md](INFORME_DETALLADO.md)."
+        ),
+        "### Limitaciones que el evaluador debe tener presentes",
+        "\n".join(
+            [
+                f"- La prueba de cáncer de mama tiene {bc['n_test']} casos y la de auto_mpg tiene {mpg['n_test']}. Unos pocos casos mueven la tercera cifra decimal.",
+                "- La validación cruzada de un modelo elegido por búsqueda usa los mismos pliegues de la búsqueda, así que esa media puede ser optimista. La prueba no entra en la selección.",
+                "- Con cinco pliegues, la prueba t del anexo tiene poca potencia. El dictamen usa la métrica de prueba.",
+                "- Las importancias comparan la contribución interna de cada algoritmo. No son efectos causales.",
+            ]
+        ),
+        "## Código de los modelos entrenados",
+        "Todas las especificaciones viven en `src/run_experiments.py` y se vuelven a ejecutar en `Tarea_03_CART_Ensamblados.ipynb`.",
+        code_map,
+        "Para regenerar métricas, figuras, este informe y el anexo:",
+        "```powershell",
+        "git clone https://github.com/paololuna-luw/cart-and-ensemble-benchmarks.git",
+        "cd cart-and-ensemble-benchmarks",
+        "python -m pip install -r requirements.txt",
+        "python src/run_experiments.py",
+        "```",
+        f"Experimento de referencia iniciado el {meta['started_at']}. Duración de los ajustes, sin el notebook: {fmt(meta['runtime_seconds'], 2)} s.",
+    ]
+    return "\n\n".join(parts) + "\n"
+
+
 def build_readme(results) -> str:
     header = "\n\n".join(
         [
             "# Tarea de Ejecución 03: Aplicación y Evaluación Empírica de Modelos CART y Ensamblados",
+            (
+                "Este archivo es el anexo técnico. El informe formal de evaluación, con las cinco indicaciones "
+                "y el dictamen de cada una, está en [README.md](README.md). "
+                "Aquí se conservan el diseño experimental, las descripciones de los datos, las pruebas t, "
+                "las importancias y el detalle de hiperparámetros."
+            ),
             "## 1. Resumen ejecutivo",
             (
                 "Este informe compara árboles CART y ensambles sobre dos tareas tabulares, con una sola semilla y un protocolo común de partición y validación cruzada. "
@@ -3171,8 +3606,10 @@ def build_and_execute_notebook(results) -> None:
     cells = [
         new_markdown_cell(
             "# Tarea de Ejecución 03: Aplicación y Evaluación Empírica de Modelos CART y Ensamblados\n\n"
-            "Notebook ejecutado. Las celdas leen `results_metrics.json`, rehacen dos ajustes de control "
-            "y muestran las tablas y las figuras que respaldan el informe."
+            "Notebook ejecutado. El informe formal para evaluación está en `README.md`. "
+            "Este cuaderno y `INFORME_DETALLADO.md` conservan el detalle técnico. "
+            "Las celdas leen `results_metrics.json`, rehacen dos ajustes de control "
+            "y muestran las tablas y las figuras que respaldan las cinco respuestas."
         ),
         new_code_cell(
             "\n".join(
@@ -3452,9 +3889,12 @@ def main() -> None:
     }
     results = to_builtin(results)
     assert_finite_tree(results)
-    readme = build_readme(results)
-    audit_readme(readme)
-    (ROOT / "README.md").write_text(readme, encoding="utf-8")
+    detailed = build_readme(results)
+    formal = build_formal_readme(results)
+    audit_readme(detailed)
+    audit_readme(formal)
+    (ROOT / "INFORME_DETALLADO.md").write_text(detailed, encoding="utf-8")
+    (ROOT / "README.md").write_text(formal, encoding="utf-8")
     (ROOT / "results_metrics.json").write_text(
         json.dumps(results, ensure_ascii=False, indent=2, allow_nan=False),
         encoding="utf-8",
