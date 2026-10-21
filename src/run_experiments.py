@@ -3,6 +3,7 @@
 
 Entrena los modelos, guarda metricas y figuras, escribe el README,
 el diseño experimental y ejecuta el cuaderno.
+Cada pregunta se entrena sola en src/pregunta_1.py a src/pregunta_5.py.
 Todo el azar queda fijo con random_state=42.
 """
 
@@ -1522,623 +1523,73 @@ def individual_classifier_estimators():
     ]
 
 
-def run_item1(x_train, y_train, x_test, y_test, cv) -> dict:
-    alphas = {}
-    searches = {}
-    for criterion in ("gini", "entropy"):
-        log(f"Busqueda de ccp_alpha para {criterion}")
-        alpha_grid = candidate_alphas(
-            DecisionTreeClassifier(criterion=criterion, random_state=SEED),
-            x_train,
-            y_train,
-            max_alphas=40,
-        )
-        search, elapsed = run_grid(
-            DecisionTreeClassifier(criterion=criterion, random_state=SEED),
-            {"ccp_alpha": alpha_grid},
-            x_train,
-            y_train,
-            cv,
-            "roc_auc",
-        )
-        alphas[criterion] = float(search.best_params_["ccp_alpha"])
-        searches[criterion] = search_info(
-            search,
-            elapsed,
-            "roc_auc",
-            f"ccp_alpha sobre la ruta de poda de complejidad de costo del arbol {criterion}, con {len(alpha_grid)} valores candidatos. Se maximiza el ROC-AUC de validacion cruzada.",
-        )
-        searches[criterion]["best_alpha"] = alphas[criterion]
-    specs = [
-        ("Gini", "individual", DecisionTreeClassifier(criterion="gini", random_state=SEED), {"criterion": "gini", "random_state": SEED}, None),
-        ("Gini podado", "individual", DecisionTreeClassifier(criterion="gini", random_state=SEED, ccp_alpha=alphas["gini"]), {"criterion": "gini", "ccp_alpha": alphas["gini"], "random_state": SEED}, searches["gini"]),
-        ("Entropía", "individual", DecisionTreeClassifier(criterion="entropy", random_state=SEED), {"criterion": "entropy", "random_state": SEED}, None),
-        ("Entropía podada", "individual", DecisionTreeClassifier(criterion="entropy", random_state=SEED, ccp_alpha=alphas["entropy"]), {"criterion": "entropy", "ccp_alpha": alphas["entropy"], "random_state": SEED}, searches["entropy"]),
-        ("Regresión logística", "individual", make_scaled_logistic(), {"scaler": "StandardScaler", "penalty": "L2", "l1_ratio": 0.0, "C": 1.0, "solver": "lbfgs", "max_iter": 10000, "random_state": SEED}, None),
-    ]
-    fitted = []
-    records = []
-    for name, role, estimator, params, search in specs:
-        _model, record, proba = evaluate_classifier(name, estimator, x_train, y_train, x_test, y_test, cv, role, params, True)
-        if search is not None:
-            record["search"] = search
-        records.append(record)
-        fitted.append({"record": record, "proba": proba})
-    plot_item1(PLOTS / "item1_breast_cancer.png", fitted, y_test)
+def prepare_classification() -> dict:
+    log("Cargando breast_cancer")
+    breast = load_breast_cancer_data()
+    x_train, x_test, y_train, y_test = split_classification(breast["X"], breast["y"])
+    breast["meta"]["n_train"] = int(len(y_train))
+    breast["meta"]["n_test"] = int(len(y_test))
+    breast["meta"]["train_class_counts"] = class_counts(y_train)
+    breast["meta"]["test_class_counts"] = class_counts(y_test)
     return {
-        "question": "1. Entrene modelos de árboles de decisión con criterios de impureza diferentes (índice gini y entropía) usando el dataset 'breast_cancer' de scikit-learn, compare su eficiencia con respecto a un modelo lineal como el Regresor Logístico. ¿Cuál es mejor?",
-        "models": records,
-        "conclusion": conclusion_classifier(records),
-        "pruning": {"gini": searches["gini"], "entropy": searches["entropy"]},
+        "X_train": x_train,
+        "X_test": x_test,
+        "y_train": y_train,
+        "y_test": y_test,
+        "cv": make_cv_clf(),
+        "feature_names": breast["meta"]["feature_names"],
+        "meta": breast["meta"],
     }
+
+
+def prepare_regression() -> dict:
+    log("Cargando auto_mpg")
+    mpg_data = load_auto_mpg()
+    x_train, x_test, y_train, y_test = split_regression(mpg_data["X"], mpg_data["y"])
+    mpg_data["meta"]["n_train"] = int(len(y_train))
+    mpg_data["meta"]["n_test"] = int(len(y_test))
+    mpg_data["meta"]["mpg_train_mean"] = float(y_train.mean())
+    mpg_data["meta"]["mpg_test_mean"] = float(y_test.mean())
+    mpg_data["meta"]["mpg_train_std"] = float(y_train.std(ddof=1))
+    mpg_data["meta"]["mpg_test_std"] = float(y_test.std(ddof=1))
+    return {
+        "X_train": x_train,
+        "X_test": x_test,
+        "y_train": y_train,
+        "y_test": y_test,
+        "cv": make_cv_reg(),
+        "meta": mpg_data["meta"],
+    }
+
+
+def run_item1(x_train, y_train, x_test, y_test, cv) -> dict:
+    from pregunta_1 import entrenar
+
+    return entrenar(x_train, y_train, x_test, y_test, cv)
 
 
 def run_item2(x_train, y_train, x_test, y_test, cv) -> dict:
-    fixed_specs = [
-        (
-            "Árbol sin restricciones",
-            make_mpg_tree(max_depth=None, min_samples_split=2, min_samples_leaf=1, criterion="squared_error"),
-            {"criterion": "squared_error", "max_depth": None, "min_samples_split": 2, "min_samples_leaf": 1, "random_state": SEED},
-        ),
-        (
-            "Árbol superficial",
-            make_mpg_tree(max_depth=2, criterion="squared_error"),
-            {"criterion": "squared_error", "max_depth": 2, "min_samples_split": 2, "min_samples_leaf": 1, "random_state": SEED},
-        ),
-        (
-            "Árbol profundidad controlada",
-            make_mpg_tree(max_depth=4, min_samples_split=5, min_samples_leaf=2, criterion="squared_error"),
-            {"criterion": "squared_error", "max_depth": 4, "min_samples_split": 5, "min_samples_leaf": 2, "random_state": SEED},
-        ),
-        (
-            "Árbol error absoluto",
-            make_mpg_tree(criterion="absolute_error", max_depth=5, min_samples_leaf=5),
-            {"criterion": "absolute_error", "max_depth": 5, "min_samples_leaf": 5, "min_samples_split": 2, "random_state": SEED},
-        ),
-    ]
-    records = []
-    for name, estimator, params in fixed_specs:
-        _model, record = evaluate_regressor(name, estimator, x_train, y_train, x_test, y_test, cv, "individual", params)
-        record["importances"] = importances_from_model(_model)
-        records.append(record)
+    from pregunta_2 import entrenar
 
-    log("Busqueda de ccp_alpha para el arbol de auto_mpg")
-    pre = make_preprocess()
-    transformed = pre.fit_transform(x_train, y_train)
-    alpha_grid = candidate_alphas(DecisionTreeRegressor(random_state=SEED), transformed, y_train, max_alphas=35)
-    ccp_pipe = make_mpg_tree()
-    ccp_search, ccp_elapsed = run_grid(
-        ccp_pipe,
-        {"model__ccp_alpha": alpha_grid},
-        x_train,
-        y_train,
-        cv,
-        "neg_root_mean_squared_error",
-    )
-    ccp_alpha = float(ccp_search.best_params_["model__ccp_alpha"])
-    ccp_info = search_info(
-        ccp_search,
-        ccp_elapsed,
-        "neg_root_mean_squared_error",
-        f"ccp_alpha sobre la ruta de poda, con {len(alpha_grid)} valores. Se minimiza el RMSE de validacion cruzada.",
-    )
-    ccp_info["best_alpha"] = ccp_alpha
-    ccp_model, ccp_record = evaluate_regressor(
-        "Árbol poda CCP",
-        make_mpg_tree(ccp_alpha=ccp_alpha),
-        x_train,
-        y_train,
-        x_test,
-        y_test,
-        cv,
-        "individual",
-        {"criterion": "squared_error", "ccp_alpha": ccp_alpha, "random_state": SEED},
-    )
-    ccp_record["search"] = ccp_info
-    ccp_record["importances"] = importances_from_model(ccp_model)
-    records.append(ccp_record)
-
-    log("GridSearchCV del arbol de regresion")
-    grid = [
-        {
-            "model__criterion": ["squared_error"],
-            "model__max_depth": [2, 3, 4, 5, 6, 8, 10, None],
-            "model__min_samples_split": [2, 5, 10, 20],
-            "model__min_samples_leaf": [1, 2, 4, 8],
-            "model__max_features": [1.0, "sqrt", "log2"],
-        },
-        {
-            "model__criterion": ["absolute_error"],
-            "model__max_depth": [3, 4, 5, 6, 8],
-            "model__min_samples_split": [2, 10],
-            "model__min_samples_leaf": [2, 5, 8],
-            "model__max_features": [1.0, "sqrt"],
-        },
-    ]
-    space = (
-        "Primera malla: criterion squared_error, max_depth en {2, 3, 4, 5, 6, 8, 10, sin límite}, "
-        "min_samples_split en {2, 5, 10, 20}, min_samples_leaf en {1, 2, 4, 8}, max_features en {todas (1.0), sqrt, log2}. "
-        "Segunda malla: criterion absolute_error, max_depth en {3, 4, 5, 6, 8}, min_samples_split en {2, 10}, "
-        "min_samples_leaf en {2, 5, 8}, max_features en {todas (1.0), sqrt}. "
-        "scikit-learn 1.9 admite squared_error, absolute_error y poisson en DecisionTreeRegressor; friedman_mse ya no es válido, así que el contraste de criterion usa squared_error y absolute_error."
-    )
-    grid_search, grid_elapsed = run_grid(
-        make_mpg_tree(),
-        grid,
-        x_train,
-        y_train,
-        cv,
-        "neg_root_mean_squared_error",
-    )
-    grid_info = search_info(grid_search, grid_elapsed, "neg_root_mean_squared_error", space)
-    best_params = to_builtin(grid_search.best_params_)
-    grid_model, grid_record = evaluate_regressor(
-        "Árbol GridSearchCV",
-        grid_search.best_estimator_,
-        x_train,
-        y_train,
-        x_test,
-        y_test,
-        cv,
-        "individual",
-        best_params,
-    )
-    grid_record["search"] = grid_info
-    grid_record["importances"] = importances_from_model(grid_model)
-    records.append(grid_record)
-
-    linear_model, linear_record = evaluate_regressor(
-        "Regresión lineal",
-        make_mpg_linear(),
-        x_train,
-        y_train,
-        x_test,
-        y_test,
-        cv,
-        "individual",
-        {
-            "preprocesado": "one-hot de origin con referencia europe",
-            "scaler": "StandardScaler",
-            "estimador": "LinearRegression",
-        },
-    )
-    linear_record["coefficients"] = linear_coefficient_rows(linear_model)
-    records.append(linear_record)
-    curve = validation_curve_depth(x_train, y_train, x_test, y_test)
-    plot_item2(
-        PLOTS / "item2_auto_mpg.png",
-        records,
-        curve,
-        linear_record["metrics"]["r2_test"],
-        linear_record["metrics"]["rmse_test"],
-    )
-    return {
-        "question": "2. Entrene modelos de árboles de decisión con varias configuraciones de hiper parámetros usando el dataset auto_mpg, comparar su eficiencia con respecto a un modelo lineal como el Regresor Lineal. ¿Cuál es el mejor?",
-        "models": records,
-        "validation_curve": curve,
-        "conclusion": conclusion_regressor(records),
-    }
+    return entrenar(x_train, y_train, x_test, y_test, cv)
 
 
 def run_item3(x_train, y_train, x_test, y_test, cv) -> dict:
-    specs = [
-        ("Árbol de decisión", "individual", DecisionTreeClassifier(random_state=SEED), {"criterion": "gini", "random_state": SEED}, True),
-        ("SVC", "individual", individual_classifier_estimators()[1][1], {"kernel": "rbf", "probability": True, "scaler": "StandardScaler", "random_state": SEED}, True),
-        ("k-NN", "individual", individual_classifier_estimators()[2][1], {"n_neighbors": 5, "scaler": "StandardScaler"}, True),
-        ("Regresión logística", "individual", make_scaled_logistic(), {"penalty": "L2", "l1_ratio": 0.0, "C": 1.0, "max_iter": 10000, "scaler": "StandardScaler", "random_state": SEED}, True),
-        ("Voting duro", "ensemble", VotingClassifier(estimators=individual_classifier_estimators(), voting="hard"), {"voting": "hard", "bases": "arbol, SVC, k-NN, regresion logistica"}, False),
-        ("Voting suave", "ensemble", VotingClassifier(estimators=individual_classifier_estimators(), voting="soft"), {"voting": "soft", "bases": "arbol, SVC, k-NN, regresion logistica"}, True),
-        (
-            "Stacking",
-            "ensemble",
-            StackingClassifier(
-                estimators=individual_classifier_estimators(),
-                final_estimator=logistic_regression(),
-                cv=make_cv_clf(),
-                stack_method="auto",
-                n_jobs=1,
-                passthrough=False,
-            ),
-            {"final_estimator": "regresion logistica L2", "cv": "StratifiedKFold de 5 pliegues", "passthrough": False},
-            True,
-        ),
-        (
-            "AdaBoost",
-            "ensemble",
-            AdaBoostClassifier(
-                estimator=DecisionTreeClassifier(max_depth=1, random_state=SEED),
-                n_estimators=50,
-                learning_rate=1.0,
-                random_state=SEED,
-            ),
-            {"n_estimators": 50, "learning_rate": 1.0, "estimator_max_depth": 1, "random_state": SEED},
-            True,
-        ),
-        (
-            "Gradient Boosting",
-            "ensemble",
-            GradientBoostingClassifier(random_state=SEED),
-            {"n_estimators": 100, "learning_rate": 0.1, "max_depth": 3, "random_state": SEED},
-            True,
-        ),
-    ]
-    records = []
-    for name, role, estimator, params, needs_proba in specs:
-        _model, record, _proba = evaluate_classifier(
-            name, estimator, x_train, y_train, x_test, y_test, cv, role, params, needs_proba
-        )
-        records.append(record)
-    plot_item3(PLOTS / "item3_ensemble_clf.png", records)
-    individuals = [record for record in records if record["role"] == "individual"]
-    ensembles = [record for record in records if record["role"] == "ensemble" and record["metrics"]["roc_auc_test"] is not None]
-    return {
-        "question": "3. Entrene un modelo ensemble clasificador, y compare su eficiencia con respecto a un modelo individual. ¿Cuál es mejor?",
-        "models": records,
-        "conclusion": conclusion_classifier(records),
-        "best_individual": conclusion_classifier(individuals),
-        "best_ensemble": conclusion_classifier(ensembles),
-    }
+    from pregunta_3 import entrenar
+
+    return entrenar(x_train, y_train, x_test, y_test, cv)
 
 
 def run_item4(bc, mpg) -> dict:
-    clf_records = []
-    tree, tree_record, _proba = evaluate_classifier(
-        "Árbol individual",
-        DecisionTreeClassifier(random_state=SEED),
-        bc["X_train"],
-        bc["y_train"],
-        bc["X_test"],
-        bc["y_test"],
-        bc["cv"],
-        "individual",
-        {"criterion": "gini", "random_state": SEED},
-        True,
-    )
-    tree_record["n_estimators"] = 1
-    clf_records.append(tree_record)
-    for n_estimators in (10, 50, 100, 200):
-        estimator = BaggingClassifier(
-            estimator=DecisionTreeClassifier(random_state=SEED),
-            n_estimators=n_estimators,
-            max_samples=1.0,
-            bootstrap=True,
-            oob_score=True,
-            random_state=SEED,
-            n_jobs=1,
-        )
-        model, record, _proba = evaluate_classifier(
-            f"Bagging ({n_estimators})",
-            estimator,
-            bc["X_train"],
-            bc["y_train"],
-            bc["X_test"],
-            bc["y_test"],
-            bc["cv"],
-            "ensemble",
-            {
-                "n_estimators": n_estimators,
-                "max_samples": 1.0,
-                "bootstrap": True,
-                "oob_score": True,
-                "base": "DecisionTreeClassifier",
-                "random_state": SEED,
-            },
-            True,
-        )
-        record["n_estimators"] = n_estimators
-        attach_correlation(record, model, bc["X_test"], "clf")
-        clf_records.append(record)
+    from pregunta_4 import entrenar
 
-    reg_records = []
-    _model, reg_tree = evaluate_regressor(
-        "Árbol individual",
-        make_mpg_tree(max_depth=None, min_samples_split=2, min_samples_leaf=1, criterion="squared_error"),
-        mpg["X_train"],
-        mpg["y_train"],
-        mpg["X_test"],
-        mpg["y_test"],
-        mpg["cv"],
-        "individual",
-        {"criterion": "squared_error", "max_depth": None, "min_samples_split": 2, "min_samples_leaf": 1, "random_state": SEED},
-    )
-    reg_tree["n_estimators"] = 1
-    reg_records.append(reg_tree)
-    for n_estimators in (10, 50, 100, 200):
-        estimator = Pipeline(
-            [
-                ("pre", make_preprocess()),
-                (
-                    "model",
-                    BaggingRegressor(
-                        estimator=DecisionTreeRegressor(random_state=SEED),
-                        n_estimators=n_estimators,
-                        max_samples=1.0,
-                        bootstrap=True,
-                        oob_score=True,
-                        random_state=SEED,
-                        n_jobs=1,
-                    ),
-                ),
-            ]
-        )
-        model, record = evaluate_regressor(
-            f"Bagging ({n_estimators})",
-            estimator,
-            mpg["X_train"],
-            mpg["y_train"],
-            mpg["X_test"],
-            mpg["y_test"],
-            mpg["cv"],
-            "ensemble",
-            {
-                "n_estimators": n_estimators,
-                "max_samples": 1.0,
-                "bootstrap": True,
-                "oob_score": True,
-                "base": "DecisionTreeRegressor",
-                "random_state": SEED,
-            },
-        )
-        record["n_estimators"] = n_estimators
-        attach_correlation(record, model, mpg["X_test"], "reg")
-        reg_records.append(record)
-    plot_item4(PLOTS / "item4_bagging.png", clf_records, reg_records)
-    bag_clf = [record for record in clf_records if record["role"] == "ensemble"]
-    bag_reg = [record for record in reg_records if record["role"] == "ensemble"]
-    best_clf = max(bag_clf, key=lambda record: (record["metrics"]["accuracy_test"], record["metrics"]["f1_test"], record["metrics"]["roc_auc_test"]))
-    best_reg = min(bag_reg, key=lambda record: (record["metrics"]["rmse_test"], -record["metrics"]["r2_test"]))
-    return {
-        "question": "4. Entrene un modelo bagging regresor o clasificador y compare su eficiencia con respecto a un modelo individual. ¿Cuál es el mejor?",
-        "classification": {
-            "models": clf_records,
-            "best_bagging": best_clf["name"],
-            "individual": "Árbol individual",
-        },
-        "regression": {
-            "models": reg_records,
-            "best_bagging": best_reg["name"],
-            "individual": "Árbol individual",
-        },
-    }
+    return entrenar(bc, mpg)
 
 
 def run_item5(bc, mpg) -> dict:
-    feature_names = bc["feature_names"]
-    clf_records = []
-    rf_base = RandomForestClassifier(n_estimators=100, random_state=SEED, n_jobs=1)
-    model, record, _proba = evaluate_classifier(
-        "Random Forest base",
-        rf_base,
-        bc["X_train"],
-        bc["y_train"],
-        bc["X_test"],
-        bc["y_test"],
-        bc["cv"],
-        "ensemble",
-        {"n_estimators": 100, "max_features": "sqrt", "random_state": SEED},
-        True,
-    )
-    record["importances"] = importances_from_model(model, feature_names)
-    attach_correlation(record, model, bc["X_test"], "clf")
-    clf_records.append(record)
+    from pregunta_5 import entrenar
 
-    rf_grid = {
-        "n_estimators": [100, 200],
-        "max_depth": [None, 4, 8, 12],
-        "min_samples_leaf": [1, 2, 4],
-        "max_features": ["sqrt", "log2"],
-    }
-    rf_space = "n_estimators en {100, 200}, max_depth en {sin límite, 4, 8, 12}, min_samples_leaf en {1, 2, 4}, max_features en {sqrt, log2}."
-    rf_search, rf_elapsed = run_grid(
-        RandomForestClassifier(random_state=SEED, n_jobs=1),
-        rf_grid,
-        bc["X_train"],
-        bc["y_train"],
-        bc["cv"],
-        "roc_auc",
-    )
-    model, record, _proba = evaluate_classifier(
-        "Random Forest optimizado",
-        rf_search.best_estimator_,
-        bc["X_train"],
-        bc["y_train"],
-        bc["X_test"],
-        bc["y_test"],
-        bc["cv"],
-        "ensemble",
-        to_builtin(rf_search.best_params_),
-        True,
-    )
-    record["search"] = search_info(rf_search, rf_elapsed, "roc_auc", rf_space)
-    record["importances"] = importances_from_model(model, feature_names)
-    attach_correlation(record, model, bc["X_test"], "clf")
-    clf_records.append(record)
-
-    xgb_base = XGBClassifier(
-        n_estimators=100,
-        learning_rate=0.1,
-        eval_metric="logloss",
-        random_state=SEED,
-        n_jobs=1,
-        verbosity=0,
-    )
-    model, record, _proba = evaluate_classifier(
-        "XGBoost base",
-        xgb_base,
-        bc["X_train"],
-        bc["y_train"],
-        bc["X_test"],
-        bc["y_test"],
-        bc["cv"],
-        "ensemble",
-        {"n_estimators": 100, "learning_rate": 0.1, "eval_metric": "logloss", "random_state": SEED},
-        True,
-    )
-    record["importances"] = importances_from_model(model, feature_names)
-    clf_records.append(record)
-
-    xgb_grid = {
-        "n_estimators": [100, 200],
-        "learning_rate": [0.05, 0.1, 0.2],
-        "max_depth": [2, 3, 4, 6],
-        "subsample": [0.8, 1.0],
-        "colsample_bytree": [0.8, 1.0],
-        "reg_lambda": [1.0, 5.0],
-    }
-    xgb_space = (
-        "n_estimators en {100, 200}, learning_rate en {0.05, 0.1, 0.2}, max_depth en {2, 3, 4, 6}, "
-        "subsample en {0.8, 1.0}, colsample_bytree en {0.8, 1.0}, reg_lambda en {1, 5}."
-    )
-    xgb_search, xgb_elapsed = run_grid(
-        XGBClassifier(eval_metric="logloss", random_state=SEED, n_jobs=1, verbosity=0),
-        xgb_grid,
-        bc["X_train"],
-        bc["y_train"],
-        bc["cv"],
-        "roc_auc",
-    )
-    model, record, _proba = evaluate_classifier(
-        "XGBoost optimizado",
-        xgb_search.best_estimator_,
-        bc["X_train"],
-        bc["y_train"],
-        bc["X_test"],
-        bc["y_test"],
-        bc["cv"],
-        "ensemble",
-        to_builtin(xgb_search.best_params_),
-        True,
-    )
-    record["search"] = search_info(xgb_search, xgb_elapsed, "roc_auc", xgb_space)
-    record["importances"] = importances_from_model(model, feature_names)
-    clf_records.append(record)
-
-    reg_records = []
-    rf_reg_base = Pipeline(
-        [
-            ("pre", make_preprocess()),
-            ("model", RandomForestRegressor(n_estimators=100, random_state=SEED, n_jobs=1)),
-        ]
-    )
-    model, record = evaluate_regressor(
-        "Random Forest base",
-        rf_reg_base,
-        mpg["X_train"],
-        mpg["y_train"],
-        mpg["X_test"],
-        mpg["y_test"],
-        mpg["cv"],
-        "ensemble",
-        {"n_estimators": 100, "max_features": 1.0, "random_state": SEED},
-    )
-    record["importances"] = importances_from_model(model)
-    attach_correlation(record, model, mpg["X_test"], "reg")
-    reg_records.append(record)
-
-    rf_reg_grid = {
-        "model__n_estimators": [100, 200],
-        "model__max_depth": [None, 4, 8, 12, 16],
-        "model__min_samples_leaf": [1, 2, 4],
-        "model__max_features": [1.0, "sqrt", 0.5],
-    }
-    rf_reg_space = "n_estimators en {100, 200}, max_depth en {sin límite, 4, 8, 12, 16}, min_samples_leaf en {1, 2, 4}, max_features en {todas (1.0), sqrt, 0.5}."
-    rf_reg_search, rf_reg_elapsed = run_grid(
-        Pipeline(
-            [
-                ("pre", make_preprocess()),
-                ("model", RandomForestRegressor(random_state=SEED, n_jobs=1)),
-            ]
-        ),
-        rf_reg_grid,
-        mpg["X_train"],
-        mpg["y_train"],
-        mpg["cv"],
-        "neg_root_mean_squared_error",
-    )
-    model, record = evaluate_regressor(
-        "Random Forest optimizado",
-        rf_reg_search.best_estimator_,
-        mpg["X_train"],
-        mpg["y_train"],
-        mpg["X_test"],
-        mpg["y_test"],
-        mpg["cv"],
-        "ensemble",
-        to_builtin(rf_reg_search.best_params_),
-    )
-    record["search"] = search_info(rf_reg_search, rf_reg_elapsed, "neg_root_mean_squared_error", rf_reg_space)
-    record["importances"] = importances_from_model(model)
-    attach_correlation(record, model, mpg["X_test"], "reg")
-    reg_records.append(record)
-
-    xgb_reg_base = Pipeline(
-        [
-            ("pre", make_preprocess()),
-            ("model", XGBRegressor(n_estimators=100, learning_rate=0.1, random_state=SEED, n_jobs=1, verbosity=0)),
-        ]
-    )
-    model, record = evaluate_regressor(
-        "XGBoost base",
-        xgb_reg_base,
-        mpg["X_train"],
-        mpg["y_train"],
-        mpg["X_test"],
-        mpg["y_test"],
-        mpg["cv"],
-        "ensemble",
-        {"n_estimators": 100, "learning_rate": 0.1, "random_state": SEED},
-    )
-    record["importances"] = importances_from_model(model)
-    reg_records.append(record)
-
-    xgb_reg_grid = {
-        "model__n_estimators": [100, 200],
-        "model__learning_rate": [0.05, 0.1, 0.2],
-        "model__max_depth": [2, 3, 4, 6],
-        "model__subsample": [0.8, 1.0],
-        "model__colsample_bytree": [0.8, 1.0],
-        "model__reg_lambda": [1.0, 5.0],
-    }
-    xgb_reg_search, xgb_reg_elapsed = run_grid(
-        Pipeline(
-            [
-                ("pre", make_preprocess()),
-                ("model", XGBRegressor(random_state=SEED, n_jobs=1, verbosity=0)),
-            ]
-        ),
-        xgb_reg_grid,
-        mpg["X_train"],
-        mpg["y_train"],
-        mpg["cv"],
-        "neg_root_mean_squared_error",
-    )
-    model, record = evaluate_regressor(
-        "XGBoost optimizado",
-        xgb_reg_search.best_estimator_,
-        mpg["X_train"],
-        mpg["y_train"],
-        mpg["X_test"],
-        mpg["y_test"],
-        mpg["cv"],
-        "ensemble",
-        to_builtin(xgb_reg_search.best_params_),
-    )
-    record["search"] = search_info(xgb_reg_search, xgb_reg_elapsed, "neg_root_mean_squared_error", xgb_space)
-    record["importances"] = importances_from_model(model)
-    reg_records.append(record)
-
-    plot_item5(PLOTS / "item5_rf_vs_xgboost.png", clf_records, reg_records)
-    return {
-        "question": "5. Entrene un modelo RandomForest y compare su eficiencia con respecto a un modelo XGBoost. ¿Cuál es mejor?",
-        "classification": {
-            "models": clf_records,
-            "conclusion": conclusion_classifier(clf_records),
-        },
-        "regression": {
-            "models": reg_records,
-            "conclusion": conclusion_regressor(reg_records),
-        },
-    }
+    return entrenar(bc, mpg)
 
 
 def fmt_int_opt(value) -> str:
@@ -2951,6 +2402,7 @@ def dataset_section(results) -> str:
                     "4. Elegir hiperparámetros con validación cruzada de 5 pliegues sobre el entrenamiento. El conjunto de prueba no participa en esa elección.",
                     "5. Reportar métricas de entrenamiento, de prueba y la media ± desviación estándar de los 5 pliegues (desviación con divisor N, la misma convención que `GridSearchCV`).",
                     "6. Guardar figuras, `results_metrics.json`, el README, el diseño experimental y el cuaderno ejecutado.",
+                    "7. El entrenamiento de cada pregunta está en `src/pregunta_1.py`, `src/pregunta_2.py`, `src/pregunta_3.py`, `src/pregunta_4.py` y `src/pregunta_5.py`. `src/run_experiments.py` los ejecuta todos.",
                 ]
             ),
             "### Protocolo común",
@@ -3177,18 +2629,18 @@ def build_formal_readme(results) -> str:
             ["Resumen de hallazgos", "Cuadro de dictámenes y sección de conclusiones"],
             ["Métricas de entrenamiento, prueba y validación cruzada", "Tabla de cada pregunta y `results_metrics.json`"],
             ["Gráficos comparativos", "Carpeta `plots/` e imágenes incrustadas bajo cada pregunta"],
-            ["Código de los modelos entrenados", "`src/run_experiments.py` y `cuaderno_de_codigos.ipynb`"],
+            ["Código de los modelos entrenados", "`src/pregunta_1.py` a `src/pregunta_5.py`, reunidos por `src/run_experiments.py`, y `cuaderno_de_codigos.ipynb`"],
             ["Detalle de datos, pruebas e hiperparámetros", "[diseño_experimental.md](diseño_experimental.md)"],
         ],
     )
     code_map = md_table(
         ["Pregunta", "Función", "Datos", "Figura"],
         [
-            ["1", "`run_item1`", "`load_breast_cancer`", "`plots/item1_breast_cancer.png`"],
-            ["2", "`run_item2`", "auto_mpg limpio, 392 filas", "`plots/item2_auto_mpg.png`"],
-            ["3", "`run_item3`", "`load_breast_cancer`", "`plots/item3_ensemble_clf.png`"],
-            ["4", "`run_item4`", "breast_cancer y auto_mpg", "`plots/item4_bagging.png`"],
-            ["5", "`run_item5`", "breast_cancer y auto_mpg", "`plots/item5_rf_vs_xgboost.png`"],
+            ["1", "`src/pregunta_1.py`", "`load_breast_cancer`", "`plots/item1_breast_cancer.png`"],
+            ["2", "`src/pregunta_2.py`", "auto_mpg limpio, 392 filas", "`plots/item2_auto_mpg.png`"],
+            ["3", "`src/pregunta_3.py`", "`load_breast_cancer`", "`plots/item3_ensemble_clf.png`"],
+            ["4", "`src/pregunta_4.py`", "breast_cancer y auto_mpg", "`plots/item4_bagging.png`"],
+            ["5", "`src/pregunta_5.py`", "breast_cancer y auto_mpg", "`plots/item5_rf_vs_xgboost.png`"],
         ],
     )
 
@@ -3366,7 +2818,8 @@ def build_formal_readme(results) -> str:
         md_table(
             ["Campo", "Contenido"],
             [
-                ["Código de los modelos", "`src/run_experiments.py`"],
+                ["Código por pregunta", "`src/pregunta_1.py` a `src/pregunta_5.py`"],
+                ["Corrida completa", "`src/run_experiments.py`"],
                 ["Cuaderno de códigos", "`cuaderno_de_codigos.ipynb`"],
                 ["Métricas", "`results_metrics.json`"],
                 ["Diseño experimental", "[diseño_experimental.md](diseño_experimental.md)"],
@@ -3394,7 +2847,7 @@ def build_formal_readme(results) -> str:
             clf_table(models1),
             "plots/item1_breast_cancer.png",
             "Gráfico de la pregunta 1: métricas, matrices de confusión y curvas ROC",
-            "Función `run_item1` en `src/run_experiments.py`. Modelos: `DecisionTreeClassifier(criterion='gini')`, `DecisionTreeClassifier(criterion='entropy')`, sus versiones con `ccp_alpha` elegido por validación cruzada, y `Pipeline` de `StandardScaler` con `LogisticRegression`.",
+            "Entrenamiento en `src/pregunta_1.py`. Modelos: `DecisionTreeClassifier(criterion='gini')`, `DecisionTreeClassifier(criterion='entropy')`, sus versiones con `ccp_alpha` elegido por validación cruzada, y `Pipeline` de `StandardScaler` con `LogisticRegression`.",
         ),
         block(
             "pregunta-2",
@@ -3404,7 +2857,7 @@ def build_formal_readme(results) -> str:
             reg_table(models2),
             "plots/item2_auto_mpg.png",
             "Gráfico de la pregunta 2: R², RMSE y curva de validación de max_depth",
-            "Función `run_item2` en `src/run_experiments.py`. Seis configuraciones de `DecisionTreeRegressor` (sin restricciones, profundidad 2, profundidad controlada, error absoluto, poda por complejidad de costo y `GridSearchCV`) frente a `Pipeline` de `StandardScaler` con `LinearRegression`.",
+            "Entrenamiento en `src/pregunta_2.py`. Seis configuraciones de `DecisionTreeRegressor` (sin restricciones, profundidad 2, profundidad controlada, error absoluto, poda por complejidad de costo y `GridSearchCV`) frente a `Pipeline` de `StandardScaler` con `LinearRegression`.",
         ),
         block(
             "pregunta-3",
@@ -3414,7 +2867,7 @@ def build_formal_readme(results) -> str:
             clf_table(models3),
             "plots/item3_ensemble_clf.png",
             "Gráfico de la pregunta 3: modelos individuales y ensambles de clasificación",
-            "Función `run_item3` en `src/run_experiments.py`. Individuales: árbol, SVC con probabilidades, k-NN y regresión logística. Ensambles: `VotingClassifier` duro y suave, `StackingClassifier`, `AdaBoostClassifier` y `GradientBoostingClassifier`.",
+            "Entrenamiento en `src/pregunta_3.py`. Individuales: árbol, SVC con probabilidades, k-NN y regresión logística. Ensambles: `VotingClassifier` duro y suave, `StackingClassifier`, `AdaBoostClassifier` y `GradientBoostingClassifier`.",
         ),
         block(
             "pregunta-4",
@@ -3424,7 +2877,7 @@ def build_formal_readme(results) -> str:
             "Clasificación en cáncer de mama:\n\n" + clf_table(clf4, with_oob=True) + "\n\nRegresión en auto_mpg:\n\n" + reg_table(reg4, with_oob=True),
             "plots/item4_bagging.png",
             "Gráfico de la pregunta 4: ganancia del bagging y convergencia al aumentar el número de árboles",
-            "Función `run_item4` en `src/run_experiments.py`. `BaggingClassifier` y `BaggingRegressor` con 10, 50, 100 y 200 árboles, `bootstrap=True` y `oob_score=True`, frente al árbol individual de cada tarea.",
+            "Entrenamiento en `src/pregunta_4.py`. `BaggingClassifier` y `BaggingRegressor` con 10, 50, 100 y 200 árboles, `bootstrap=True` y `oob_score=True`, frente al árbol individual de cada tarea.",
         ),
         block(
             "pregunta-5",
@@ -3434,7 +2887,7 @@ def build_formal_readme(results) -> str:
             "Clasificación en cáncer de mama:\n\n" + clf_table(clf5) + "\n\nRegresión en auto_mpg:\n\n" + reg_table(reg5),
             "plots/item5_rf_vs_xgboost.png",
             "Gráfico de la pregunta 5: métricas de clasificación, regresión e importancias",
-            "Función `run_item5` en `src/run_experiments.py`. `RandomForestClassifier`, `RandomForestRegressor`, `XGBClassifier` y `XGBRegressor`, cada uno en versión base y en versión elegida por `GridSearchCV`.",
+            "Entrenamiento en `src/pregunta_5.py`. `RandomForestClassifier`, `RandomForestRegressor`, `XGBClassifier` y `XGBRegressor`, cada uno en versión base y en versión elegida por `GridSearchCV`.",
         ),
         "## Conclusiones",
         (
@@ -3468,7 +2921,7 @@ def build_formal_readme(results) -> str:
         ),
         "## Ubicación del material",
         evidence,
-        "Los modelos están en `src/run_experiments.py` y en `cuaderno_de_codigos.ipynb`.",
+        "Los modelos de cada pregunta están en `src/pregunta_1.py` a `src/pregunta_5.py`. La corrida completa está en `src/run_experiments.py` y el cuaderno en `cuaderno_de_codigos.ipynb`.",
         code_map,
         "Para regenerar métricas, figuras, este README y el diseño experimental:",
         "```powershell",
@@ -3476,6 +2929,14 @@ def build_formal_readme(results) -> str:
         "cd cart-and-ensemble-benchmarks",
         "python -m pip install -r requirements.txt",
         "python src/run_experiments.py",
+        "```",
+        "Para entrenar una sola pregunta, desde la raíz del repositorio:",
+        "```powershell",
+        "python src/pregunta_1.py",
+        "python src/pregunta_2.py",
+        "python src/pregunta_3.py",
+        "python src/pregunta_4.py",
+        "python src/pregunta_5.py",
         "```",
         f"Experimento de referencia iniciado el {meta['started_at']}. Duración de los ajustes, sin el notebook: {fmt(meta['runtime_seconds'], 2)} s.",
     ]
@@ -3607,7 +3068,8 @@ def build_and_execute_notebook(results) -> None:
             "¿Cuál es mejor?\n\n"
             "El cuaderno sigue ese orden: datos y protocolo, preguntas 1 a 5, conclusiones y una comprobación de dos modelos. "
             "Cada pregunta cita la indicación, muestra las métricas ya calculadas y cierra con la respuesta. "
-            "Las respuestas están en `README.md`. El diseño experimental está en `diseño_experimental.md`."
+            "Las respuestas están en `README.md`. El diseño experimental está en `diseño_experimental.md`. "
+            "El entrenamiento de cada pregunta está en `src/pregunta_1.py` a `src/pregunta_5.py`."
         ),
         new_code_cell(
             "\n".join(
@@ -3820,39 +3282,8 @@ def main() -> None:
     style_plots()
     started_at = time.strftime("%Y-%m-%d %H:%M:%S")
     started = time.perf_counter()
-    log("Cargando breast_cancer")
-    breast = load_breast_cancer_data()
-    x_train, x_test, y_train, y_test = split_classification(breast["X"], breast["y"])
-    breast["meta"]["n_train"] = int(len(y_train))
-    breast["meta"]["n_test"] = int(len(y_test))
-    breast["meta"]["train_class_counts"] = class_counts(y_train)
-    breast["meta"]["test_class_counts"] = class_counts(y_test)
-    bc = {
-        "X_train": x_train,
-        "X_test": x_test,
-        "y_train": y_train,
-        "y_test": y_test,
-        "cv": make_cv_clf(),
-        "feature_names": breast["meta"]["feature_names"],
-        "meta": breast["meta"],
-    }
-    log("Cargando auto_mpg")
-    mpg_data = load_auto_mpg()
-    mx_train, mx_test, my_train, my_test = split_regression(mpg_data["X"], mpg_data["y"])
-    mpg_data["meta"]["n_train"] = int(len(my_train))
-    mpg_data["meta"]["n_test"] = int(len(my_test))
-    mpg_data["meta"]["mpg_train_mean"] = float(my_train.mean())
-    mpg_data["meta"]["mpg_test_mean"] = float(my_test.mean())
-    mpg_data["meta"]["mpg_train_std"] = float(my_train.std(ddof=1))
-    mpg_data["meta"]["mpg_test_std"] = float(my_test.std(ddof=1))
-    mpg = {
-        "X_train": mx_train,
-        "X_test": mx_test,
-        "y_train": my_train,
-        "y_test": my_test,
-        "cv": make_cv_reg(),
-        "meta": mpg_data["meta"],
-    }
+    bc = prepare_classification()
+    mpg = prepare_regression()
     log("Item 1")
     item1 = run_item1(bc["X_train"], bc["y_train"], bc["X_test"], bc["y_test"], bc["cv"])
     log("Item 2")

@@ -18,6 +18,7 @@ Todos los números salen de la ejecución de `src/run_experiments.py` con `rando
 4. Elegir hiperparámetros con validación cruzada de 5 pliegues sobre el entrenamiento. El conjunto de prueba no participa en esa elección.
 5. Reportar métricas de entrenamiento, de prueba y la media ± desviación estándar de los 5 pliegues (desviación con divisor N, la misma convención que `GridSearchCV`).
 6. Guardar figuras, `results_metrics.json`, el README, el diseño experimental y el cuaderno ejecutado.
+7. El entrenamiento de cada pregunta está en `src/pregunta_1.py`, `src/pregunta_2.py`, `src/pregunta_3.py`, `src/pregunta_4.py` y `src/pregunta_5.py`. `src/run_experiments.py` los ejecuta todos.
 
 ### Protocolo común
 

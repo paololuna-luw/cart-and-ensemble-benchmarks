@@ -2,7 +2,8 @@
 
 | Campo | Contenido |
 | --- | --- |
-| Código de los modelos | `src/run_experiments.py` |
+| Código por pregunta | `src/pregunta_1.py` a `src/pregunta_5.py` |
+| Corrida completa | `src/run_experiments.py` |
 | Cuaderno de códigos | `cuaderno_de_codigos.ipynb` |
 | Métricas | `results_metrics.json` |
 | Diseño experimental | [diseño_experimental.md](diseño_experimental.md) |
@@ -60,7 +61,7 @@ Regresión logística alcanza ROC-AUC de prueba 0.9954, F1 0.9861, accuracy de p
 
 ### Código correspondiente
 
-Función `run_item1` en `src/run_experiments.py`. Modelos: `DecisionTreeClassifier(criterion='gini')`, `DecisionTreeClassifier(criterion='entropy')`, sus versiones con `ccp_alpha` elegido por validación cruzada, y `Pipeline` de `StandardScaler` con `LogisticRegression`.
+Entrenamiento en `src/pregunta_1.py`. Modelos: `DecisionTreeClassifier(criterion='gini')`, `DecisionTreeClassifier(criterion='entropy')`, sus versiones con `ccp_alpha` elegido por validación cruzada, y `Pipeline` de `StandardScaler` con `LogisticRegression`.
 
 <a id="pregunta-2"></a>
 
@@ -98,7 +99,7 @@ El árbol regularizado parte el espacio de peso, potencia, cilindrada y año en 
 
 ### Código correspondiente
 
-Función `run_item2` en `src/run_experiments.py`. Seis configuraciones de `DecisionTreeRegressor` (sin restricciones, profundidad 2, profundidad controlada, error absoluto, poda por complejidad de costo y `GridSearchCV`) frente a `Pipeline` de `StandardScaler` con `LinearRegression`.
+Entrenamiento en `src/pregunta_2.py`. Seis configuraciones de `DecisionTreeRegressor` (sin restricciones, profundidad 2, profundidad controlada, error absoluto, poda por complejidad de costo y `GridSearchCV`) frente a `Pipeline` de `StandardScaler` con `LinearRegression`.
 
 <a id="pregunta-3"></a>
 
@@ -136,7 +137,7 @@ El mejor modelo individual es Regresión logística, con ROC-AUC 0.9954, F1 0.98
 
 ### Código correspondiente
 
-Función `run_item3` en `src/run_experiments.py`. Individuales: árbol, SVC con probabilidades, k-NN y regresión logística. Ensambles: `VotingClassifier` duro y suave, `StackingClassifier`, `AdaBoostClassifier` y `GradientBoostingClassifier`.
+Entrenamiento en `src/pregunta_3.py`. Individuales: árbol, SVC con probabilidades, k-NN y regresión logística. Ensambles: `VotingClassifier` duro y suave, `StackingClassifier`, `AdaBoostClassifier` y `GradientBoostingClassifier`.
 
 <a id="pregunta-4"></a>
 
@@ -184,7 +185,7 @@ Regresión en auto_mpg:
 
 ### Código correspondiente
 
-Función `run_item4` en `src/run_experiments.py`. `BaggingClassifier` y `BaggingRegressor` con 10, 50, 100 y 200 árboles, `bootstrap=True` y `oob_score=True`, frente al árbol individual de cada tarea.
+Entrenamiento en `src/pregunta_4.py`. `BaggingClassifier` y `BaggingRegressor` con 10, 50, 100 y 200 árboles, `bootstrap=True` y `oob_score=True`, frente al árbol individual de cada tarea.
 
 <a id="pregunta-5"></a>
 
@@ -230,7 +231,7 @@ Regresión en auto_mpg:
 
 ### Código correspondiente
 
-Función `run_item5` en `src/run_experiments.py`. `RandomForestClassifier`, `RandomForestRegressor`, `XGBClassifier` y `XGBRegressor`, cada uno en versión base y en versión elegida por `GridSearchCV`.
+Entrenamiento en `src/pregunta_5.py`. `RandomForestClassifier`, `RandomForestRegressor`, `XGBClassifier` y `XGBRegressor`, cada uno en versión base y en versión elegida por `GridSearchCV`.
 
 ## Conclusiones
 
@@ -261,18 +262,18 @@ Un árbol CART sin restricciones ajusta el entrenamiento hasta dejar poca o ning
 | Resumen de hallazgos | Cuadro de dictámenes y sección de conclusiones |
 | Métricas de entrenamiento, prueba y validación cruzada | Tabla de cada pregunta y `results_metrics.json` |
 | Gráficos comparativos | Carpeta `plots/` e imágenes incrustadas bajo cada pregunta |
-| Código de los modelos entrenados | `src/run_experiments.py` y `cuaderno_de_codigos.ipynb` |
+| Código de los modelos entrenados | `src/pregunta_1.py` a `src/pregunta_5.py`, reunidos por `src/run_experiments.py`, y `cuaderno_de_codigos.ipynb` |
 | Detalle de datos, pruebas e hiperparámetros | [diseño_experimental.md](diseño_experimental.md) |
 
-Los modelos están en `src/run_experiments.py` y en `cuaderno_de_codigos.ipynb`.
+Los modelos de cada pregunta están en `src/pregunta_1.py` a `src/pregunta_5.py`. La corrida completa está en `src/run_experiments.py` y el cuaderno en `cuaderno_de_codigos.ipynb`.
 
 | Pregunta | Función | Datos | Figura |
 | --- | --- | --- | --- |
-| 1 | `run_item1` | `load_breast_cancer` | `plots/item1_breast_cancer.png` |
-| 2 | `run_item2` | auto_mpg limpio, 392 filas | `plots/item2_auto_mpg.png` |
-| 3 | `run_item3` | `load_breast_cancer` | `plots/item3_ensemble_clf.png` |
-| 4 | `run_item4` | breast_cancer y auto_mpg | `plots/item4_bagging.png` |
-| 5 | `run_item5` | breast_cancer y auto_mpg | `plots/item5_rf_vs_xgboost.png` |
+| 1 | `src/pregunta_1.py` | `load_breast_cancer` | `plots/item1_breast_cancer.png` |
+| 2 | `src/pregunta_2.py` | auto_mpg limpio, 392 filas | `plots/item2_auto_mpg.png` |
+| 3 | `src/pregunta_3.py` | `load_breast_cancer` | `plots/item3_ensemble_clf.png` |
+| 4 | `src/pregunta_4.py` | breast_cancer y auto_mpg | `plots/item4_bagging.png` |
+| 5 | `src/pregunta_5.py` | breast_cancer y auto_mpg | `plots/item5_rf_vs_xgboost.png` |
 
 Para regenerar métricas, figuras, este README y el diseño experimental:
 
@@ -285,6 +286,22 @@ cd cart-and-ensemble-benchmarks
 python -m pip install -r requirements.txt
 
 python src/run_experiments.py
+
+```
+
+Para entrenar una sola pregunta, desde la raíz del repositorio:
+
+```powershell
+
+python src/pregunta_1.py
+
+python src/pregunta_2.py
+
+python src/pregunta_3.py
+
+python src/pregunta_4.py
+
+python src/pregunta_5.py
 
 ```
 
