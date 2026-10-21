@@ -2,11 +2,11 @@
 
 | Campo | Contenido |
 | --- | --- |
-| Código por pregunta | `src/pregunta_1.py` a `src/pregunta_5.py` |
+| Código por pregunta | `src/codigo_entrenamiento_p1.py` a `src/codigo_entrenamiento_p5.py` |
 | Corrida completa | `src/run_experiments.py` |
-| Cuaderno de códigos | `cuaderno_de_codigos.ipynb` |
+| Representación en cuaderno | `representacion_en_ipynb.ipynb` |
 | Métricas | `results_metrics.json` |
-| Diseño experimental | [diseño_experimental.md](diseño_experimental.md) |
+| Representación en Markdown | [representacion_en_markdown.md](representacion_en_markdown.md) |
 | Semilla | 42 |
 | Partición | 80% entrenamiento / 20% prueba. En clasificación, estratificada. |
 | Validación | 5 pliegues sobre el entrenamiento. Se reporta media ± desviación estándar. |
@@ -61,7 +61,7 @@ Regresión logística alcanza ROC-AUC de prueba 0.9954, F1 0.9861, accuracy de p
 
 ### Código correspondiente
 
-Entrenamiento en `src/pregunta_1.py`. Modelos: `DecisionTreeClassifier(criterion='gini')`, `DecisionTreeClassifier(criterion='entropy')`, sus versiones con `ccp_alpha` elegido por validación cruzada, y `Pipeline` de `StandardScaler` con `LogisticRegression`.
+Entrenamiento en `src/codigo_entrenamiento_p1.py`. Modelos: `DecisionTreeClassifier(criterion='gini')`, `DecisionTreeClassifier(criterion='entropy')`, sus versiones con `ccp_alpha` elegido por validación cruzada, y `Pipeline` de `StandardScaler` con `LogisticRegression`.
 
 <a id="pregunta-2"></a>
 
@@ -99,7 +99,7 @@ El árbol regularizado parte el espacio de peso, potencia, cilindrada y año en 
 
 ### Código correspondiente
 
-Entrenamiento en `src/pregunta_2.py`. Seis configuraciones de `DecisionTreeRegressor` (sin restricciones, profundidad 2, profundidad controlada, error absoluto, poda por complejidad de costo y `GridSearchCV`) frente a `Pipeline` de `StandardScaler` con `LinearRegression`.
+Entrenamiento en `src/codigo_entrenamiento_p2.py`. Seis configuraciones de `DecisionTreeRegressor` (sin restricciones, profundidad 2, profundidad controlada, error absoluto, poda por complejidad de costo y `GridSearchCV`) frente a `Pipeline` de `StandardScaler` con `LinearRegression`.
 
 <a id="pregunta-3"></a>
 
@@ -137,7 +137,7 @@ El mejor modelo individual es Regresión logística, con ROC-AUC 0.9954, F1 0.98
 
 ### Código correspondiente
 
-Entrenamiento en `src/pregunta_3.py`. Individuales: árbol, SVC con probabilidades, k-NN y regresión logística. Ensambles: `VotingClassifier` duro y suave, `StackingClassifier`, `AdaBoostClassifier` y `GradientBoostingClassifier`.
+Entrenamiento en `src/codigo_entrenamiento_p3.py`. Individuales: árbol, SVC con probabilidades, k-NN y regresión logística. Ensambles: `VotingClassifier` duro y suave, `StackingClassifier`, `AdaBoostClassifier` y `GradientBoostingClassifier`.
 
 <a id="pregunta-4"></a>
 
@@ -155,7 +155,7 @@ En cáncer de mama, el árbol individual tiene accuracy de prueba 0.9123, F1 0.9
 
 En auto_mpg, el árbol individual pasa de R² de entrenamiento 1.0000 a R² de prueba 0.7775, con RMSE 3.3700 mpg. Bagging (200) obtiene R² de prueba 0.8880, RMSE 2.3911 mpg, MAE 1.6713 y OOB R² 0.8692. La reducción de RMSE frente al árbol es 0.9789 mpg (29.05%). El bagging de 100 árboles queda en RMSE 2.4004 y OOB R² 0.8676.
 
-El muestreo bootstrap con reemplazo y el promedio de árboles profundos reducen la varianza del predictor. Con correlación ρ entre miembros, la varianza del promedio es ρσ² + (1 − ρ)σ² / B. Si los árboles fueran independientes, ρ = 0 y la varianza quedaría en σ² / B. La correlación estimada en el diseño experimental muestra que los miembros comparten errores, y aun así el bagging mejora la prueba en las dos tareas.
+El muestreo bootstrap con reemplazo y el promedio de árboles profundos reducen la varianza del predictor. Con correlación ρ entre miembros, la varianza del promedio es ρσ² + (1 − ρ)σ² / B. Si los árboles fueran independientes, ρ = 0 y la varianza quedaría en σ² / B. La correlación estimada en la representación en Markdown muestra que los miembros comparten errores, y aun así el bagging mejora la prueba en las dos tareas.
 
 ### Métricas
 
@@ -185,7 +185,7 @@ Regresión en auto_mpg:
 
 ### Código correspondiente
 
-Entrenamiento en `src/pregunta_4.py`. `BaggingClassifier` y `BaggingRegressor` con 10, 50, 100 y 200 árboles, `bootstrap=True` y `oob_score=True`, frente al árbol individual de cada tarea.
+Entrenamiento en `src/codigo_entrenamiento_p4.py`. `BaggingClassifier` y `BaggingRegressor` con 10, 50, 100 y 200 árboles, `bootstrap=True` y `oob_score=True`, frente al árbol individual de cada tarea.
 
 <a id="pregunta-5"></a>
 
@@ -231,7 +231,7 @@ Regresión en auto_mpg:
 
 ### Código correspondiente
 
-Entrenamiento en `src/pregunta_5.py`. `RandomForestClassifier`, `RandomForestRegressor`, `XGBClassifier` y `XGBRegressor`, cada uno en versión base y en versión elegida por `GridSearchCV`.
+Entrenamiento en `src/codigo_entrenamiento_p5.py`. `RandomForestClassifier`, `RandomForestRegressor`, `XGBClassifier` y `XGBRegressor`, cada uno en versión base y en versión elegida por `GridSearchCV`.
 
 ## Conclusiones
 
@@ -245,13 +245,13 @@ Las cinco indicaciones quedan respondidas con la métrica de prueba y el mismo p
 | 4 | El mejor es el bagging: Bagging (200) en clasificación (accuracy 0.9474) y Bagging (200) en regresión (RMSE 2.3911 mpg). |
 | 5 | En clasificación es mejor Random Forest base (ROC-AUC 0.9937, F1 0.9655). En regresión es mejor Random Forest optimizado (RMSE 2.3960 mpg). |
 
-Un árbol CART sin restricciones ajusta el entrenamiento hasta dejar poca o ninguna impureza, y esa exactitud se reduce en la prueba. La regresión con penalización L2, la poda, el bagging y el boosting atacan esa varianza por caminos distintos. En cáncer de mama la señal es fuerte y varios modelos superan 0.95 de ROC-AUC. En auto_mpg hay una parte lineal grande y una parte de interacción que aparece cuando el árbol o el ensamble están regularizados. El detalle de cada contraste, con pruebas t, matrices de confusión, coeficientes e importancias, está en [diseño_experimental.md](diseño_experimental.md).
+Un árbol CART sin restricciones ajusta el entrenamiento hasta dejar poca o ninguna impureza, y esa exactitud se reduce en la prueba. La regresión con penalización L2, la poda, el bagging y el boosting atacan esa varianza por caminos distintos. En cáncer de mama la señal es fuerte y varios modelos superan 0.95 de ROC-AUC. En auto_mpg hay una parte lineal grande y una parte de interacción que aparece cuando el árbol o el ensamble están regularizados. El detalle de cada contraste, con pruebas t, matrices de confusión, coeficientes e importancias, está en [representacion_en_markdown.md](representacion_en_markdown.md).
 
 ### Limitaciones
 
 - La prueba de cáncer de mama tiene 114 casos y la de auto_mpg tiene 79. Unos pocos casos mueven la tercera cifra decimal.
 - La validación cruzada de un modelo elegido por búsqueda usa los mismos pliegues de la búsqueda, así que esa media puede ser optimista. La prueba no entra en la selección.
-- Con cinco pliegues, la prueba t del diseño experimental tiene poca potencia. El dictamen usa la métrica de prueba.
+- Con cinco pliegues, la prueba t de la representación en Markdown tiene poca potencia. El dictamen usa la métrica de prueba.
 - Las importancias comparan la contribución interna de cada algoritmo. No son efectos causales.
 
 ## Ubicación del material
@@ -262,20 +262,20 @@ Un árbol CART sin restricciones ajusta el entrenamiento hasta dejar poca o ning
 | Resumen de hallazgos | Cuadro de dictámenes y sección de conclusiones |
 | Métricas de entrenamiento, prueba y validación cruzada | Tabla de cada pregunta y `results_metrics.json` |
 | Gráficos comparativos | Carpeta `plots/` e imágenes incrustadas bajo cada pregunta |
-| Código de los modelos entrenados | `src/pregunta_1.py` a `src/pregunta_5.py`, reunidos por `src/run_experiments.py`, y `cuaderno_de_codigos.ipynb` |
-| Detalle de datos, pruebas e hiperparámetros | [diseño_experimental.md](diseño_experimental.md) |
+| Código de los modelos entrenados | `src/codigo_entrenamiento_p1.py` a `src/codigo_entrenamiento_p5.py` y `src/run_experiments.py` |
+| Detalle de datos, pruebas e hiperparámetros | [representacion_en_markdown.md](representacion_en_markdown.md) |
 
-Los modelos de cada pregunta están en `src/pregunta_1.py` a `src/pregunta_5.py`. La corrida completa está en `src/run_experiments.py` y el cuaderno en `cuaderno_de_codigos.ipynb`.
+Los modelos de cada pregunta están en `src/codigo_entrenamiento_p1.py` a `src/codigo_entrenamiento_p5.py`. La corrida completa está en `src/run_experiments.py`. La tarea también está representada en `representacion_en_ipynb.ipynb` y en [representacion_en_markdown.md](representacion_en_markdown.md).
 
 | Pregunta | Función | Datos | Figura |
 | --- | --- | --- | --- |
-| 1 | `src/pregunta_1.py` | `load_breast_cancer` | `plots/item1_breast_cancer.png` |
-| 2 | `src/pregunta_2.py` | auto_mpg limpio, 392 filas | `plots/item2_auto_mpg.png` |
-| 3 | `src/pregunta_3.py` | `load_breast_cancer` | `plots/item3_ensemble_clf.png` |
-| 4 | `src/pregunta_4.py` | breast_cancer y auto_mpg | `plots/item4_bagging.png` |
-| 5 | `src/pregunta_5.py` | breast_cancer y auto_mpg | `plots/item5_rf_vs_xgboost.png` |
+| 1 | `src/codigo_entrenamiento_p1.py` | `load_breast_cancer` | `plots/item1_breast_cancer.png` |
+| 2 | `src/codigo_entrenamiento_p2.py` | auto_mpg limpio, 392 filas | `plots/item2_auto_mpg.png` |
+| 3 | `src/codigo_entrenamiento_p3.py` | `load_breast_cancer` | `plots/item3_ensemble_clf.png` |
+| 4 | `src/codigo_entrenamiento_p4.py` | breast_cancer y auto_mpg | `plots/item4_bagging.png` |
+| 5 | `src/codigo_entrenamiento_p5.py` | breast_cancer y auto_mpg | `plots/item5_rf_vs_xgboost.png` |
 
-Para regenerar métricas, figuras, este README y el diseño experimental:
+Para regenerar métricas, figuras, este README y la representación en Markdown:
 
 ```powershell
 
@@ -293,15 +293,15 @@ Para entrenar una sola pregunta, desde la raíz del repositorio:
 
 ```powershell
 
-python src/pregunta_1.py
+python src/codigo_entrenamiento_p1.py
 
-python src/pregunta_2.py
+python src/codigo_entrenamiento_p2.py
 
-python src/pregunta_3.py
+python src/codigo_entrenamiento_p3.py
 
-python src/pregunta_4.py
+python src/codigo_entrenamiento_p4.py
 
-python src/pregunta_5.py
+python src/codigo_entrenamiento_p5.py
 
 ```
 

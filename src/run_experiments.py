@@ -2,8 +2,8 @@
 """Tarea 03: CART y ensamblados.
 
 Entrena los modelos, guarda metricas y figuras, escribe el README,
-el diseño experimental y ejecuta el cuaderno.
-Cada pregunta se entrena sola en src/pregunta_1.py a src/pregunta_5.py.
+la representacion en Markdown y ejecuta la representacion en cuaderno.
+Cada pregunta se entrena sola en src/codigo_entrenamiento_p1.py a src/codigo_entrenamiento_p5.py.
 Todo el azar queda fijo con random_state=42.
 """
 
@@ -1563,31 +1563,31 @@ def prepare_regression() -> dict:
 
 
 def run_item1(x_train, y_train, x_test, y_test, cv) -> dict:
-    from pregunta_1 import entrenar
+    from codigo_entrenamiento_p1 import entrenar
 
     return entrenar(x_train, y_train, x_test, y_test, cv)
 
 
 def run_item2(x_train, y_train, x_test, y_test, cv) -> dict:
-    from pregunta_2 import entrenar
+    from codigo_entrenamiento_p2 import entrenar
 
     return entrenar(x_train, y_train, x_test, y_test, cv)
 
 
 def run_item3(x_train, y_train, x_test, y_test, cv) -> dict:
-    from pregunta_3 import entrenar
+    from codigo_entrenamiento_p3 import entrenar
 
     return entrenar(x_train, y_train, x_test, y_test, cv)
 
 
 def run_item4(bc, mpg) -> dict:
-    from pregunta_4 import entrenar
+    from codigo_entrenamiento_p4 import entrenar
 
     return entrenar(bc, mpg)
 
 
 def run_item5(bc, mpg) -> dict:
-    from pregunta_5 import entrenar
+    from codigo_entrenamiento_p5 import entrenar
 
     return entrenar(bc, mpg)
 
@@ -2401,8 +2401,8 @@ def dataset_section(results) -> str:
                     "3. Ajustar cada modelo solo con el entrenamiento. El escalado y el one-hot viven dentro de `Pipeline`, de modo que cada pliegue vuelve a estimarlos.",
                     "4. Elegir hiperparámetros con validación cruzada de 5 pliegues sobre el entrenamiento. El conjunto de prueba no participa en esa elección.",
                     "5. Reportar métricas de entrenamiento, de prueba y la media ± desviación estándar de los 5 pliegues (desviación con divisor N, la misma convención que `GridSearchCV`).",
-                    "6. Guardar figuras, `results_metrics.json`, el README, el diseño experimental y el cuaderno ejecutado.",
-                    "7. El entrenamiento de cada pregunta está en `src/pregunta_1.py`, `src/pregunta_2.py`, `src/pregunta_3.py`, `src/pregunta_4.py` y `src/pregunta_5.py`. `src/run_experiments.py` los ejecuta todos.",
+                    "6. Guardar figuras, `results_metrics.json`, el README, `representacion_en_markdown.md` y `representacion_en_ipynb.ipynb`.",
+                    "7. El entrenamiento de cada pregunta está en `src/codigo_entrenamiento_p1.py`, `src/codigo_entrenamiento_p2.py`, `src/codigo_entrenamiento_p3.py`, `src/codigo_entrenamiento_p4.py` y `src/codigo_entrenamiento_p5.py`. `src/run_experiments.py` los ejecuta todos.",
                 ]
             ),
             "### Protocolo común",
@@ -2505,17 +2505,17 @@ def reproducibility_section() -> str:
     return "\n\n".join(
         [
             "## Reproducibilidad",
-            "El README, este diseño experimental (`diseño_experimental.md`), las figuras, el JSON y `cuaderno_de_codigos.ipynb` salen de `src/run_experiments.py`. Volver a ejecutarlo regenera todos esos artefactos con la misma semilla.",
+            "El README, la representación en Markdown (`representacion_en_markdown.md`), las figuras, el JSON y la representación en cuaderno (`representacion_en_ipynb.ipynb`) salen de `src/run_experiments.py`. Volver a ejecutarlo regenera todos esos artefactos con la misma semilla.",
             "```powershell",
             "git clone https://github.com/paololuna-luw/cart-and-ensemble-benchmarks.git",
             "cd cart-and-ensemble-benchmarks",
             "python -m pip install -r requirements.txt",
             "python src/run_experiments.py",
             "```",
-            "El notebook ya está ejecutado. Para regenerar sus salidas:",
+            "La representación en cuaderno ya está ejecutada. Para regenerar sus salidas:",
             "```powershell",
             "python -m ipykernel install --user --name tarea03py --display-name \"Python 3.12 tarea03\"",
-            "jupyter nbconvert --to notebook --execute cuaderno_de_codigos.ipynb --inplace --ExecutePreprocessor.kernel_name=tarea03py",
+            "jupyter nbconvert --to notebook --execute representacion_en_ipynb.ipynb --inplace --ExecutePreprocessor.kernel_name=tarea03py",
             "```",
             "Si existe `data/auto_mpg_clean.csv`, el script lo reutiliza para que la corrida no dependa de la red. Borrar ese archivo obliga a descargar de nuevo, primero por OpenML (`data_id=196`), después por seaborn y al final por el archivo de UCI.",
             "Las tablas muestran cuatro decimales. `results_metrics.json` conserva el flotante completo de cada cálculo.",
@@ -2629,18 +2629,18 @@ def build_formal_readme(results) -> str:
             ["Resumen de hallazgos", "Cuadro de dictámenes y sección de conclusiones"],
             ["Métricas de entrenamiento, prueba y validación cruzada", "Tabla de cada pregunta y `results_metrics.json`"],
             ["Gráficos comparativos", "Carpeta `plots/` e imágenes incrustadas bajo cada pregunta"],
-            ["Código de los modelos entrenados", "`src/pregunta_1.py` a `src/pregunta_5.py`, reunidos por `src/run_experiments.py`, y `cuaderno_de_codigos.ipynb`"],
-            ["Detalle de datos, pruebas e hiperparámetros", "[diseño_experimental.md](diseño_experimental.md)"],
+            ["Código de los modelos entrenados", "`src/codigo_entrenamiento_p1.py` a `src/codigo_entrenamiento_p5.py` y `src/run_experiments.py`"],
+            ["Detalle de datos, pruebas e hiperparámetros", "[representacion_en_markdown.md](representacion_en_markdown.md)"],
         ],
     )
     code_map = md_table(
         ["Pregunta", "Función", "Datos", "Figura"],
         [
-            ["1", "`src/pregunta_1.py`", "`load_breast_cancer`", "`plots/item1_breast_cancer.png`"],
-            ["2", "`src/pregunta_2.py`", "auto_mpg limpio, 392 filas", "`plots/item2_auto_mpg.png`"],
-            ["3", "`src/pregunta_3.py`", "`load_breast_cancer`", "`plots/item3_ensemble_clf.png`"],
-            ["4", "`src/pregunta_4.py`", "breast_cancer y auto_mpg", "`plots/item4_bagging.png`"],
-            ["5", "`src/pregunta_5.py`", "breast_cancer y auto_mpg", "`plots/item5_rf_vs_xgboost.png`"],
+            ["1", "`src/codigo_entrenamiento_p1.py`", "`load_breast_cancer`", "`plots/item1_breast_cancer.png`"],
+            ["2", "`src/codigo_entrenamiento_p2.py`", "auto_mpg limpio, 392 filas", "`plots/item2_auto_mpg.png`"],
+            ["3", "`src/codigo_entrenamiento_p3.py`", "`load_breast_cancer`", "`plots/item3_ensemble_clf.png`"],
+            ["4", "`src/codigo_entrenamiento_p4.py`", "breast_cancer y auto_mpg", "`plots/item4_bagging.png`"],
+            ["5", "`src/codigo_entrenamiento_p5.py`", "breast_cancer y auto_mpg", "`plots/item5_rf_vs_xgboost.png`"],
         ],
     )
 
@@ -2758,7 +2758,7 @@ def build_formal_readme(results) -> str:
                 "El muestreo bootstrap con reemplazo y el promedio de árboles profundos reducen la varianza del predictor. "
                 "Con correlación ρ entre miembros, la varianza del promedio es ρσ² + (1 − ρ)σ² / B. "
                 "Si los árboles fueran independientes, ρ = 0 y la varianza quedaría en σ² / B. "
-                "La correlación estimada en el diseño experimental muestra que los miembros comparten errores, y aun así el bagging mejora la prueba en las dos tareas."
+                "La correlación estimada en la representación en Markdown muestra que los miembros comparten errores, y aun así el bagging mejora la prueba en las dos tareas."
             ),
         ]
     )
@@ -2818,11 +2818,11 @@ def build_formal_readme(results) -> str:
         md_table(
             ["Campo", "Contenido"],
             [
-                ["Código por pregunta", "`src/pregunta_1.py` a `src/pregunta_5.py`"],
+                ["Código por pregunta", "`src/codigo_entrenamiento_p1.py` a `src/codigo_entrenamiento_p5.py`"],
                 ["Corrida completa", "`src/run_experiments.py`"],
-                ["Cuaderno de códigos", "`cuaderno_de_codigos.ipynb`"],
+                ["Representación en cuaderno", "`representacion_en_ipynb.ipynb`"],
                 ["Métricas", "`results_metrics.json`"],
-                ["Diseño experimental", "[diseño_experimental.md](diseño_experimental.md)"],
+                ["Representación en Markdown", "[representacion_en_markdown.md](representacion_en_markdown.md)"],
                 ["Semilla", str(meta["seed"])],
                 ["Partición", "80% entrenamiento / 20% prueba. En clasificación, estratificada."],
                 ["Validación", "5 pliegues sobre el entrenamiento. Se reporta media ± desviación estándar."],
@@ -2847,7 +2847,7 @@ def build_formal_readme(results) -> str:
             clf_table(models1),
             "plots/item1_breast_cancer.png",
             "Gráfico de la pregunta 1: métricas, matrices de confusión y curvas ROC",
-            "Entrenamiento en `src/pregunta_1.py`. Modelos: `DecisionTreeClassifier(criterion='gini')`, `DecisionTreeClassifier(criterion='entropy')`, sus versiones con `ccp_alpha` elegido por validación cruzada, y `Pipeline` de `StandardScaler` con `LogisticRegression`.",
+            "Entrenamiento en `src/codigo_entrenamiento_p1.py`. Modelos: `DecisionTreeClassifier(criterion='gini')`, `DecisionTreeClassifier(criterion='entropy')`, sus versiones con `ccp_alpha` elegido por validación cruzada, y `Pipeline` de `StandardScaler` con `LogisticRegression`.",
         ),
         block(
             "pregunta-2",
@@ -2857,7 +2857,7 @@ def build_formal_readme(results) -> str:
             reg_table(models2),
             "plots/item2_auto_mpg.png",
             "Gráfico de la pregunta 2: R², RMSE y curva de validación de max_depth",
-            "Entrenamiento en `src/pregunta_2.py`. Seis configuraciones de `DecisionTreeRegressor` (sin restricciones, profundidad 2, profundidad controlada, error absoluto, poda por complejidad de costo y `GridSearchCV`) frente a `Pipeline` de `StandardScaler` con `LinearRegression`.",
+            "Entrenamiento en `src/codigo_entrenamiento_p2.py`. Seis configuraciones de `DecisionTreeRegressor` (sin restricciones, profundidad 2, profundidad controlada, error absoluto, poda por complejidad de costo y `GridSearchCV`) frente a `Pipeline` de `StandardScaler` con `LinearRegression`.",
         ),
         block(
             "pregunta-3",
@@ -2867,7 +2867,7 @@ def build_formal_readme(results) -> str:
             clf_table(models3),
             "plots/item3_ensemble_clf.png",
             "Gráfico de la pregunta 3: modelos individuales y ensambles de clasificación",
-            "Entrenamiento en `src/pregunta_3.py`. Individuales: árbol, SVC con probabilidades, k-NN y regresión logística. Ensambles: `VotingClassifier` duro y suave, `StackingClassifier`, `AdaBoostClassifier` y `GradientBoostingClassifier`.",
+            "Entrenamiento en `src/codigo_entrenamiento_p3.py`. Individuales: árbol, SVC con probabilidades, k-NN y regresión logística. Ensambles: `VotingClassifier` duro y suave, `StackingClassifier`, `AdaBoostClassifier` y `GradientBoostingClassifier`.",
         ),
         block(
             "pregunta-4",
@@ -2877,7 +2877,7 @@ def build_formal_readme(results) -> str:
             "Clasificación en cáncer de mama:\n\n" + clf_table(clf4, with_oob=True) + "\n\nRegresión en auto_mpg:\n\n" + reg_table(reg4, with_oob=True),
             "plots/item4_bagging.png",
             "Gráfico de la pregunta 4: ganancia del bagging y convergencia al aumentar el número de árboles",
-            "Entrenamiento en `src/pregunta_4.py`. `BaggingClassifier` y `BaggingRegressor` con 10, 50, 100 y 200 árboles, `bootstrap=True` y `oob_score=True`, frente al árbol individual de cada tarea.",
+            "Entrenamiento en `src/codigo_entrenamiento_p4.py`. `BaggingClassifier` y `BaggingRegressor` con 10, 50, 100 y 200 árboles, `bootstrap=True` y `oob_score=True`, frente al árbol individual de cada tarea.",
         ),
         block(
             "pregunta-5",
@@ -2887,7 +2887,7 @@ def build_formal_readme(results) -> str:
             "Clasificación en cáncer de mama:\n\n" + clf_table(clf5) + "\n\nRegresión en auto_mpg:\n\n" + reg_table(reg5),
             "plots/item5_rf_vs_xgboost.png",
             "Gráfico de la pregunta 5: métricas de clasificación, regresión e importancias",
-            "Entrenamiento en `src/pregunta_5.py`. `RandomForestClassifier`, `RandomForestRegressor`, `XGBClassifier` y `XGBRegressor`, cada uno en versión base y en versión elegida por `GridSearchCV`.",
+            "Entrenamiento en `src/codigo_entrenamiento_p5.py`. `RandomForestClassifier`, `RandomForestRegressor`, `XGBClassifier` y `XGBRegressor`, cada uno en versión base y en versión elegida por `GridSearchCV`.",
         ),
         "## Conclusiones",
         (
@@ -2908,22 +2908,22 @@ def build_formal_readme(results) -> str:
             "La regresión con penalización L2, la poda, el bagging y el boosting atacan esa varianza por caminos distintos. "
             "En cáncer de mama la señal es fuerte y varios modelos superan 0.95 de ROC-AUC. "
             "En auto_mpg hay una parte lineal grande y una parte de interacción que aparece cuando el árbol o el ensamble están regularizados. "
-            "El detalle de cada contraste, con pruebas t, matrices de confusión, coeficientes e importancias, está en [diseño_experimental.md](diseño_experimental.md)."
+            "El detalle de cada contraste, con pruebas t, matrices de confusión, coeficientes e importancias, está en [representacion_en_markdown.md](representacion_en_markdown.md)."
         ),
         "### Limitaciones",
         "\n".join(
             [
                 f"- La prueba de cáncer de mama tiene {bc['n_test']} casos y la de auto_mpg tiene {mpg['n_test']}. Unos pocos casos mueven la tercera cifra decimal.",
                 "- La validación cruzada de un modelo elegido por búsqueda usa los mismos pliegues de la búsqueda, así que esa media puede ser optimista. La prueba no entra en la selección.",
-                "- Con cinco pliegues, la prueba t del diseño experimental tiene poca potencia. El dictamen usa la métrica de prueba.",
+                "- Con cinco pliegues, la prueba t de la representación en Markdown tiene poca potencia. El dictamen usa la métrica de prueba.",
                 "- Las importancias comparan la contribución interna de cada algoritmo. No son efectos causales.",
             ]
         ),
         "## Ubicación del material",
         evidence,
-        "Los modelos de cada pregunta están en `src/pregunta_1.py` a `src/pregunta_5.py`. La corrida completa está en `src/run_experiments.py` y el cuaderno en `cuaderno_de_codigos.ipynb`.",
+        "Los modelos de cada pregunta están en `src/codigo_entrenamiento_p1.py` a `src/codigo_entrenamiento_p5.py`. La corrida completa está en `src/run_experiments.py`. La tarea también está representada en `representacion_en_ipynb.ipynb` y en [representacion_en_markdown.md](representacion_en_markdown.md).",
         code_map,
-        "Para regenerar métricas, figuras, este README y el diseño experimental:",
+        "Para regenerar métricas, figuras, este README y la representación en Markdown:",
         "```powershell",
         "git clone https://github.com/paololuna-luw/cart-and-ensemble-benchmarks.git",
         "cd cart-and-ensemble-benchmarks",
@@ -2932,11 +2932,11 @@ def build_formal_readme(results) -> str:
         "```",
         "Para entrenar una sola pregunta, desde la raíz del repositorio:",
         "```powershell",
-        "python src/pregunta_1.py",
-        "python src/pregunta_2.py",
-        "python src/pregunta_3.py",
-        "python src/pregunta_4.py",
-        "python src/pregunta_5.py",
+        "python src/codigo_entrenamiento_p1.py",
+        "python src/codigo_entrenamiento_p2.py",
+        "python src/codigo_entrenamiento_p3.py",
+        "python src/codigo_entrenamiento_p4.py",
+        "python src/codigo_entrenamiento_p5.py",
         "```",
         f"Experimento de referencia iniciado el {meta['started_at']}. Duración de los ajustes, sin el notebook: {fmt(meta['runtime_seconds'], 2)} s.",
     ]
@@ -2946,14 +2946,15 @@ def build_formal_readme(results) -> str:
 def build_readme(results) -> str:
     header = "\n\n".join(
         [
-            "# Diseño experimental",
+            "# Representación en Markdown",
             (
-                "Complemento de [README.md](README.md). Aquí están el diseño de la corrida, las descripciones de los datos, "
-                "las pruebas t, las importancias y los hiperparámetros."
+                "Representación de la tarea en Markdown. Las respuestas que se leen primero están en [README.md](README.md). "
+                "Aquí quedan el protocolo, las descripciones de los datos, las pruebas t, las importancias y los hiperparámetros. "
+                "El código que entrena cada pregunta está en `src/codigo_entrenamiento_p1.py` a `src/codigo_entrenamiento_p5.py`."
             ),
             "## 1. Resumen ejecutivo",
             (
-                "Este documento recoge la misma corrida que el README: árboles CART y ensambles sobre dos tareas tabulares, con una sola semilla y un protocolo común de partición y validación cruzada. "
+                "Esta representación recoge la misma corrida que el README: árboles CART y ensambles sobre dos tareas tabulares, con una sola semilla y un protocolo común de partición y validación cruzada. "
                 f"En la pregunta 1 el ganador es {results['item1']['conclusion']['winner']} "
                 f"(ROC-AUC de prueba {fmt(results['item1']['conclusion']['primary_value'])}). "
                 f"En la pregunta 2 el ganador es {results['item2']['conclusion']['winner']} "
@@ -3066,10 +3067,10 @@ def build_and_execute_notebook(results) -> None:
             "¿Cuál es el mejor?\n"
             "5. **Pregunta 5.** Entrene un modelo RandomForest y compare su eficiencia con respecto a un modelo XGBoost. "
             "¿Cuál es mejor?\n\n"
-            "El cuaderno sigue ese orden: datos y protocolo, preguntas 1 a 5, conclusiones y una comprobación de dos modelos. "
-            "Cada pregunta cita la indicación, muestra las métricas ya calculadas y cierra con la respuesta. "
-            "Las respuestas están en `README.md`. El diseño experimental está en `diseño_experimental.md`. "
-            "El entrenamiento de cada pregunta está en `src/pregunta_1.py` a `src/pregunta_5.py`."
+            "Este archivo es la representación de la tarea en cuaderno. Sigue este orden: datos y protocolo, preguntas 1 a 5, "
+            "conclusiones y una comprobación de dos modelos. Cada pregunta cita la indicación, muestra las métricas ya calculadas "
+            "y cierra con la respuesta. Las respuestas están en `README.md`. La representación en Markdown está en "
+            "`representacion_en_markdown.md`. El entrenamiento está en `src/codigo_entrenamiento_p1.py` a `src/codigo_entrenamiento_p5.py`."
         ),
         new_code_cell(
             "\n".join(
@@ -3237,7 +3238,7 @@ def build_and_execute_notebook(results) -> None:
         },
         "language_info": {"name": "python", "pygments_lexer": "ipython3"},
     })
-    path = ROOT / "cuaderno_de_codigos.ipynb"
+    path = ROOT / "representacion_en_ipynb.ipynb"
     nbformat.write(nb, path)
     client = NotebookClient(nb, timeout=900, kernel_name="tarea03py")
     log("Ejecutando el notebook")
@@ -3322,7 +3323,7 @@ def main() -> None:
     formal = build_formal_readme(results)
     audit_readme(detailed)
     audit_readme(formal)
-    (ROOT / "diseño_experimental.md").write_text(detailed, encoding="utf-8")
+    (ROOT / "representacion_en_markdown.md").write_text(detailed, encoding="utf-8")
     (ROOT / "README.md").write_text(formal, encoding="utf-8")
     (ROOT / "results_metrics.json").write_text(
         json.dumps(results, ensure_ascii=False, indent=2, allow_nan=False),

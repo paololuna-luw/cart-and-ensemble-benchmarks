@@ -6,7 +6,7 @@ No modifica el README ni results_metrics.json. Regenera solo la figura de esta p
 
 Desde la raíz del repositorio:
 
-    python src/pregunta_3.py
+    python src/codigo_entrenamiento_p3.py
 """
 from __future__ import annotations
 
