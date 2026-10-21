@@ -1,40 +1,20 @@
-# Informe formal de evaluación
-
-## Tarea de Ejecución 03: Aplicación y Evaluación Empírica de Modelos CART y Ensamblados
-
-Documento preparado para la revisión en el Aula Virtual. Cada pregunta de la indicación aparece citada, seguida de la respuesta, de la tabla de métricas reales y del gráfico. El anexo [INFORME_DETALLADO.md](INFORME_DETALLADO.md) conserva el diseño experimental completo, las descripciones de los datos, las pruebas t, las importancias y los hiperparámetros.
+# Tarea de Ejecución 03: Aplicación y Evaluación Empírica de Modelos CART y Ensamblados
 
 | Campo | Contenido |
 | --- | --- |
-| Repositorio | https://github.com/paololuna-luw/cart-and-ensemble-benchmarks |
 | Código de los modelos | `src/run_experiments.py` |
-| Notebook ejecutado | `Tarea_03_CART_Ensamblados.ipynb` |
-| Métricas completas | `results_metrics.json` |
-| Anexo técnico | [INFORME_DETALLADO.md](INFORME_DETALLADO.md) |
+| Resolución ejecutada | `resolucion.ipynb` |
+| Métricas | `results_metrics.json` |
+| Anexo | [anexo.md](anexo.md) |
 | Semilla | 42 |
 | Partición | 80% entrenamiento / 20% prueba. En clasificación, estratificada. |
 | Validación | 5 pliegues sobre el entrenamiento. Se reporta media ± desviación estándar. |
 | Entorno | Python 3.12.10, scikit-learn 1.9.0, XGBoost 3.4.1 |
 | Datos | breast_cancer: 569 filas y 30 variables. auto_mpg: 392 filas tras eliminar 6 ausencias de horsepower. |
 
-## Indicación de entrega
-
-> Los resultados deben ser documentos en un archivo PDF, Colab, o en un repositorio de GitHub (incluye readme donde se resumen los hallazgos) u otro en el que se evidencie la respuesta a las preguntas de las indicaciones así como el código correspondiente de los modelos entrenados. La URL correspondiente será enviada al Aula Virtual.
-
-Este repositorio cubre esa indicación. El cuadro siguiente localiza cada evidencia.
-
-| Requisito de la indicación | Dónde se evidencia |
-| --- | --- |
-| Respuesta a cada pregunta | Secciones Pregunta 1 a Pregunta 5 de este README |
-| Resumen de hallazgos | Cuadro de dictámenes y sección de conclusiones |
-| Métricas de entrenamiento, prueba y validación cruzada | Tabla de cada pregunta y `results_metrics.json` |
-| Gráficos comparativos | Carpeta `plots/` e imágenes incrustadas bajo cada pregunta |
-| Código de los modelos entrenados | `src/run_experiments.py` y `Tarea_03_CART_Ensamblados.ipynb` |
-| Detalle técnico, pruebas t e hiperparámetros | [INFORME_DETALLADO.md](INFORME_DETALLADO.md) |
-
 ## Cuadro de dictámenes
 
-Esta tabla es la lectura rápida para el evaluador. El desarrollo de cada fila está en la sección enlazada.
+Resumen de las cinco respuestas. El desarrollo de cada fila está en la sección enlazada.
 
 | Pregunta | Indicación | Respuesta | Evidencia principal |
 | --- | --- | --- | --- |
@@ -264,18 +244,29 @@ Las cinco indicaciones quedan respondidas con la métrica de prueba y el mismo p
 | 4 | El mejor es el bagging: Bagging (200) en clasificación (accuracy 0.9474) y Bagging (200) en regresión (RMSE 2.3911 mpg). |
 | 5 | En clasificación es mejor Random Forest base (ROC-AUC 0.9937, F1 0.9655). En regresión es mejor Random Forest optimizado (RMSE 2.3960 mpg). |
 
-Un árbol CART sin restricciones ajusta el entrenamiento hasta dejar poca o ninguna impureza, y esa exactitud se reduce en la prueba. La regresión con penalización L2, la poda, el bagging y el boosting atacan esa varianza por caminos distintos. En cáncer de mama la señal es fuerte y varios modelos superan 0.95 de ROC-AUC. En auto_mpg hay una parte lineal grande y una parte de interacción que aparece cuando el árbol o el ensamble están regularizados. El detalle de cada contraste, con pruebas t, matrices de confusión, coeficientes e importancias, está en [INFORME_DETALLADO.md](INFORME_DETALLADO.md).
+Un árbol CART sin restricciones ajusta el entrenamiento hasta dejar poca o ninguna impureza, y esa exactitud se reduce en la prueba. La regresión con penalización L2, la poda, el bagging y el boosting atacan esa varianza por caminos distintos. En cáncer de mama la señal es fuerte y varios modelos superan 0.95 de ROC-AUC. En auto_mpg hay una parte lineal grande y una parte de interacción que aparece cuando el árbol o el ensamble están regularizados. El detalle de cada contraste, con pruebas t, matrices de confusión, coeficientes e importancias, está en [anexo.md](anexo.md).
 
-### Limitaciones que el evaluador debe tener presentes
+### Limitaciones
 
 - La prueba de cáncer de mama tiene 114 casos y la de auto_mpg tiene 79. Unos pocos casos mueven la tercera cifra decimal.
 - La validación cruzada de un modelo elegido por búsqueda usa los mismos pliegues de la búsqueda, así que esa media puede ser optimista. La prueba no entra en la selección.
 - Con cinco pliegues, la prueba t del anexo tiene poca potencia. El dictamen usa la métrica de prueba.
 - Las importancias comparan la contribución interna de cada algoritmo. No son efectos causales.
 
-## Código de los modelos entrenados
+## Anexo
 
-Todas las especificaciones viven en `src/run_experiments.py` y se vuelven a ejecutar en `Tarea_03_CART_Ensamblados.ipynb`.
+Ubicación del material que respalda las respuestas.
+
+| Requisito de la indicación | Dónde se evidencia |
+| --- | --- |
+| Respuesta a cada pregunta | Secciones Pregunta 1 a Pregunta 5 de este README |
+| Resumen de hallazgos | Cuadro de dictámenes y sección de conclusiones |
+| Métricas de entrenamiento, prueba y validación cruzada | Tabla de cada pregunta y `results_metrics.json` |
+| Gráficos comparativos | Carpeta `plots/` e imágenes incrustadas bajo cada pregunta |
+| Código de los modelos entrenados | `src/run_experiments.py` y `resolucion.ipynb` |
+| Detalle de datos, pruebas e hiperparámetros | [anexo.md](anexo.md) |
+
+Los modelos están en `src/run_experiments.py` y en `resolucion.ipynb`.
 
 | Pregunta | Función | Datos | Figura |
 | --- | --- | --- | --- |
@@ -285,7 +276,7 @@ Todas las especificaciones viven en `src/run_experiments.py` y se vuelven a ejec
 | 4 | `run_item4` | breast_cancer y auto_mpg | `plots/item4_bagging.png` |
 | 5 | `run_item5` | breast_cancer y auto_mpg | `plots/item5_rf_vs_xgboost.png` |
 
-Para regenerar métricas, figuras, este informe y el anexo:
+Para regenerar métricas, figuras, este README y el anexo:
 
 ```powershell
 
