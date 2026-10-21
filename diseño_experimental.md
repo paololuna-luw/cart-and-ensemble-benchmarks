@@ -1,10 +1,10 @@
-# Anexo
+# Diseño experimental
 
-Complemento de [README.md](README.md). Aquí están el diseño experimental, las descripciones de los datos, las pruebas t, las importancias y los hiperparámetros.
+Complemento de [README.md](README.md). Aquí están el diseño de la corrida, las descripciones de los datos, las pruebas t, las importancias y los hiperparámetros.
 
 ## 1. Resumen ejecutivo
 
-Este anexo recoge la misma corrida que el README: árboles CART y ensambles sobre dos tareas tabulares, con una sola semilla y un protocolo común de partición y validación cruzada. En la pregunta 1 el ganador es Regresión logística (ROC-AUC de prueba 0.9954). En la pregunta 2 el ganador es Árbol error absoluto (RMSE de prueba 2.6448 mpg). En la pregunta 3 el ganador es Regresión logística (ROC-AUC de prueba 0.9954). En la pregunta 4 el mejor bagging de clasificación es Bagging (200) y el de regresión es Bagging (200). En la pregunta 5, la clasificación la gana Random Forest base y la regresión la gana Random Forest optimizado.
+Este documento recoge la misma corrida que el README: árboles CART y ensambles sobre dos tareas tabulares, con una sola semilla y un protocolo común de partición y validación cruzada. En la pregunta 1 el ganador es Regresión logística (ROC-AUC de prueba 0.9954). En la pregunta 2 el ganador es Árbol error absoluto (RMSE de prueba 2.6448 mpg). En la pregunta 3 el ganador es Regresión logística (ROC-AUC de prueba 0.9954). En la pregunta 4 el mejor bagging de clasificación es Bagging (200) y el de regresión es Bagging (200). En la pregunta 5, la clasificación la gana Random Forest base y la regresión la gana Random Forest optimizado.
 
 Todos los números salen de la ejecución de `src/run_experiments.py` con `random_state=42`. No hay métricas interpoladas ni celdas pendientes. El detalle de cada contraste está en la sección de la pregunta, junto a la figura y a la respuesta de cuál modelo es mejor.
 
@@ -17,7 +17,7 @@ Todos los números salen de la ejecución de `src/run_experiments.py` con `rando
 3. Ajustar cada modelo solo con el entrenamiento. El escalado y el one-hot viven dentro de `Pipeline`, de modo que cada pliegue vuelve a estimarlos.
 4. Elegir hiperparámetros con validación cruzada de 5 pliegues sobre el entrenamiento. El conjunto de prueba no participa en esa elección.
 5. Reportar métricas de entrenamiento, de prueba y la media ± desviación estándar de los 5 pliegues (desviación con divisor N, la misma convención que `GridSearchCV`).
-6. Guardar figuras, `results_metrics.json`, el README, el anexo y el notebook ejecutado.
+6. Guardar figuras, `results_metrics.json`, el README, el diseño experimental y el cuaderno ejecutado.
 
 ### Protocolo común
 
@@ -536,7 +536,7 @@ El patrón que se repite es el siguiente. Un árbol CART sin restricciones ajust
 
 ## Reproducibilidad
 
-El README, este anexo (`anexo.md`), las figuras, el JSON y `resolucion.ipynb` salen de `src/run_experiments.py`. Volver a ejecutarlo regenera todos esos artefactos con la misma semilla.
+El README, este diseño experimental (`diseño_experimental.md`), las figuras, el JSON y `cuaderno_de_codigos.ipynb` salen de `src/run_experiments.py`. Volver a ejecutarlo regenera todos esos artefactos con la misma semilla.
 
 ```powershell
 
@@ -556,7 +556,7 @@ El notebook ya está ejecutado. Para regenerar sus salidas:
 
 python -m ipykernel install --user --name tarea03py --display-name "Python 3.12 tarea03"
 
-jupyter nbconvert --to notebook --execute resolucion.ipynb --inplace --ExecutePreprocessor.kernel_name=tarea03py
+jupyter nbconvert --to notebook --execute cuaderno_de_codigos.ipynb --inplace --ExecutePreprocessor.kernel_name=tarea03py
 
 ```
 

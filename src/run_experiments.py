@@ -2,7 +2,7 @@
 """Tarea 03: CART y ensamblados.
 
 Entrena los modelos, guarda metricas y figuras, escribe el README,
-el anexo y ejecuta el notebook.
+el diseño experimental y ejecuta el cuaderno.
 Todo el azar queda fijo con random_state=42.
 """
 
@@ -2950,7 +2950,7 @@ def dataset_section(results) -> str:
                     "3. Ajustar cada modelo solo con el entrenamiento. El escalado y el one-hot viven dentro de `Pipeline`, de modo que cada pliegue vuelve a estimarlos.",
                     "4. Elegir hiperparámetros con validación cruzada de 5 pliegues sobre el entrenamiento. El conjunto de prueba no participa en esa elección.",
                     "5. Reportar métricas de entrenamiento, de prueba y la media ± desviación estándar de los 5 pliegues (desviación con divisor N, la misma convención que `GridSearchCV`).",
-                    "6. Guardar figuras, `results_metrics.json`, el README, el anexo y el notebook ejecutado.",
+                    "6. Guardar figuras, `results_metrics.json`, el README, el diseño experimental y el cuaderno ejecutado.",
                 ]
             ),
             "### Protocolo común",
@@ -3053,7 +3053,7 @@ def reproducibility_section() -> str:
     return "\n\n".join(
         [
             "## Reproducibilidad",
-            "El README, este anexo (`anexo.md`), las figuras, el JSON y `resolucion.ipynb` salen de `src/run_experiments.py`. Volver a ejecutarlo regenera todos esos artefactos con la misma semilla.",
+            "El README, este diseño experimental (`diseño_experimental.md`), las figuras, el JSON y `cuaderno_de_codigos.ipynb` salen de `src/run_experiments.py`. Volver a ejecutarlo regenera todos esos artefactos con la misma semilla.",
             "```powershell",
             "git clone https://github.com/paololuna-luw/cart-and-ensemble-benchmarks.git",
             "cd cart-and-ensemble-benchmarks",
@@ -3063,7 +3063,7 @@ def reproducibility_section() -> str:
             "El notebook ya está ejecutado. Para regenerar sus salidas:",
             "```powershell",
             "python -m ipykernel install --user --name tarea03py --display-name \"Python 3.12 tarea03\"",
-            "jupyter nbconvert --to notebook --execute resolucion.ipynb --inplace --ExecutePreprocessor.kernel_name=tarea03py",
+            "jupyter nbconvert --to notebook --execute cuaderno_de_codigos.ipynb --inplace --ExecutePreprocessor.kernel_name=tarea03py",
             "```",
             "Si existe `data/auto_mpg_clean.csv`, el script lo reutiliza para que la corrida no dependa de la red. Borrar ese archivo obliga a descargar de nuevo, primero por OpenML (`data_id=196`), después por seaborn y al final por el archivo de UCI.",
             "Las tablas muestran cuatro decimales. `results_metrics.json` conserva el flotante completo de cada cálculo.",
@@ -3177,8 +3177,8 @@ def build_formal_readme(results) -> str:
             ["Resumen de hallazgos", "Cuadro de dictámenes y sección de conclusiones"],
             ["Métricas de entrenamiento, prueba y validación cruzada", "Tabla de cada pregunta y `results_metrics.json`"],
             ["Gráficos comparativos", "Carpeta `plots/` e imágenes incrustadas bajo cada pregunta"],
-            ["Código de los modelos entrenados", "`src/run_experiments.py` y `resolucion.ipynb`"],
-            ["Detalle de datos, pruebas e hiperparámetros", "[anexo.md](anexo.md)"],
+            ["Código de los modelos entrenados", "`src/run_experiments.py` y `cuaderno_de_codigos.ipynb`"],
+            ["Detalle de datos, pruebas e hiperparámetros", "[diseño_experimental.md](diseño_experimental.md)"],
         ],
     )
     code_map = md_table(
@@ -3306,7 +3306,7 @@ def build_formal_readme(results) -> str:
                 "El muestreo bootstrap con reemplazo y el promedio de árboles profundos reducen la varianza del predictor. "
                 "Con correlación ρ entre miembros, la varianza del promedio es ρσ² + (1 − ρ)σ² / B. "
                 "Si los árboles fueran independientes, ρ = 0 y la varianza quedaría en σ² / B. "
-                "La correlación estimada en el anexo muestra que los miembros comparten errores, y aun así el bagging mejora la prueba en las dos tareas."
+                "La correlación estimada en el diseño experimental muestra que los miembros comparten errores, y aun así el bagging mejora la prueba en las dos tareas."
             ),
         ]
     )
@@ -3367,9 +3367,9 @@ def build_formal_readme(results) -> str:
             ["Campo", "Contenido"],
             [
                 ["Código de los modelos", "`src/run_experiments.py`"],
-                ["Resolución ejecutada", "`resolucion.ipynb`"],
+                ["Cuaderno de códigos", "`cuaderno_de_codigos.ipynb`"],
                 ["Métricas", "`results_metrics.json`"],
-                ["Anexo", "[anexo.md](anexo.md)"],
+                ["Diseño experimental", "[diseño_experimental.md](diseño_experimental.md)"],
                 ["Semilla", str(meta["seed"])],
                 ["Partición", "80% entrenamiento / 20% prueba. En clasificación, estratificada."],
                 ["Validación", "5 pliegues sobre el entrenamiento. Se reporta media ± desviación estándar."],
@@ -3455,23 +3455,22 @@ def build_formal_readme(results) -> str:
             "La regresión con penalización L2, la poda, el bagging y el boosting atacan esa varianza por caminos distintos. "
             "En cáncer de mama la señal es fuerte y varios modelos superan 0.95 de ROC-AUC. "
             "En auto_mpg hay una parte lineal grande y una parte de interacción que aparece cuando el árbol o el ensamble están regularizados. "
-            "El detalle de cada contraste, con pruebas t, matrices de confusión, coeficientes e importancias, está en [anexo.md](anexo.md)."
+            "El detalle de cada contraste, con pruebas t, matrices de confusión, coeficientes e importancias, está en [diseño_experimental.md](diseño_experimental.md)."
         ),
         "### Limitaciones",
         "\n".join(
             [
                 f"- La prueba de cáncer de mama tiene {bc['n_test']} casos y la de auto_mpg tiene {mpg['n_test']}. Unos pocos casos mueven la tercera cifra decimal.",
                 "- La validación cruzada de un modelo elegido por búsqueda usa los mismos pliegues de la búsqueda, así que esa media puede ser optimista. La prueba no entra en la selección.",
-                "- Con cinco pliegues, la prueba t del anexo tiene poca potencia. El dictamen usa la métrica de prueba.",
+                "- Con cinco pliegues, la prueba t del diseño experimental tiene poca potencia. El dictamen usa la métrica de prueba.",
                 "- Las importancias comparan la contribución interna de cada algoritmo. No son efectos causales.",
             ]
         ),
-        "## Anexo",
-        "Ubicación del material que respalda las respuestas.",
+        "## Ubicación del material",
         evidence,
-        "Los modelos están en `src/run_experiments.py` y en `resolucion.ipynb`.",
+        "Los modelos están en `src/run_experiments.py` y en `cuaderno_de_codigos.ipynb`.",
         code_map,
-        "Para regenerar métricas, figuras, este README y el anexo:",
+        "Para regenerar métricas, figuras, este README y el diseño experimental:",
         "```powershell",
         "git clone https://github.com/paololuna-luw/cart-and-ensemble-benchmarks.git",
         "cd cart-and-ensemble-benchmarks",
@@ -3486,14 +3485,14 @@ def build_formal_readme(results) -> str:
 def build_readme(results) -> str:
     header = "\n\n".join(
         [
-            "# Anexo",
+            "# Diseño experimental",
             (
-                "Complemento de [README.md](README.md). Aquí están el diseño experimental, las descripciones de los datos, "
+                "Complemento de [README.md](README.md). Aquí están el diseño de la corrida, las descripciones de los datos, "
                 "las pruebas t, las importancias y los hiperparámetros."
             ),
             "## 1. Resumen ejecutivo",
             (
-                "Este anexo recoge la misma corrida que el README: árboles CART y ensambles sobre dos tareas tabulares, con una sola semilla y un protocolo común de partición y validación cruzada. "
+                "Este documento recoge la misma corrida que el README: árboles CART y ensambles sobre dos tareas tabulares, con una sola semilla y un protocolo común de partición y validación cruzada. "
                 f"En la pregunta 1 el ganador es {results['item1']['conclusion']['winner']} "
                 f"(ROC-AUC de prueba {fmt(results['item1']['conclusion']['primary_value'])}). "
                 f"En la pregunta 2 el ganador es {results['item2']['conclusion']['winner']} "
@@ -3608,7 +3607,7 @@ def build_and_execute_notebook(results) -> None:
             "¿Cuál es mejor?\n\n"
             "El cuaderno sigue ese orden: datos y protocolo, preguntas 1 a 5, conclusiones y una comprobación de dos modelos. "
             "Cada pregunta cita la indicación, muestra las métricas ya calculadas y cierra con la respuesta. "
-            "Las respuestas están en `README.md`. El detalle adicional está en `anexo.md`."
+            "Las respuestas están en `README.md`. El diseño experimental está en `diseño_experimental.md`."
         ),
         new_code_cell(
             "\n".join(
@@ -3776,7 +3775,7 @@ def build_and_execute_notebook(results) -> None:
         },
         "language_info": {"name": "python", "pygments_lexer": "ipython3"},
     })
-    path = ROOT / "resolucion.ipynb"
+    path = ROOT / "cuaderno_de_codigos.ipynb"
     nbformat.write(nb, path)
     client = NotebookClient(nb, timeout=900, kernel_name="tarea03py")
     log("Ejecutando el notebook")
@@ -3892,7 +3891,7 @@ def main() -> None:
     formal = build_formal_readme(results)
     audit_readme(detailed)
     audit_readme(formal)
-    (ROOT / "anexo.md").write_text(detailed, encoding="utf-8")
+    (ROOT / "diseño_experimental.md").write_text(detailed, encoding="utf-8")
     (ROOT / "README.md").write_text(formal, encoding="utf-8")
     (ROOT / "results_metrics.json").write_text(
         json.dumps(results, ensure_ascii=False, indent=2, allow_nan=False),
