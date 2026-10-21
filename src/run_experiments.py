@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Tarea 03: CART y ensamblados.
 
-Entrena los modelos, guarda metricas y figuras, escribe el README,
-la representacion en Markdown y ejecuta la representacion en cuaderno.
+Entrena los modelos, guarda metricas y figuras, escribe el README
+y ejecuta el cuaderno.
 Cada pregunta se entrena sola en src/codigo_entrenamiento_p1.py a src/codigo_entrenamiento_p5.py.
 Todo el azar queda fijo con random_state=42.
 """
@@ -2401,7 +2401,7 @@ def dataset_section(results) -> str:
                     "3. Ajustar cada modelo solo con el entrenamiento. El escalado y el one-hot viven dentro de `Pipeline`, de modo que cada pliegue vuelve a estimarlos.",
                     "4. Elegir hiperparámetros con validación cruzada de 5 pliegues sobre el entrenamiento. El conjunto de prueba no participa en esa elección.",
                     "5. Reportar métricas de entrenamiento, de prueba y la media ± desviación estándar de los 5 pliegues (desviación con divisor N, la misma convención que `GridSearchCV`).",
-                    "6. Guardar figuras, `results_metrics.json`, el README, `representacion_en_markdown.md` y `representacion_en_ipynb.ipynb`.",
+                    "6. Guardar figuras, `results_metrics.json`, el README y `cuaderno.ipynb`.",
                     "7. El entrenamiento de cada pregunta está en `src/codigo_entrenamiento_p1.py`, `src/codigo_entrenamiento_p2.py`, `src/codigo_entrenamiento_p3.py`, `src/codigo_entrenamiento_p4.py` y `src/codigo_entrenamiento_p5.py`. `src/run_experiments.py` los ejecuta todos.",
                 ]
             ),
@@ -2505,17 +2505,17 @@ def reproducibility_section() -> str:
     return "\n\n".join(
         [
             "## Reproducibilidad",
-            "El README, la representación en Markdown (`representacion_en_markdown.md`), las figuras, el JSON y la representación en cuaderno (`representacion_en_ipynb.ipynb`) salen de `src/run_experiments.py`. Volver a ejecutarlo regenera todos esos artefactos con la misma semilla.",
+            "El README, las figuras, el JSON y `cuaderno.ipynb` salen de `src/run_experiments.py`. Volver a ejecutarlo regenera todos esos artefactos con la misma semilla.",
             "```powershell",
             "git clone https://github.com/paololuna-luw/cart-and-ensemble-benchmarks.git",
             "cd cart-and-ensemble-benchmarks",
             "python -m pip install -r requirements.txt",
             "python src/run_experiments.py",
             "```",
-            "La representación en cuaderno ya está ejecutada. Para regenerar sus salidas:",
+            "El cuaderno ya está ejecutado. Para regenerar sus salidas:",
             "```powershell",
             "python -m ipykernel install --user --name tarea03py --display-name \"Python 3.12 tarea03\"",
-            "jupyter nbconvert --to notebook --execute representacion_en_ipynb.ipynb --inplace --ExecutePreprocessor.kernel_name=tarea03py",
+            "jupyter nbconvert --to notebook --execute cuaderno.ipynb --inplace --ExecutePreprocessor.kernel_name=tarea03py",
             "```",
             "Si existe `data/auto_mpg_clean.csv`, el script lo reutiliza para que la corrida no dependa de la red. Borrar ese archivo obliga a descargar de nuevo, primero por OpenML (`data_id=196`), después por seaborn y al final por el archivo de UCI.",
             "Las tablas muestran cuatro decimales. `results_metrics.json` conserva el flotante completo de cada cálculo.",
@@ -2630,7 +2630,7 @@ def build_formal_readme(results) -> str:
             ["Métricas de entrenamiento, prueba y validación cruzada", "Tabla de cada pregunta y `results_metrics.json`"],
             ["Gráficos comparativos", "Carpeta `plots/` e imágenes incrustadas bajo cada pregunta"],
             ["Código de los modelos entrenados", "`src/codigo_entrenamiento_p1.py` a `src/codigo_entrenamiento_p5.py` y `src/run_experiments.py`"],
-            ["Detalle de datos, pruebas e hiperparámetros", "[representacion_en_markdown.md](representacion_en_markdown.md)"],
+            ["Detalle de datos, pruebas e hiperparámetros", "`cuaderno.ipynb`"],
         ],
     )
     code_map = md_table(
@@ -2758,7 +2758,7 @@ def build_formal_readme(results) -> str:
                 "El muestreo bootstrap con reemplazo y el promedio de árboles profundos reducen la varianza del predictor. "
                 "Con correlación ρ entre miembros, la varianza del promedio es ρσ² + (1 − ρ)σ² / B. "
                 "Si los árboles fueran independientes, ρ = 0 y la varianza quedaría en σ² / B. "
-                "La correlación estimada en la representación en Markdown muestra que los miembros comparten errores, y aun así el bagging mejora la prueba en las dos tareas."
+                "La correlación estimada entre los miembros muestra que comparten errores, y aun así el bagging mejora la prueba en las dos tareas."
             ),
         ]
     )
@@ -2820,9 +2820,8 @@ def build_formal_readme(results) -> str:
             [
                 ["Código por pregunta", "`src/codigo_entrenamiento_p1.py` a `src/codigo_entrenamiento_p5.py`"],
                 ["Corrida completa", "`src/run_experiments.py`"],
-                ["Representación en cuaderno", "`representacion_en_ipynb.ipynb`"],
+                ["Cuaderno", "`cuaderno.ipynb`"],
                 ["Métricas", "`results_metrics.json`"],
-                ["Representación en Markdown", "[representacion_en_markdown.md](representacion_en_markdown.md)"],
                 ["Semilla", str(meta["seed"])],
                 ["Partición", "80% entrenamiento / 20% prueba. En clasificación, estratificada."],
                 ["Validación", "5 pliegues sobre el entrenamiento. Se reporta media ± desviación estándar."],
@@ -2908,22 +2907,22 @@ def build_formal_readme(results) -> str:
             "La regresión con penalización L2, la poda, el bagging y el boosting atacan esa varianza por caminos distintos. "
             "En cáncer de mama la señal es fuerte y varios modelos superan 0.95 de ROC-AUC. "
             "En auto_mpg hay una parte lineal grande y una parte de interacción que aparece cuando el árbol o el ensamble están regularizados. "
-            "El detalle de cada contraste, con pruebas t, matrices de confusión, coeficientes e importancias, está en [representacion_en_markdown.md](representacion_en_markdown.md)."
+            "El detalle de cada contraste, con pruebas t, matrices de confusión, coeficientes e importancias, está en `cuaderno.ipynb`."
         ),
         "### Limitaciones",
         "\n".join(
             [
                 f"- La prueba de cáncer de mama tiene {bc['n_test']} casos y la de auto_mpg tiene {mpg['n_test']}. Unos pocos casos mueven la tercera cifra decimal.",
                 "- La validación cruzada de un modelo elegido por búsqueda usa los mismos pliegues de la búsqueda, así que esa media puede ser optimista. La prueba no entra en la selección.",
-                "- Con cinco pliegues, la prueba t de la representación en Markdown tiene poca potencia. El dictamen usa la métrica de prueba.",
+                "- Con cinco pliegues, la prueba t tiene poca potencia. El dictamen usa la métrica de prueba.",
                 "- Las importancias comparan la contribución interna de cada algoritmo. No son efectos causales.",
             ]
         ),
         "## Ubicación del material",
         evidence,
-        "Los modelos de cada pregunta están en `src/codigo_entrenamiento_p1.py` a `src/codigo_entrenamiento_p5.py`. La corrida completa está en `src/run_experiments.py`. La tarea también está representada en `representacion_en_ipynb.ipynb` y en [representacion_en_markdown.md](representacion_en_markdown.md).",
+        "Los modelos de cada pregunta están en `src/codigo_entrenamiento_p1.py` a `src/codigo_entrenamiento_p5.py`. La corrida completa está en `src/run_experiments.py`. El cuaderno con las métricas ya calculadas es `cuaderno.ipynb`.",
         code_map,
-        "Para regenerar métricas, figuras, este README y la representación en Markdown:",
+        "Para regenerar métricas, figuras y este README:",
         "```powershell",
         "git clone https://github.com/paololuna-luw/cart-and-ensemble-benchmarks.git",
         "cd cart-and-ensemble-benchmarks",
@@ -2939,49 +2938,6 @@ def build_formal_readme(results) -> str:
         "python src/codigo_entrenamiento_p5.py",
         "```",
         f"Experimento de referencia iniciado el {meta['started_at']}. Duración de los ajustes, sin el notebook: {fmt(meta['runtime_seconds'], 2)} s.",
-    ]
-    return "\n\n".join(parts) + "\n"
-
-
-def build_readme(results) -> str:
-    header = "\n\n".join(
-        [
-            "# Representación en Markdown",
-            (
-                "Representación de la tarea en Markdown. Las respuestas que se leen primero están en [README.md](README.md). "
-                "Aquí quedan el protocolo, las descripciones de los datos, las pruebas t, las importancias y los hiperparámetros. "
-                "El código que entrena cada pregunta está en `src/codigo_entrenamiento_p1.py` a `src/codigo_entrenamiento_p5.py`."
-            ),
-            "## 1. Resumen ejecutivo",
-            (
-                "Esta representación recoge la misma corrida que el README: árboles CART y ensambles sobre dos tareas tabulares, con una sola semilla y un protocolo común de partición y validación cruzada. "
-                f"En la pregunta 1 el ganador es {results['item1']['conclusion']['winner']} "
-                f"(ROC-AUC de prueba {fmt(results['item1']['conclusion']['primary_value'])}). "
-                f"En la pregunta 2 el ganador es {results['item2']['conclusion']['winner']} "
-                f"(RMSE de prueba {fmt(results['item2']['conclusion']['primary_value'])} mpg). "
-                f"En la pregunta 3 el ganador es {results['item3']['conclusion']['winner']} "
-                f"(ROC-AUC de prueba {fmt(results['item3']['conclusion']['primary_value'])}). "
-                f"En la pregunta 4 el mejor bagging de clasificación es {results['item4']['classification']['best_bagging']} "
-                f"y el de regresión es {results['item4']['regression']['best_bagging']}. "
-                f"En la pregunta 5, la clasificación la gana {results['item5']['classification']['conclusion']['winner']} "
-                f"y la regresión la gana {results['item5']['regression']['conclusion']['winner']}."
-            ),
-            (
-                "Todos los números salen de la ejecución de `src/run_experiments.py` con `random_state=42`. "
-                "No hay métricas interpoladas ni celdas pendientes. El detalle de cada contraste está en la sección de la pregunta, junto a la figura y a la respuesta de cuál modelo es mejor."
-            ),
-        ]
-    )
-    parts = [
-        header,
-        dataset_section(results),
-        section_item1(results["item1"]),
-        section_item2(results["item2"], results["datasets"]["auto_mpg"]),
-        section_item3(results["item3"]),
-        section_item4(results["item4"]),
-        section_item5(results["item5"]),
-        global_section(results),
-        reproducibility_section(),
     ]
     return "\n\n".join(parts) + "\n"
 
@@ -3067,10 +3023,10 @@ def build_and_execute_notebook(results) -> None:
             "¿Cuál es el mejor?\n"
             "5. **Pregunta 5.** Entrene un modelo RandomForest y compare su eficiencia con respecto a un modelo XGBoost. "
             "¿Cuál es mejor?\n\n"
-            "Este archivo es la representación de la tarea en cuaderno. Sigue este orden: datos y protocolo, preguntas 1 a 5, "
+            "Este cuaderno sigue este orden: datos y protocolo, preguntas 1 a 5, "
             "conclusiones y una comprobación de dos modelos. Cada pregunta cita la indicación, muestra las métricas ya calculadas "
-            "y cierra con la respuesta. Las respuestas están en `README.md`. La representación en Markdown está en "
-            "`representacion_en_markdown.md`. El entrenamiento está en `src/codigo_entrenamiento_p1.py` a `src/codigo_entrenamiento_p5.py`."
+            "y cierra con la respuesta. Las respuestas están en `README.md`. "
+            "El entrenamiento está en `src/codigo_entrenamiento_p1.py` a `src/codigo_entrenamiento_p5.py`."
         ),
         new_code_cell(
             "\n".join(
@@ -3238,7 +3194,7 @@ def build_and_execute_notebook(results) -> None:
         },
         "language_info": {"name": "python", "pygments_lexer": "ipython3"},
     })
-    path = ROOT / "representacion_en_ipynb.ipynb"
+    path = ROOT / "cuaderno.ipynb"
     nbformat.write(nb, path)
     client = NotebookClient(nb, timeout=900, kernel_name="tarea03py")
     log("Ejecutando el notebook")
@@ -3319,11 +3275,8 @@ def main() -> None:
     }
     results = to_builtin(results)
     assert_finite_tree(results)
-    detailed = build_readme(results)
     formal = build_formal_readme(results)
-    audit_readme(detailed)
     audit_readme(formal)
-    (ROOT / "representacion_en_markdown.md").write_text(detailed, encoding="utf-8")
     (ROOT / "README.md").write_text(formal, encoding="utf-8")
     (ROOT / "results_metrics.json").write_text(
         json.dumps(results, ensure_ascii=False, indent=2, allow_nan=False),

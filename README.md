@@ -4,9 +4,8 @@
 | --- | --- |
 | Código por pregunta | `src/codigo_entrenamiento_p1.py` a `src/codigo_entrenamiento_p5.py` |
 | Corrida completa | `src/run_experiments.py` |
-| Representación en cuaderno | `representacion_en_ipynb.ipynb` |
+| Cuaderno | `cuaderno.ipynb` |
 | Métricas | `results_metrics.json` |
-| Representación en Markdown | [representacion_en_markdown.md](representacion_en_markdown.md) |
 | Semilla | 42 |
 | Partición | 80% entrenamiento / 20% prueba. En clasificación, estratificada. |
 | Validación | 5 pliegues sobre el entrenamiento. Se reporta media ± desviación estándar. |
@@ -155,7 +154,7 @@ En cáncer de mama, el árbol individual tiene accuracy de prueba 0.9123, F1 0.9
 
 En auto_mpg, el árbol individual pasa de R² de entrenamiento 1.0000 a R² de prueba 0.7775, con RMSE 3.3700 mpg. Bagging (200) obtiene R² de prueba 0.8880, RMSE 2.3911 mpg, MAE 1.6713 y OOB R² 0.8692. La reducción de RMSE frente al árbol es 0.9789 mpg (29.05%). El bagging de 100 árboles queda en RMSE 2.4004 y OOB R² 0.8676.
 
-El muestreo bootstrap con reemplazo y el promedio de árboles profundos reducen la varianza del predictor. Con correlación ρ entre miembros, la varianza del promedio es ρσ² + (1 − ρ)σ² / B. Si los árboles fueran independientes, ρ = 0 y la varianza quedaría en σ² / B. La correlación estimada en la representación en Markdown muestra que los miembros comparten errores, y aun así el bagging mejora la prueba en las dos tareas.
+El muestreo bootstrap con reemplazo y el promedio de árboles profundos reducen la varianza del predictor. Con correlación ρ entre miembros, la varianza del promedio es ρσ² + (1 − ρ)σ² / B. Si los árboles fueran independientes, ρ = 0 y la varianza quedaría en σ² / B. La correlación estimada entre los miembros muestra que comparten errores, y aun así el bagging mejora la prueba en las dos tareas.
 
 ### Métricas
 
@@ -245,13 +244,13 @@ Las cinco indicaciones quedan respondidas con la métrica de prueba y el mismo p
 | 4 | El mejor es el bagging: Bagging (200) en clasificación (accuracy 0.9474) y Bagging (200) en regresión (RMSE 2.3911 mpg). |
 | 5 | En clasificación es mejor Random Forest base (ROC-AUC 0.9937, F1 0.9655). En regresión es mejor Random Forest optimizado (RMSE 2.3960 mpg). |
 
-Un árbol CART sin restricciones ajusta el entrenamiento hasta dejar poca o ninguna impureza, y esa exactitud se reduce en la prueba. La regresión con penalización L2, la poda, el bagging y el boosting atacan esa varianza por caminos distintos. En cáncer de mama la señal es fuerte y varios modelos superan 0.95 de ROC-AUC. En auto_mpg hay una parte lineal grande y una parte de interacción que aparece cuando el árbol o el ensamble están regularizados. El detalle de cada contraste, con pruebas t, matrices de confusión, coeficientes e importancias, está en [representacion_en_markdown.md](representacion_en_markdown.md).
+Un árbol CART sin restricciones ajusta el entrenamiento hasta dejar poca o ninguna impureza, y esa exactitud se reduce en la prueba. La regresión con penalización L2, la poda, el bagging y el boosting atacan esa varianza por caminos distintos. En cáncer de mama la señal es fuerte y varios modelos superan 0.95 de ROC-AUC. En auto_mpg hay una parte lineal grande y una parte de interacción que aparece cuando el árbol o el ensamble están regularizados. El detalle de cada contraste, con pruebas t, matrices de confusión, coeficientes e importancias, está en `cuaderno.ipynb`.
 
 ### Limitaciones
 
 - La prueba de cáncer de mama tiene 114 casos y la de auto_mpg tiene 79. Unos pocos casos mueven la tercera cifra decimal.
 - La validación cruzada de un modelo elegido por búsqueda usa los mismos pliegues de la búsqueda, así que esa media puede ser optimista. La prueba no entra en la selección.
-- Con cinco pliegues, la prueba t de la representación en Markdown tiene poca potencia. El dictamen usa la métrica de prueba.
+- Con cinco pliegues, la prueba t tiene poca potencia. El dictamen usa la métrica de prueba.
 - Las importancias comparan la contribución interna de cada algoritmo. No son efectos causales.
 
 ## Ubicación del material
@@ -263,9 +262,9 @@ Un árbol CART sin restricciones ajusta el entrenamiento hasta dejar poca o ning
 | Métricas de entrenamiento, prueba y validación cruzada | Tabla de cada pregunta y `results_metrics.json` |
 | Gráficos comparativos | Carpeta `plots/` e imágenes incrustadas bajo cada pregunta |
 | Código de los modelos entrenados | `src/codigo_entrenamiento_p1.py` a `src/codigo_entrenamiento_p5.py` y `src/run_experiments.py` |
-| Detalle de datos, pruebas e hiperparámetros | [representacion_en_markdown.md](representacion_en_markdown.md) |
+| Detalle de datos, pruebas e hiperparámetros | `cuaderno.ipynb` |
 
-Los modelos de cada pregunta están en `src/codigo_entrenamiento_p1.py` a `src/codigo_entrenamiento_p5.py`. La corrida completa está en `src/run_experiments.py`. La tarea también está representada en `representacion_en_ipynb.ipynb` y en [representacion_en_markdown.md](representacion_en_markdown.md).
+Los modelos de cada pregunta están en `src/codigo_entrenamiento_p1.py` a `src/codigo_entrenamiento_p5.py`. La corrida completa está en `src/run_experiments.py`. El cuaderno con las métricas ya calculadas es `cuaderno.ipynb`.
 
 | Pregunta | Función | Datos | Figura |
 | --- | --- | --- | --- |
@@ -275,7 +274,7 @@ Los modelos de cada pregunta están en `src/codigo_entrenamiento_p1.py` a `src/c
 | 4 | `src/codigo_entrenamiento_p4.py` | breast_cancer y auto_mpg | `plots/item4_bagging.png` |
 | 5 | `src/codigo_entrenamiento_p5.py` | breast_cancer y auto_mpg | `plots/item5_rf_vs_xgboost.png` |
 
-Para regenerar métricas, figuras, este README y la representación en Markdown:
+Para regenerar métricas, figuras y este README:
 
 ```powershell
 
